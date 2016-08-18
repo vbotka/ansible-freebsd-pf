@@ -1,0 +1,16 @@
+galaxy_info:
+  author: Vladimir Botka
+  description: Configure PF firewall in FreeBSD
+  company: https://botka.link
+  license: BSD
+  min_ansible_version: 1.2
+  platforms:
+    - name: FreeBSD
+  categories:
+  - system
+  galaxy_tags:
+    - installer
+    - freebsd
+    - firewall
+    - security
+dependencies: []

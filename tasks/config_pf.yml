@@ -1,0 +1,10 @@
+---
+
+- name: Configure pf whitelist sshguard
+  lineinfile: dest='/usr/local/etc/sshguard.whitelist' line='{{ item }}' backup='yes'
+  with_items: '{{pf_ssh_whitelist}}'
+  tags: config_pf_sshguard_whitelist
+
+- name: Configure rules
+  template: dest='/etc/pf.conf' src='pf.conf.j2'
+  tags: config_pf_rules

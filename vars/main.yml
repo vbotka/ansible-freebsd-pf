@@ -1,0 +1,14 @@
+---
+
+# vars for freebsd-pf
+
+# pf_rules_custom:
+#   - ext_tcp_ports="{ ssh, domain, smtp, http, pop3, imap, https, submission, imaps, pop3s }"
+#   - ext_udp_ports="{ domain }"
+#   - syn_state="flags S/SA synproxy state"
+#   - sto_ext_ports="(max-src-conn-rate 500/10, overload <blocked_hosts> flush global)"
+#   - pass in on $ext_if proto tcp to ($ext_if) port $ext_tcp_ports $syn_state $sto_ext_ports
+#   - pass in on $ext_if proto udp to ($ext_if) port $ext_udp_ports keep state $sto_ext_ports
+
+# pf_ssh_whitelist:
+#   - 192.168.1.0/24

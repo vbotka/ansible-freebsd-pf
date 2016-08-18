@@ -1,0 +1,56 @@
+---
+
+# handlers for freebsd-pf
+
+# sshguard
+- name: enable and start sshguard
+  service: name="sshguard" state="started" enabled="yes"
+
+- name: disable and stop sshguard
+  service: name="sshguard" state="stopped" enabled="no"
+
+- name: restart sshguard
+  service: name="sshguard" state="restarted"
+    
+- name: reload sshguard
+  service: name="sshguard" state="reloaded"
+
+# pflog
+- name: enable and start pflog
+  service: name="pflog" state="started" enabled="yes"
+
+- name: disable and stop pflog
+  service: name="pflog" state="stopped" enabled="no"
+
+- name: restart pflog
+  service: name="pflog" state="restarted"
+      
+- name: reload pflog
+  service: name="pflog" state="reloaded"
+
+# pf
+# start, restart, reload of pf break the ssh connection. Sleep for 5
+# seconds and let the async/poll to close the connection correctly
+# before restarting pf. Shell module must be used instead of
+# service.
+
+- name: start pf
+# service: name="pf" state="started" enabled="yes"
+  shell: (( sleep 5; nohup service pf start 1>/dev/null 2>&1 ) & )
+  async: 1
+  poll: 0
+
+- name: disable and stop pf
+  service: name="pflog" state="stopped" enabled="no"
+
+- name: restart pf
+# service: name="pf" state="restarted"
+  shell: (( sleep 5; nohup service pf restart 1>/dev/null 2>&1 ) & )
+  async: 1
+  poll: 0
+      
+- name: reload pf
+# service: name="pf" state="reloaded"
+  shell: (( sleep 5; nohup service pf reload 1>/dev/null 2>&1 ) & )
+  async: 1
+  poll: 0
