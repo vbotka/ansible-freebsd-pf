@@ -16,7 +16,7 @@
 # pf
 - name: Enable and start pf
   lineinfile: dest="/etc/rc.conf" regexp="^pf_enable" line="pf_enable=\"{{ pf_enable }}\"" backup="yes"
-  notify: enable and start pf
+  notify: start pf
   when: pf_enable == "YES"
   tags: config_rc_conf_pf
   
