@@ -5,8 +5,8 @@ This role configures FreeBSD PF firewall.
 
 As it manipulates the firewall, there is a risk of being locked
 out. It's necessary to read the handbook.
-- [https://www.freebsd.org/doc/en/books/handbook/firewalls-pf.html]
-- [https://www.openbsd.org/faq/pf/filter.html]
+- https://www.freebsd.org/doc/en/books/handbook/firewalls-pf.html
+- https://www.openbsd.org/faq/pf/filter.html
 
 
 Requirements
@@ -72,4 +72,4 @@ BSD
 Author Information
 ------------------
 
-Vladimir Botka https://botka.link
+[Vladimir Botka](https://botka.link)
