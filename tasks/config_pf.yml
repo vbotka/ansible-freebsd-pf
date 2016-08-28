@@ -8,3 +8,4 @@
 - name: Configure rules
   template: dest='/etc/pf.conf' src='pf.conf.j2'
   tags: config_pf_rules
+  notify: reload pf
