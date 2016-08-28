@@ -11,9 +11,10 @@
 
 - name: restart sshguard
   service: name="sshguard" state="restarted"
-    
-- name: reload sshguard
-  service: name="sshguard" state="reloaded"
+
+#  /usr/local/etc/rc.d/sshguard: unknown directive 'reload'.
+#- name: reload sshguard
+#  service: name="sshguard" state="reloaded"
 
 # pflog
 - name: enable and start pflog
