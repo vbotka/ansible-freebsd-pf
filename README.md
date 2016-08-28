@@ -1,7 +1,7 @@
 freebsd-pf
 ==========
 
-![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-pf.svg?branch=master)
+[![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-pf.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-pf)
 
 This role configures FreeBSD PF firewall.
 
