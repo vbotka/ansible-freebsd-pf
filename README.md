@@ -2,6 +2,7 @@ freebsd-pf
 ==========
 
 [![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-pf.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-pf)
+![license](https://img.shields.io/badge/license-BSD-red.svg)
 
 Ansible role. Configures FreeBSD PF firewall.
 
