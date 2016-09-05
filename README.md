@@ -3,7 +3,9 @@ freebsd-pf
 
 [![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-pf.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-pf)
 
-This role configures FreeBSD PF firewall.
+Ansible role. Configures FreeBSD PF firewall.
+
+https://galaxy.ansible.com/vbotka/ansible-freebsd-pf/
 
 As it manipulates the firewall, there is a risk of being locked
 out. It's necessary to read the handbook.
