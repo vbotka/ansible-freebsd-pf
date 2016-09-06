@@ -23,6 +23,11 @@ No requiremenst.
 Variables
 ---------
 
+By default the filter is dissabled.
+```
+pf_enable: "NO"
+```
+
 TBD (Check the defaults).
 
 

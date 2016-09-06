@@ -3,7 +3,7 @@
 
 # rc.conf
 sshguard_enable: "NO"
-pf_enable: "YES"
+pf_enable: "NO"
 pf_rules: "/etc/pf.conf"
 pf_flags: ""
 pflog_enable: "YES"
