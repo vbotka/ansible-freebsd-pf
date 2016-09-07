@@ -6,7 +6,34 @@
   notify: restart sshguard
   tags: config_pf_sshguard_whitelist
 
+  # Probably there is a bug in ansible. Template /etc/pf.conf fails
+  # (NOTE 2) if the file is not owned by ansible_user. See the NOTE 1
+  # for more details. Module file does not create files.
+  # WORKAROUND: touch and chown ansible_user /etc/pf.conf (or copy and
+  # chown the file).
+- name: Chown ansible_user /etc/pf.conf
+  command: sh -c "if [ ! -e /etc/pf.conf ]; then touch /etc/pf.conf; chown '{{ ansible_user }}' /etc/pf.conf; chmod 660 /etc/pf.conf; fi"
+
 - name: Configure rules
   template: dest='/etc/pf.conf' src='pf.conf.j2'
   notify: reload pf
   tags: config_pf_rules
+
+- name: Chown root /etc/pf.conf
+  file: path='/etc/pf.conf' owner='root' group='wheel' mode='640'
+
+  # NOTE 1:
+  # Bug: Synchronize module asking for a password during playbook run #2156
+  # https://github.com/ansible/ansible-modules-core/issues/2156
+  # Fixed in ansible 2.0.1
+  # Workaround: Make dest writeable by ansible_user and disable sudo
+
+  # NOTE 2: fatal: [139.59.163.214]: UNREACHABLE! => {"changed":
+  # false, "msg": "ERROR! Authentication or permission failure. In
+  # some cases, you may have been able to authenticate and did not
+  # have permissions on the remote directory. Consider changing the
+  # remote temp path in ansible.cfg to a path rooted in
+  # \"/tmp\". Failed command was: ( umask 22 && mkdir -p \"$( echo
+  # /tmp/ansible-tmp-1473227091.91-30783259808140 )\" && echo \"$(
+  # echo /tmp/ansible-tmp-1473227091.91-30783259808140 )\" ), exited
+  # with result 1: Illegal variable name.\r\n", "unreachable": true}

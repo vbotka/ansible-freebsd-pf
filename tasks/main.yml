@@ -5,8 +5,8 @@
 - include: packages.yml
   tags: packages, freebsd-pf_all
 
-- include: config_rc_conf.yml
-  tags: config_rc_conf, freebsd-pf_all
-
 - include: config_pf.yml
   tags: config_pf, freebsd-pf_all
+
+- include: config_rc_conf.yml
+  tags: config_rc_conf, freebsd-pf_all

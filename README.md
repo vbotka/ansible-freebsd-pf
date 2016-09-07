@@ -68,8 +68,16 @@ ansible-galaxy install vbotka.ansible-freebsd-pf
 
 6) Configure the firewall.
 
-```
-ansible-playbook ~/.ansible/playbooks/freebsd-pf.yml
+Starting and restarting of the firewall breaks the ssh connection. See the handlers for details. Both handlers starting and reloading in consequence doesn't work properly and the ssh connection will stale. Therefor let us first configure the rules
+
+'''
+ansible-playbook -e 'pf_enable=NO' ~/.ansible/playbooks/freebsd-pf.yml
+
+'''
+and enable the firewall in the second step
+'''
+ansible-playbook -e 'pf_enable=YES' ~/.ansible/playbooks/freebsd-pf.yml
+
 ```
 
 

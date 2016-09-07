@@ -55,3 +55,4 @@
   shell: (( sleep 5; nohup service pf reload 1>/dev/null 2>&1 ) & )
   async: 1
   poll: 0
+  when: pf_enable == "YES"
