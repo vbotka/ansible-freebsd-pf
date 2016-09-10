@@ -2,7 +2,6 @@ freebsd-pf
 ==========
 
 [![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-pf.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-pf)
-[![license](https://img.shields.io/badge/license-BSD-red.svg)](https://www.freebsd.org/doc/en/articles/bsdl-gpl/article.html)
 
 Ansible role. Configures FreeBSD PF firewall.
 
@@ -83,8 +82,7 @@ ansible-playbook -e 'pf_enable=YES' ~/.ansible/playbooks/freebsd-pf.yml
 License
 -------
 
-BSD
-
+[![license](https://img.shields.io/badge/license-BSD-red.svg)](https://www.freebsd.org/doc/en/articles/bsdl-gpl/article.html)
 
 Author Information
 ------------------
