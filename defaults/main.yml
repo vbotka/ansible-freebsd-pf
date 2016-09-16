@@ -1,6 +1,12 @@
 ---
 # defaults for freebsd-pf
 
+freebsd_install_method: "ports"
+freebsd_use_packages: "yes"
+
+freebsd_pf_packages:
+  - sshguard-pf
+
 # rc.conf
 sshguard_enable: "NO"
 pf_enable: "NO"
