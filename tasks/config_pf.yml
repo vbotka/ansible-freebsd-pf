@@ -1,7 +1,10 @@
 ---
 
 - name: Configure pf whitelist sshguard
-  lineinfile: dest='/usr/local/etc/sshguard.whitelist' line='{{ item }}' backup='yes'
+  lineinfile: >
+    dest='/usr/local/etc/sshguard.whitelist'
+    line='{{ item }}'
+    backup='yes'
   with_items: '{{pf_ssh_whitelist}}'
   notify: restart sshguard
   tags: config_pf_sshguard_whitelist
@@ -15,12 +18,18 @@
   command: sh -c "if [ ! -e /etc/pf.conf ]; then touch /etc/pf.conf; chown '{{ ansible_user }}' /etc/pf.conf; chmod 660 /etc/pf.conf; fi"
 
 - name: Configure rules
-  template: dest='/etc/pf.conf' src='pf.conf.j2'
+  template: >
+    dest='/etc/pf.conf'
+    src='pf.conf.j2'
   notify: reload pf
   tags: config_pf_rules
 
 - name: Chown root /etc/pf.conf
-  file: path='/etc/pf.conf' owner='root' group='wheel' mode='640'
+  file: >
+    path='/etc/pf.conf'
+    owner='root'
+    group='wheel'
+    mode='640'
 
   # NOTE 1:
   # Bug: Synchronize module asking for a password during playbook run #2156
@@ -37,3 +46,5 @@
   # /tmp/ansible-tmp-1473227091.91-30783259808140 )\" && echo \"$(
   # echo /tmp/ansible-tmp-1473227091.91-30783259808140 )\" ), exited
   # with result 1: Illegal variable name.\r\n", "unreachable": true}
+
+# EOF
