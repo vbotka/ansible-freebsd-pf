@@ -9,27 +9,25 @@
   notify: restart sshguard
   tags: config_pf_sshguard_whitelist
 
-  # Probably there is a bug in ansible. Template /etc/pf.conf fails
-  # (NOTE 2) if the file is not owned by ansible_user. See the NOTE 1
-  # for more details. Module file does not create files.
-  # WORKAROUND: touch and chown ansible_user /etc/pf.conf (or copy and
-  # chown the file).
+  # Bug: Probably there is a bug in ansible. Template /etc/pf.conf
+  # fails (NOTE 2) if the file is not owned by ansible_user. See the
+  # NOTE 1 for more details. Module file does not create files.
+  # Workaround: touch and chown ansible_user /etc/pf.conf
 - name: Chown ansible_user /etc/pf.conf
-  command: sh -c "if [ ! -e /etc/pf.conf ]; then touch /etc/pf.conf; chown '{{ ansible_user }}' /etc/pf.conf; chmod 660 /etc/pf.conf; fi"
+  command: sh -c "if [ ! -e /etc/pf.conf ]; then touch /etc/pf.conf; chown '{{ ansible_user }}' /etc/pf.conf; chmod 640 /etc/pf.conf;printf "config_pf_rules_changed"; fi"
+  register: command_result
+  changed_when: command_result.stdout == "config_pf_rules_changed"
+  tags: config_pf_rules
 
 - name: Configure rules
   template: >
     dest='/etc/pf.conf'
     src='pf.conf.j2'
-  notify: reload pf
-  tags: config_pf_rules
-
-- name: Chown root /etc/pf.conf
-  file: >
-    path='/etc/pf.conf'
     owner='root'
     group='wheel'
-    mode='640'
+    mode='0640'
+  notify: reload pf
+  tags: config_pf_rules
 
   # NOTE 1:
   # Bug: Synchronize module asking for a password during playbook run #2156
