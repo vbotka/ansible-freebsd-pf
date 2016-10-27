@@ -40,15 +40,21 @@
   shell: (( sleep 5; nohup service pf start 1>/dev/null 2>&1 ) & )
   async: 1
   poll: 0
+  changed_when: true
 
 - name: disable and stop pf
-  service: name="pflog" state="stopped" enabled="no"
+  service: >
+    name="pflog"
+    state="stopped"
+    enabled="no"
 
 - name: restart pf
 # service: name="pf" state="restarted"
   shell: (( sleep 5; nohup service pf restart 1>/dev/null 2>&1 ) & )
   async: 1
   poll: 0
+  when: pf_enable == "YES"
+  changed_when: pf_enable == "YES"
       
 - name: reload pf
 # service: name="pf" state="reloaded"
@@ -56,3 +62,7 @@
   async: 1
   poll: 0
   when: pf_enable == "YES"
+  changed_when: pf_enable == "YES"
+
+# EOF
+...
