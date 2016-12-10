@@ -18,6 +18,6 @@ pflog_logfile: "/var/log/pflog"
 pflog_flags: ""
 
 # pf.conf
-pf_ext_iface: "{{ ansible_default_ipv4.device }}"
+#pf_ext_iface: "{{ ansible_default_ipv4.device }}"
 pf_rules_custom: []
 pf_ssh_whitelist: []
