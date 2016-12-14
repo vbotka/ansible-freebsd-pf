@@ -8,6 +8,8 @@ freebsd_install_method: "packages"
 freebsd_pf_packages:
   - security/sshguard-pf
 
+pf_type: "server"
+
 # rc.conf
 sshguard_enable: "NO"
 pf_enable: "NO"
@@ -18,6 +20,18 @@ pflog_logfile: "/var/log/pflog"
 pflog_flags: ""
 
 # pf.conf
-#pf_ext_iface: "{{ ansible_default_ipv4.device }}"
+pf_ext_if: "{{ ansible_default_ipv4.device }}"
+pf_wifi_if: "ath0"
+pf_lan_if: "fxp1"
+pf_pubserv: "22, 443" 
+pf_lanserv: "22, 53, 67, 80, 443" 
+pf_samba_ports: "137, 138, 139"
+pf_lan_net: "10.1.0.0/24, 10.1.1.0/24"
+# hosts granted acces to samba (cifs/smb) shares
+pf_smb_net: "10.1.0.0/27, 10.1.1.0/27, 10.1.0.90, 10.1.1.90"
+#
 pf_rules_custom: []
 pf_ssh_whitelist: []
+
+# EOF
+...

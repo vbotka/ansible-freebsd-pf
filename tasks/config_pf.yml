@@ -19,10 +19,13 @@
   changed_when: command_result.stdout == "config_pf_rules_changed"
   tags: config_pf_rules
 
-- name: Configure rules
+- debug:
+    msg: "pf_ext_if: {{ pf_ext_if }}"
+
+- name: Configure rules using {{pf_type}}-pf.conf.j2 template
   template: >
     dest='/etc/pf.conf'
-    src='pf.conf.j2'
+    src='{{pf_type}}-pf.conf.j2'
     owner='root'
     group='wheel'
     mode='0640'
