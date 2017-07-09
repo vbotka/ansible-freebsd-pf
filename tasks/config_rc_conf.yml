@@ -54,3 +54,5 @@
     - { regexp: "^pflog_flags", line: "pflog_flags=\"{{ pflog_flags }}\""}
   notify: reload pflog
   tags: config_rc_conf_pflog
+
+# EOF

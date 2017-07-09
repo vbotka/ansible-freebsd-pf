@@ -10,3 +10,5 @@
 
 - include: config_rc_conf.yml
   tags: config_rc_conf, freebsd-pf_all
+
+# EOF
