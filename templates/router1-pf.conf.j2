@@ -18,9 +18,9 @@
 #------------------------------------------------------------------------
 logopt = "log"
 # interfaces
-ext_if  = "{{pf_ext_if}}"
-wifi_if = "{{pf_wifi_if}}"
-lan_if  = "{{pf_lan_if}}"
+ext_if  = "{{ pf_ext_if }}"
+wifi_if = "{{ pf_wifi_if }}"
+lan_if  = "{{ pf_lan_if }}"
 # publically accesible services (transport layer neutral)
 pubserv = "{ {{pf_pubserv}} }"
 # internally accessible services (transport layer neutral)
@@ -34,9 +34,10 @@ lan_net = "{ {{pf_lan_net}} }"
 # hosts granted acces to samba (cifs/smb) shares
 smb_net = "{ {{pf_smb_net}} }"
 # block these networks
-table  { 0.0.0.0/8, 10.0.0.0/8, 20.20.20.0/24, 127.0.0.0/8, \
-169.254.0.0/16, 172.16.0.0/12,  192.0.2.0/24, \
-192.168.0.0/16, 224.0.0.0/3, 255.255.255.255 }
+#table  { 0.0.0.0/8, 10.0.0.0/8, 20.20.20.0/24, 127.0.0.0/8, \
+#         169.254.0.0/16, 172.16.0.0/12,  192.0.2.0/24, \
+#         192.168.0.0/16, 224.0.0.0/3, 255.255.255.255 }
+#table <private> const { 127/8, 10/8, 172.16/12, 192.168/16 }
 #------------------------------------------------------------------------
 # options
 #------------------------------------------------------------------------
@@ -47,7 +48,8 @@ set skip on lo0
 # scrub
 #scrub all reassemble tcp no-df
 #scrub in all fragment reassemble
-scrub out all random-id
+#scrub out all random-id
+scrub in on $ext_if all fragment reassemble
 #------------------------------------------------------------------------
 # redirection (and nat, too!)
 #------------------------------------------------------------------------
@@ -66,8 +68,8 @@ block             out $logopt on $ext_if all
 pass in  quick on lo0 all
 pass out quick on lo0 all
 # anti spoofing
-block drop in  $logopt quick on $ext_if from  to any
-block drop out $logopt quick on $ext_if from any to
+#block drop in  $logopt quick on $ext_if inet from <private> to any
+#block drop out $logopt quick on $ext_if inet from any to <private>
 antispoof for { $lan_if, $wifi_if, $ext_if }
 # anti fake return-scans
 block  return-rst  out on $ext_if proto tcp all
@@ -88,9 +90,9 @@ block in $logopt quick proto tcp flags SF/SF
 # allow permitted icmp
 pass in inet proto icmp all icmp-type $icmp_types keep state
 # allow permitted services
-pass in on $ext_if            inet proto tcp       from any      to any port $pubserv flags S/SA keep state
-pass in on {$lan_if $wifi_if} inet proto {tcp udp} from $lan_net to any port $lanserv            keep state
-pass in on {$lan_if $wifi_if} inet proto {tcp udp} from $smb_net to any port $samba_ports        keep state
+pass in on $ext_if inet proto tcp from any to any port $pubserv flags S/SA keep state
+pass in on {$lan_if $wifi_if} inet proto {tcp udp} from $lan_net to any port $lanserv keep state
+pass in on {$lan_if $wifi_if} inet proto {tcp udp} from $smb_net to any port $samba_ports keep state
 # permit access between LAN hosts
 pass in  from $lan_net to $lan_net keep state
 pass out from $lan_net to $lan_net keep state
