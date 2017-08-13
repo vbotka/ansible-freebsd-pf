@@ -1,14 +1,20 @@
 ---
-
 # tasks for freebsd-pf
 
 - include: packages.yml
   tags: packages, freebsd-pf_all
 
+- include: config_pf_conf_only.yml
+  tags: config_pf_conf_only, freebsd-pf_all
+  when: pf_conf_only == "YES"
+
 - include: config_pf.yml
   tags: config_pf, freebsd-pf_all
+  when: pf_conf_only != "YES"
 
 - include: config_rc_conf.yml
   tags: config_rc_conf, freebsd-pf_all
+  when: pf_conf_only != "YES"
 
 # EOF
+...

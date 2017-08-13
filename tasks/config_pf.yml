@@ -5,7 +5,7 @@
     dest="/usr/local/etc/sshguard.whitelist"
     line="{{ item }}"
     backup="yes"
-  with_items: "{{pf_ssh_whitelist}}"
+  with_items: "{{ pf_ssh_whitelist }}"
   notify: restart sshguard
   tags: config_pf_sshguard_whitelist
 
@@ -14,7 +14,7 @@
   # NOTE 1 for more details. Module file does not create files.
   # Workaround: touch and chown ansible_user /etc/pf.conf
 - name: Chown ansible_user /etc/pf.conf
-  command: sh -c "if [ ! -e /etc/pf.conf ]; then touch /etc/pf.conf; chown '{{ ansible_user }}' /etc/pf.conf; chmod 640 /etc/pf.conf;printf "config_pf_rules_changed"; fi"
+  command: sh -c "if [ ! -e /etc/pf.conf ]; then touch /etc/pf.conf; chown '{{ ansible_user }}' /etc/pf.conf; chmod 640 /etc/pf.conf; printf "config_pf_rules_changed"; fi"
   register: command_result
   changed_when: command_result.stdout == "config_pf_rules_changed"
   tags: config_pf_rules
@@ -22,10 +22,10 @@
 - debug:
     msg: "pf_ext_if: {{ pf_ext_if }}"
 
-- name: Configure rules using {{pf_type}}-pf.conf.j2 template
+- name: Configure rules using {{ pf_type }}-pf.conf.j2 template
   template: >
     dest="/etc/pf.conf"
-    src="{{pf_type}}-pf.conf.j2"
+    src="{{ pf_type }}-pf.conf.j2"
     owner="root"
     group="wheel"
     mode="0640"
@@ -50,3 +50,4 @@
   # with result 1: Illegal variable name.\r\n", "unreachable": true}
 
 # EOF
+...

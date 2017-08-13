@@ -20,6 +20,7 @@ pflog_logfile: "/var/log/pflog"
 pflog_flags: ""
 
 # pf.conf
+pf_conf_only: "NO"
 pf_ext_if: "{{ ansible_default_ipv4.device }}"
 pf_wifi_if: "ath0"
 pf_lan_if: "fxp1"
