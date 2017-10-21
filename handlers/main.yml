@@ -5,12 +5,15 @@
 # sshguard
 - name: enable and start sshguard
   service: name="sshguard" state="started" enabled="yes"
+  when: not ansible_check_mode
 
 - name: disable and stop sshguard
   service: name="sshguard" state="stopped" enabled="no"
+  when: not ansible_check_mode
 
 - name: restart sshguard
   service: name="sshguard" state="restarted"
+  when: not ansible_check_mode
 
 #  /usr/local/etc/rc.d/sshguard: unknown directive 'reload'.
 #- name: reload sshguard
