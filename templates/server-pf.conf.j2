@@ -42,7 +42,8 @@ pass in quick on $ext_if proto tcp from {{ item }} to any port ssh
 
 ### block packets claiming to come from reserved internal address blocks, as
 ### they are obviously forged and cannot be contacted from the outside world.
-block in log quick on $ext_if from { 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 255.255.255.255/32 } to any
+reserved_internal_net = "{ {{ pf_reserved_internal_net }} }"
+block in log quick on $ext_if from $reserved_internal_net to any
 
 ### block probes that can possibly determine our operating system by disallowing
 ### certain combinations that are commonly used by nmap, queso and xprobe2, who
