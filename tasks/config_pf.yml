@@ -30,6 +30,7 @@
     group="wheel"
     mode="0640"
     backup="yes"
+    validate="pfctl -nf %s"
   notify: reload pf
   tags: config_pf_rules
 
