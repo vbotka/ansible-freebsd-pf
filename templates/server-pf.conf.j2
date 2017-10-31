@@ -71,11 +71,6 @@ pass out on $ext_if proto { tcp, udp, icmp } from any to any modulate state
 ### set a rule that allows inbound ssh traffic with synproxy handshaking.
 pass in on $ext_if proto tcp from any to any port ssh flags S/SA synproxy state
 
-### custom rules set by ansible
-{% for rule in pf_rules_custom %}
-{{ rule }}
-{% endfor %}
-
 ### protect from ssh flood
 table <sshabuse> persist
 block in quick from <sshabuse>
@@ -84,3 +79,10 @@ pass in on $ext_if proto tcp to any port ssh flags S/SA keep state (max-src-conn
 ### protect ssh with sshguard
 table <sshguard> persist
 block in proto tcp from <sshguard>
+
+### custom rules set by ansible
+{% for rule in pf_rules_custom %}
+{{ rule }}
+{% endfor %}
+
+# EOF

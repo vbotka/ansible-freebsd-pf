@@ -34,21 +34,5 @@
   notify: reload pf
   tags: config_pf_rules
 
-  # NOTE 1:
-  # Bug: Synchronize module asking for a password during playbook run #2156
-  # https://github.com/ansible/ansible-modules-core/issues/2156
-  # Fixed in ansible 2.0.1
-  # Workaround: Make dest writeable by ansible_user and disable sudo
-
-  # NOTE 2: fatal: [139.59.163.214]: UNREACHABLE! => {"changed":
-  # false, "msg": "ERROR! Authentication or permission failure. In
-  # some cases, you may have been able to authenticate and did not
-  # have permissions on the remote directory. Consider changing the
-  # remote temp path in ansible.cfg to a path rooted in
-  # \"/tmp\". Failed command was: ( umask 22 && mkdir -p \"$( echo
-  # /tmp/ansible-tmp-1473227091.91-30783259808140 )\" && echo \"$(
-  # echo /tmp/ansible-tmp-1473227091.91-30783259808140 )\" ), exited
-  # with result 1: Illegal variable name.\r\n", "unreachable": true}
-
 # EOF
 ...
