@@ -6,7 +6,7 @@
     state="present"
   with_items: "{{ freebsd_pf_packages }}"
   when: freebsd_install_method == "packages"
-  tags: packages
+  tags: bsd_packages
 
 - name: Install ports
   portinstall: >
@@ -15,7 +15,7 @@
     use_packages="{{ freebsd_use_packages }}"
   with_items: "{{ freebsd_pf_packages }}"
   when: freebsd_install_method == "ports"
-  tags: ports
+  tags: bsd_ports
 
 # EOF
 ...

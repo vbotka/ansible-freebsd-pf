@@ -2,7 +2,10 @@
 # tasks for freebsd-pf
 
 - include: packages.yml
-  tags: packages, freebsd-pf_all
+  tags:
+    - bsd_packages
+    - bsd_ports
+    - freebsd-pf_all
 
 - include: config_pf_conf_only.yml
   tags: config_pf_conf_only, freebsd-pf_all
