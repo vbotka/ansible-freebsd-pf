@@ -40,7 +40,7 @@ ansible do-bsd-test -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh
 2) Install role.
 
 ```
-ansible-galaxy install vbotka.ansible-freebsd-pf
+ansible-galaxy install vbotka.freebsd-pf
 ```
 
 3) Fit variables.
@@ -58,7 +58,7 @@ ansible-galaxy install vbotka.ansible-freebsd-pf
   become: yes
   become_method: sudo
   roles:
-    - role: vbotka.ansible-freebsd-pf
+    - role: vbotka.freebsd-pf
 ```
 
 5) Review handlers to see how start/restart/reload of pf is implemented.
