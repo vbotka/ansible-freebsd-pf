@@ -5,8 +5,7 @@ freebsd-pf
 
 [Ansible role.](https://galaxy.ansible.com/vbotka/freebsd-pf/)  Configures FreeBSD PF firewall.
 
-As it manipulates the firewall, there is a risk of being locked
-out. It's necessary to read the handbook.
+As it manipulates the firewall, there is a risk of being locked out. It's necessary to read the handbook.
 - https://www.freebsd.org/doc/en/books/handbook/firewalls-pf.html
 - https://www.openbsd.org/faq/pf/filter.html
 
@@ -23,6 +22,11 @@ Variables
 By default the filter is dissabled.
 ```
 pf_enable: "NO"
+```
+
+By default [sshguard](https://www.sshguard.net/) is dissabled.
+```
+sshguard_enable: "NO" 
 ```
 
 TBD (Check the defaults).
