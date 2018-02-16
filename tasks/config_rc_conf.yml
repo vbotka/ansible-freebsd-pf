@@ -1,16 +1,24 @@
 ---
 
 # sshguard
+- name: Check if sshguard is installed
+  stat: path=/usr/local/etc/rc.d/sshguard
+  register: service_status
+
 - name: Enable and start sshguard
   lineinfile: dest="/etc/rc.conf" regexp="^sshguard_enable" line="sshguard_enable=\"{{ sshguard_enable }}\"" backup="yes"
   notify: enable and start sshguard
-  when: sshguard_enable == "YES"
+  when:
+    - sshguard_enable == "YES"
+    - service_status.stat.exists
   tags: config_rc_conf_sshguard
   
 - name: Disable and stop sshguard
   lineinfile: dest="/etc/rc.conf" regexp="^sshguard_enable" line="sshguard_enable=\"{{ sshguard_enable }}\"" backup="yes"
   notify: disable and stop sshguard
-  when: sshguard_enable == "NO"
+  when:
+    - sshguard_enable == "NO"
+    - service_status.stat.exists
   tags: config_rc_conf_sshguard
 
 # pf

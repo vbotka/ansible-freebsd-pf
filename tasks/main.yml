@@ -1,23 +1,29 @@
 ---
 # tasks for freebsd-pf
 
-- include: packages.yml
+- include_tasks: packages.yml
   tags:
     - bsd_packages
     - bsd_ports
     - freebsd-pf_all
 
-- include: config_pf_conf_only.yml
-  tags: config_pf_conf_only, freebsd-pf_all
+- include_tasks: config_pf_conf_only.yml
   when: pf_conf_only == "YES"
+  tags:
+    - config_pf_conf_only
+    - freebsd-pf_all
 
-- include: config_pf.yml
-  tags: config_pf, freebsd-pf_all
+- include_tasks: config_pf.yml
   when: pf_conf_only != "YES"
+  tags:
+    - config_pf
+    - freebsd-pf_all
 
-- include: config_rc_conf.yml
-  tags: config_rc_conf, freebsd-pf_all
+- include_tasks: config_rc_conf.yml
   when: pf_conf_only != "YES"
+  tags:
+    - config_rc_conf
+    - freebsd-pf_all
 
 # EOF
 ...
