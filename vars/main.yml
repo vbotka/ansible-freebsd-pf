@@ -1,7 +1,8 @@
 ---
 # vars for freebsd-pf
 
-# pf_enable: "NO"
+# pf_debug: True
+# pf_enable: False
 #
 # pf_rules_custom:
 #

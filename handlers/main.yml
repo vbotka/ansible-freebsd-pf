@@ -47,10 +47,10 @@
   changed_when: true
 
 - name: disable and stop pf
-  service: >
-    name="pf"
-    state="stopped"
-    enabled="no"
+  service:
+    name: "pf"
+    state: "stopped"
+    enabled: no
 
 - name: restart pf
 # service: name="pf" state="restarted"
@@ -58,9 +58,9 @@
   async: 1
   poll: 0
   when:
-    - pf_enable == "YES"
+    - pf_enable
     - not ansible_check_mode
-  changed_when: pf_enable == "YES"
+  changed_when: pf_enable
       
 - name: reload pf
 # service: name="pf" state="reloaded"
@@ -68,9 +68,9 @@
   async: 1
   poll: 0
   when:
-    - pf_enable == "YES"
+    - pf_enable
     - not ansible_check_mode
-  changed_when: pf_enable == "YES"
+  changed_when: pf_enable
 
 # EOF
 ...

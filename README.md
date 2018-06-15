@@ -21,12 +21,12 @@ Variables
 
 By default the filter is dissabled.
 ```
-pf_enable: "NO"
+pf_enable: False
 ```
 
 By default [sshguard](https://www.sshguard.net/) is dissabled.
 ```
-sshguard_enable: "NO" 
+sshguard_enable: False
 ```
 
 TBD (Check the defaults).
@@ -72,13 +72,13 @@ ansible-galaxy install vbotka.freebsd-pf
 Starting and restarting of the firewall breaks the ssh connection. See the handlers for details. Both handlers starting and reloading in consequence doesn't work properly and the ssh connection will stale. Therefor let us first configure the rules
 
 ```
-ansible-playbook -e 'pf_enable=NO' ~/.ansible/playbooks/freebsd-pf.yml
+ansible-playbook -e 'pf_enable=False' ~/.ansible/playbooks/freebsd-pf.yml
 ```
 
 and enable the firewall in the second step
 
 ```
-ansible-playbook -e 'pf_enable=YES' ~/.ansible/playbooks/freebsd-pf.yml
+ansible-playbook -e 'pf_enable=True' ~/.ansible/playbooks/freebsd-pf.yml
 ```
 
 License

@@ -1,0 +1,29 @@
+---
+
+- name: "pfconf: Configure pf whitelist sshguard"
+  lineinfile:
+    dest: "/usr/local/etc/sshguard.whitelist"
+    line: "{{ item }}"
+    backup: yes
+  with_items: "{{ pf_ssh_whitelist }}"
+  notify: restart sshguard
+  tags: pf_sshguard_whitelist
+
+- debug:
+    msg: "pf_ext_if: {{ pf_ext_if }}"
+  when: pf_debug
+
+- name: "pfconf: Configure rules using {{ pf_type }}-pf.conf.j2 template"
+  template:
+    dest: "/etc/pf.conf"
+    src: "{{ pf_type }}-pf.conf.j2"
+    owner: "root"
+    group: "wheel"
+    mode: "0640"
+    backup: yes
+    validate: "pfctl -nf %s"
+  notify: reload pf
+  tags: pf_rules
+
+# EOF
+...
