@@ -2,6 +2,10 @@
 # defaults for freebsd-pf
 
 pf_debug: False
+pf_enable: False
+sshguard_enable: False
+pflog_enable: True
+pfconf_only: False
 
 freebsd_install_method: "packages"
 #freebsd_install_method: "ports"
@@ -13,16 +17,12 @@ freebsd_pf_packages:
 pf_type: "server"
 
 # rc.conf
-sshguard_enable: False
-pf_enable: False
 pf_rules: "/etc/pf.conf"
 pf_flags: ""
-pflog_enable: True
 pflog_logfile: "/var/log/pflog"
 pflog_flags: ""
 
 # pf.conf
-pfconf_only: False
 pf_ext_if: "{{ ansible_default_ipv4.device }}"
 pf_wifi_if: "ath0"
 pf_lan_if: "fxp1"

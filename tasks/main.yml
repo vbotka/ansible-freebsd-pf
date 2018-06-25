@@ -1,44 +1,7 @@
 ---
 # tasks for freebsd-pf
 
-- name: Debug
-  vars:
-    msg: |
-         ansible_architecture [ {{ ansible_architecture }} ]
-         ansible_os_family [ {{ ansible_os_family }} ]
-         ansible_distribution [ {{ ansible_distribution }} ]
-         ansible_distribution_major_version [ {{ ansible_distribution_major_version }} ]
-         ansible_distribution_version [ {{ ansible_distribution_version }} ]
-         ansible_distribution_release [ {{ ansible_distribution_release }} ]
-
-         freebsd_install_method [ {{ freebsd_install_method}} ]
-         freebsd_use_packages [ {{ freebsd_use_packages }} ]
-         freebsd_pf_packages [
-         {{ freebsd_pf_packages | to_nice_yaml }} ]
-         sshguard_enable [ {{ sshguard_enable }} ]
-         pf_enable [ {{ pf_enable }} ]
-         pf_type [ {{ pf_type }} ]
-         pf_rules [ {{ pf_rules }} ]
-         pf_flags [ {{ pf_flags }} ]
-         pflog_enable [ {{ pflog_enable }} ]
-         pflog_logfile [ {{ pflog_logfile }} ]
-         pflog_flags [ {{ pflog_flags }} ]
-         pfconf_only [ {{ pfconf_only }} ]
-         pf_ext_if [ {{ pf_ext_if }} ]
-         pf_wifi_if [ {{ pf_wifi_if }} ]
-         pf_lan_if [ {{ pf_lan_if }} ]
-         pf_pubserv [ {{ pf_pubserv }} ]
-         pf_lanserv [ {{ pf_lanserv }} ]
-         pf_samba_ports [ {{ pf_samba_ports }} ]
-         pf_lan_net [ {{ pf_lan_net }} ]
-         pf_smb_net [ {{ pf_smb_net }} ]
-         pf_reserved_internal_net [ {{ pf_reserved_internal_net }} ]
-         pf_rules_custom [
-         {{ pf_rules_custom | default("ABSENT") | to_nice_yaml }} ]
-         pf_ssh_whitelist [
-         {{ pf_ssh_whitelist | default("ABSENT") | to_nice_yaml }} ]
-  debug:
-    msg: "{{ msg.split('\n') }}"
+- import_tasks: debug.yml
   when: pf_debug
   tags: pf_debug
 
