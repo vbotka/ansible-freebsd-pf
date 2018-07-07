@@ -9,9 +9,9 @@ galaxy_info:
     - name: FreeBSD
       versions:
         - 10.4
-        - 11.1
+        - 11.2
   galaxy_tags:
-    - FreeBSD
+    - freebsd
     - firewall
     - pf
 dependencies: []

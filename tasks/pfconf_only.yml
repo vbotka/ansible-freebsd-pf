@@ -9,7 +9,7 @@
     group: "wheel"
     mode: "0640"
     backup: yes
-    validate: "pfctl -nf %s"
+    validate: "pfctl -n -f %s"
   tags: pf_rules_no_notification
 
 # EOF

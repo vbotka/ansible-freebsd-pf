@@ -5,7 +5,7 @@
     dest: "/usr/local/etc/sshguard.whitelist"
     line: "{{ item }}"
     backup: yes
-  with_items: "{{ pf_ssh_whitelist }}"
+  loop: "{{ pf_ssh_whitelist }}"
   notify: restart sshguard
   tags: pf_sshguard_whitelist
 
@@ -21,7 +21,7 @@
     group: "wheel"
     mode: "0640"
     backup: yes
-    validate: "pfctl -nf %s"
+    validate: "pfctl -n -f %s"
   notify: reload pf
   tags: pf_rules
 
