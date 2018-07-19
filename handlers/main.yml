@@ -1,38 +1,44 @@
 ---
-
 # handlers for freebsd-pf
 
-# sshguard
+# sshguard -----------------------------------------------------------
 - name: enable and start sshguard
   service: name="sshguard" state="started" enabled="yes"
-  when: not ansible_check_mode
 
 - name: disable and stop sshguard
   service: name="sshguard" state="stopped" enabled="no"
-  when: not ansible_check_mode
 
 - name: restart sshguard
   service: name="sshguard" state="restarted"
-  when: not ansible_check_mode
 
 #  /usr/local/etc/rc.d/sshguard: unknown directive 'reload'.
 #- name: reload sshguard
 #  service: name="sshguard" state="reloaded"
 
-# pflog
+# pflog --------------------------------------------------------------
 - name: enable and start pflog
-  service: name="pflog" state="started" enabled="yes"
+  service:
+    name: "pflog"
+    state: started
+    enabled: yes
 
 - name: disable and stop pflog
-  service: name="pflog" state="stopped" enabled="no"
+  service:
+    name: "pflog"
+    state: stopped
+    enabled: no
 
 - name: restart pflog
-  service: name="pflog" state="restarted"
+  service:
+    name: "pflog"
+    state: restarted
       
 - name: reload pflog
-  service: name="pflog" state="reloaded"
+  service:
+    name: "pflog"
+    state: reloaded
 
-# pf
+# pf -----------------------------------------------------------------
 # start, restart, reload of pf break the ssh connection. Sleep for 5
 # seconds and let the async/poll to close the connection correctly
 # before restarting pf. Shell module must be used instead of
@@ -49,7 +55,7 @@
 - name: disable and stop pf
   service:
     name: "pf"
-    state: "stopped"
+    state: stopped
     enabled: no
 
 - name: restart pf
@@ -71,6 +77,32 @@
     - pf_enable
     - not ansible_check_mode
   changed_when: pf_enable
+
+# blacklistd ---------------------------------------------------------
+- name: enable and start blacklistd
+  service:
+    name: "blacklistd"
+    state: started
+    enabled: yes
+
+- name: disable and stop blacklistd
+  service:
+    name: "blacklistd"
+    state: stopped
+    enabled: no
+
+- name: restart blacklistd
+  service:
+    name: "blacklistd"
+    state: restarted
+  when: pf_blacklistd_enable
+
+# /etc/rc.d/blacklistd: unknown directive 'reload'.
+#  - name: reload blacklistd
+#  service:
+#    name: "blacklistd"
+#    state: reloaded
+#  when: pf_blacklistd_enable
 
 # EOF
 ...

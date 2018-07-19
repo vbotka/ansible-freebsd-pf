@@ -2,7 +2,8 @@
 
 # sshguard
 - name: "rcconf: Check if sshguard is installed"
-  stat: path=/usr/local/etc/rc.d/sshguard
+  stat:
+    path: "/usr/local/etc/rc.d/sshguard"
   register: service_status
   tags: pf_rcconf_sshguard
 
@@ -95,6 +96,42 @@
     - { regexp: "^pflog_flags", line: "pflog_flags=\"{{ pflog_flags }}\""}
   notify: reload pflog
   tags: pf_rcconf_pflog
+
+# blacklistd
+- name: "rcconf: Enable and start blacklistd"
+  lineinfile:
+    dest: "/etc/rc.conf"
+    regexp: "^blacklistd_enable"
+    line: "blacklistd_enable=\"YES\""
+    backup: yes
+  notify:
+    - enable and start blacklistd
+    - reload pf
+  when: pf_blacklistd_enable
+  tags: pf_rcconf_blacklistd
+
+- name: "rcconf: Disable and stop blacklistd"
+  lineinfile:
+    dest: "/etc/rc.conf"
+    regexp: "^blacklistd_enable"
+    line: "blacklistd_enable=\"NO\""
+    backup: yes
+  notify:
+    - disable and stop blacklistd
+    - reload pf
+  when: not pf_blacklistd_enable
+  tags: pf_rcconf_blacklistd
+
+- name: "rcconf: Configure blacklistd"
+  lineinfile:
+    dest: "/etc/rc.conf"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    backup: yes
+  with_items:
+    - { regexp: "^blacklistd_flags", line: "blacklistd_flags=\"{{ pf_blacklistd_flags }}\""}
+  notify: restart blacklistd
+  tags: pf_rcconf_blacklistd
 
 # EOF
 ...

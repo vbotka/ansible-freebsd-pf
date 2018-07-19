@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+
+[local]
+{% for item in pf_blacklistd_conf_local %}
+{{ item.adr }} {{ item.type }} {{ item.proto }} {{ item.owner }} {{ item.name }} {{ item.nfail }} {{ item.disable }}
+{% endfor %}
+
+[remote]
+{% for item in pf_blacklistd_conf_remote %}
+{{ item.adr }} {{ item.type }} {{ item.proto }} {{ item.owner }} {{ item.name }} {{ item.nfail }} {{ item.disable }}
+{% endfor %}
+
+# EOF

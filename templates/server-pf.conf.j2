@@ -1,11 +1,16 @@
 # {{ ansible_managed }}
+
 ######################################
 # Ruleset based on the
-## Click Death Squad's PF Ruleset v1.3
-## by: iztehsux@gmail.com
+# Click Death Squad's PF Ruleset v1.3
+# by: iztehsux@gmail.com
 #
 # Modified for ansible Role by
 # Nicolas Goy <kuon@goyman.com>
+#
+# Additional modifications by
+# Vladimir Botka <vbotka@gmail.com>
+#
 ######################################
 
 ### macro name for external interface.
@@ -14,6 +19,10 @@ ext_if = "{{ pf_ext_if }}"
 ### all incoming traffic on external interface is normalized and fragmented
 ### packets are reassembled.
 scrub in on $ext_if all fragment reassemble
+
+### optionally use blacklistd
+{% if pf_blacklistd_enable %}anchor "blacklistd/*" in on $ext_if
+{% endif %}
 
 ### set a default deny everything policy.
 block all

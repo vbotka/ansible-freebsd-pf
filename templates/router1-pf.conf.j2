@@ -1,4 +1,5 @@
 # {{ ansible_managed }} 
+
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
 # Credit: How To Set Up A FreeBSD Wireless Access Point
@@ -50,6 +51,9 @@ set skip on lo0
 #scrub in all fragment reassemble
 #scrub out all random-id
 scrub in on $ext_if all fragment reassemble
+# optionally use blacklistd
+{% if pf_blacklistd_enable %}anchor "blacklistd/*" in on $ext_if
+{% endif %}
 #------------------------------------------------------------------------
 # redirection (and nat, too!)
 #------------------------------------------------------------------------

@@ -18,6 +18,7 @@
          pf_enable [ {{ pf_enable }} ]
          pfconf_only [ {{ pfconf_only }} ]
          pflog_enable [ {{ pflog_enable }} ]
+         pf_blacklistd_enable [ {{ pf_blacklistd_enable }} ]
          sshguard_enable [ {{ sshguard_enable }} ]
          pf_type [ {{ pf_type }} ]
          pf_rules [ {{ pf_rules }} ]
@@ -37,6 +38,11 @@
          {{ pf_rules_custom | default("ABSENT") | to_nice_yaml }}
          pf_ssh_whitelist
          {{ pf_ssh_whitelist | default("ABSENT") | to_nice_yaml }}
+         pf_blacklistd_flags [ {{ pf_blacklistd_flags }} ]
+         pf_blacklistd_conf_local
+         {{ pf_blacklistd_conf_local | to_yaml }}
+         pf_blacklistd_conf_remote
+         {{ pf_blacklistd_conf_remote | to_yaml }}
   debug:
     msg: "{{ msg.split('\n') }}"
 

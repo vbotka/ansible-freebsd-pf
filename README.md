@@ -25,10 +25,11 @@ By default the filter is dissabled.
 pf_enable: False
 ```
 
-By default [sshguard](https://www.sshguard.net/) is dissabled.
+By default [sshguard](https://www.sshguard.net/) and blacklistd are dissabled.
 
 ```
 sshguard_enable: False
+pf_blacklistd_enable: False
 ```
 
 TBD. Check the defaults and examples in vars.
@@ -83,6 +84,12 @@ and enable the firewall in the second step
 ```
 ansible-playbook -e 'pf_enable=True' freebsd-pf.yml
 ```
+
+References
+----------
+
+- [How to Install Blacklistd on FreeBSD 11.1](https://www.vultr.com/docs/how-to-install-blacklistd-on-freebsd-11-1)
+
 
 License
 -------
