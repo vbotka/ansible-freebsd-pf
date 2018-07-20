@@ -8,8 +8,8 @@
 - import_tasks: packages.yml
   tags: pf_packages
 
-- import_tasks: blacklistdconf.yml
-  tags: pf_blacklistdconf
+- import_tasks: blacklistd.yml
+  tags: pf_blacklistd
 
 - import_tasks: pfconf_only.yml
   when: pfconf_only

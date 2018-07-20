@@ -1,0 +1,25 @@
+---
+
+- name: "blacklistd: Stat  /etc/rc.d/blacklistd"
+  stat:
+    path: "/etc/rc.d/blacklistd"
+  register: pf_blacklistd_service
+
+- name: "blacklistd: Stop play if blacklistd enabled and no service exists"
+  meta: end_play
+  when:
+    - pf_blacklistd_enable
+    - not pf_blacklistd_service.stat.exists
+
+- name: "blacklistd: Configure /etc/blacklistd.conf"
+  template:
+    dest: "/etc/blacklistd.conf"
+    src: "blacklistd.conf.j2"
+    owner: "root"
+    group: "wheel"
+    mode: "0644"
+    backup: yes
+  notify: restart blacklistd
+
+# EOF
+...

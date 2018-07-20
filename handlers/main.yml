@@ -84,18 +84,22 @@
     name: "blacklistd"
     state: started
     enabled: yes
+  when: pf_blacklistd_service is exists
 
 - name: disable and stop blacklistd
   service:
     name: "blacklistd"
     state: stopped
     enabled: no
+  when: pf_blacklistd_service is exists
 
 - name: restart blacklistd
   service:
     name: "blacklistd"
     state: restarted
-  when: pf_blacklistd_enable
+  when:
+    - pf_blacklistd_enable
+    - pf_blacklistd_service is exists
 
 # /etc/rc.d/blacklistd: unknown directive 'reload'.
 #  - name: reload blacklistd
