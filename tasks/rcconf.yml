@@ -12,7 +12,7 @@
     dest: "/etc/rc.conf"
     regexp: "^sshguard_enable"
     line: "sshguard_enable=\"YES\""
-    backup: yes
+    backup: "{{ pf_backup_conf }}"
   notify: enable and start sshguard
   when:
     - sshguard_enable
@@ -24,7 +24,7 @@
     dest: "/etc/rc.conf"
     regexp: "^sshguard_enable"
     line: "sshguard_enable=\"NO\""
-    backup: yes
+    backup: "{{ pf_backup_conf }}"
   notify: disable and stop sshguard
   when:
     - not sshguard_enable
@@ -37,7 +37,7 @@
     dest: "/etc/rc.conf"
     regexp: "^pf_enable"
     line: "pf_enable=\"YES\""
-    backup: yes
+    backup: "{{ pf_backup_conf }}"
   notify: start pf
   when: pf_enable
   tags: pf_rcconf_pf
@@ -47,7 +47,7 @@
     dest: "/etc/rc.conf"
     regexp: "^pf_enable"
     line: "pf_enable=\"NO\""
-    backup: yes
+    backup: "{{ pf_backup_conf }}"
   notify: disable and stop pf
   when: not pf_enable
   tags: pf_rcconf_pf
@@ -55,12 +55,12 @@
 - name: "rcconf: Configure pf"
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    backup: yes
-  with_items:
-    - { regexp: "^pf_rules", line: "pf_rules=\"{{ pf_rules }}\""}
-    - { regexp: "^pf_flags", line: "pf_flags=\"{{ pf_flags }}\""}
+    regexp: "^{{ item.regexp }}"
+    line: "{{ item.regexp }}={{ item.line }}"
+    backup: "{{ pf_backup_conf }}"
+  loop:
+    - { regexp: "pf_rules", line: "\"{{ pf_rules }}\""}
+    - { regexp: "pf_flags", line: "\"{{ pf_flags }}\""}
   notify: reload pf
   tags: pf_rcconf_pf
 
@@ -70,7 +70,7 @@
     dest: "/etc/rc.conf"
     regexp: "^pflog_enable"
     line: "pflog_enable=\"YES\""
-    backup: yes
+    backup: "{{ pf_backup_conf }}"
   notify: enable and start pflog
   when: pflog_enable
   tags: pf_rcconf_pflog
@@ -80,7 +80,7 @@
     dest: "/etc/rc.conf"
     regexp: "^pflog_enable"
     line: "pflog_enable=\"NO\""
-    backup: yes
+    backup: "{{ pf_backup_conf }}"
   notify: disable and stop pflog
   when: not pflog_enable
   tags: pf_rcconf_pflog
@@ -88,12 +88,12 @@
 - name: "rcconf: Configure pflog"
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    backup: yes
-  with_items:
-    - { regexp: "^pflog_logfile", line: "pflog_logfile=\"{{ pflog_logfile }}\""}
-    - { regexp: "^pflog_flags", line: "pflog_flags=\"{{ pflog_flags }}\""}
+    regexp: "^{{ item.regexp }}"
+    line: "{{ item.regexp }}={{ item.line }}"
+    backup: "{{ pf_backup_conf }}"
+  loop:
+    - { regexp: "pflog_logfile", line: "\"{{ pflog_logfile }}\""}
+    - { regexp: "pflog_flags", line: "\"{{ pflog_flags }}\""}
   notify: reload pflog
   tags: pf_rcconf_pflog
 
@@ -103,7 +103,7 @@
     dest: "/etc/rc.conf"
     regexp: "^blacklistd_enable"
     line: "blacklistd_enable=\"YES\""
-    backup: yes
+    backup: "{{ pf_backup_conf }}"
   notify:
     - enable and start blacklistd
     - reload pf
@@ -115,7 +115,7 @@
     dest: "/etc/rc.conf"
     regexp: "^blacklistd_enable"
     line: "blacklistd_enable=\"NO\""
-    backup: yes
+    backup: "{{ pf_backup_conf }}"
   notify:
     - disable and stop blacklistd
     - reload pf
@@ -125,11 +125,11 @@
 - name: "rcconf: Configure blacklistd"
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    backup: yes
-  with_items:
-    - { regexp: "^blacklistd_flags", line: "blacklistd_flags=\"{{ pf_blacklistd_flags }}\""}
+    regexp: "^{{ item.regexp }}"
+    line: "{{ item.regexp }}={{ item.line }}"
+    backup: "{{ pf_backup_conf }}"
+  loop:
+    - { regexp: "blacklistd_flags", line: "\"{{ pf_blacklistd_flags }}\""}
   notify: restart blacklistd
   tags: pf_rcconf_blacklistd
 

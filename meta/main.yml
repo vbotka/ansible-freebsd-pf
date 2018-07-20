@@ -1,6 +1,6 @@
 galaxy_info:
   author: Vladimir Botka
-  description: Configure PF firewall in FreeBSD
+  description: FreeBSD. Configure PF firewall.
   company: https://botka.link
   github_branch: master
   license: BSD
@@ -14,4 +14,6 @@ galaxy_info:
     - freebsd
     - firewall
     - pf
+    - sshguard
+    - blacklistd
 dependencies: []

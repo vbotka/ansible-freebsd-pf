@@ -23,6 +23,5 @@
   when: not pfconf_only
   tags: pf_rcconf
 
-
 # EOF
 ...

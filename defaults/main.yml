@@ -7,6 +7,7 @@ pf_blacklistd_enable: False
 sshguard_enable: False
 pflog_enable: True
 pfconf_only: False
+pf_backup_conf: no
 
 pf_type: "server"
 

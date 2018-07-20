@@ -8,7 +8,7 @@
     owner: "root"
     group: "wheel"
     mode: "0640"
-    backup: yes
+    backup: "{{ pf_backup_conf }}"
     validate: "pfctl -n -f %s"
   tags: pf_rules_no_notification
 

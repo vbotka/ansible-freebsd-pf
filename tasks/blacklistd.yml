@@ -1,15 +1,19 @@
 ---
 
-- name: "blacklistd: Stat  /etc/rc.d/blacklistd"
-  stat:
-    path: "/etc/rc.d/blacklistd"
-  register: pf_blacklistd_service
-
-- name: "blacklistd: Stop play if blacklistd enabled and no service exists"
-  meta: end_play
-  when:
-    - pf_blacklistd_enable
-    - not pf_blacklistd_service.stat.exists
+- name: "blacklistd: Stop play if blacklistd is enabled and no service exists"
+  block:
+    - stat:
+        path: "/etc/rc.d/blacklistd"
+      register: pf_blacklistd_service
+    - debug:
+        msg: "Play stopped. blacklistd is enabled and no service exists."
+      when:
+        - pf_blacklistd_enable
+        - not pf_blacklistd_service.stat.exists
+    - meta: end_play
+      when:
+        - pf_blacklistd_enable
+        - not pf_blacklistd_service.stat.exists
 
 - name: "blacklistd: Configure /etc/blacklistd.conf"
   template:
@@ -18,7 +22,7 @@
     owner: "root"
     group: "wheel"
     mode: "0644"
-    backup: yes
+    backup: "{{ pf_backup_conf }}"
   notify: restart blacklistd
 
 # EOF

@@ -3,14 +3,14 @@
 - name: "packages: Install packages"
   pkgng:
     name: "{{ item }}"
-  with_items: "{{ freebsd_pf_packages }}"
+  loop: "{{ freebsd_pf_packages }}"
   when: freebsd_install_method == "packages"
 
 - name: "packages: Install ports"
   portinstall:
     name: "{{ item }}"
     use_packages: "{{ freebsd_use_packages }}"
-  with_items: "{{ freebsd_pf_packages }}"
+  loop: "{{ freebsd_pf_packages }}"
   when: freebsd_install_method == "ports"
 
 # EOF

@@ -4,7 +4,7 @@
   lineinfile:
     dest: "/usr/local/etc/sshguard.whitelist"
     line: "{{ item }}"
-    backup: yes
+    backup: "{{ pf_backup_conf }}"
   loop: "{{ pf_ssh_whitelist }}"
   notify: restart sshguard
   tags: pf_sshguard_whitelist
@@ -20,7 +20,7 @@
     owner: "root"
     group: "wheel"
     mode: "0640"
-    backup: yes
+    backup: "{{ pf_backup_conf }}"
     validate: "pfctl -n -f %s"
   notify: reload pf
   tags: pf_rules
