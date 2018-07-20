@@ -25,7 +25,7 @@ By default the filter is dissabled.
 pf_enable: False
 ```
 
-By default [sshguard](https://www.sshguard.net/) and blacklistd are dissabled.
+By default [sshguard](https://www.sshguard.net/) and [blacklistd](https://www.freebsd.org/cgi/man.cgi?query=blacklistd) are dissabled.
 
 ```
 sshguard_enable: False
@@ -60,10 +60,9 @@ Workflow
 
 ```
 # cat freebsd-pf.yml
----
 - hosts: srv.example.com
   roles:
-    - role: vbotka.freebsd-pf
+    - vbotka.freebsd-pf
 ```
 
 5) Review handlers to see how start/restart/reload of pf is implemented.
