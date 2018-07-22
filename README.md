@@ -88,6 +88,7 @@ References
 ----------
 
 - [How to Install Blacklistd on FreeBSD 11.1](https://www.vultr.com/docs/how-to-install-blacklistd-on-freebsd-11-1)
+- [How to get PF and sshguard to stop this guy?](https://forums.freebsd.org/threads/how-to-get-pf-and-sshguard-to-stop-this-guy.64933/)
 
 
 License
