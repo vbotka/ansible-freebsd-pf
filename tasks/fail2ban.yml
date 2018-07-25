@@ -26,6 +26,7 @@
     group: "wheel"
     mode: "0644"
     backup: "{{ pf_backup_conf }}"
+  when: pf_fail2ban_enable
   notify: reload fail2ban
 
 - name: "fail2ban: Configure /usr/local/etc/fail2ban/jail.local"
@@ -36,6 +37,7 @@
     group: "wheel"
     mode: "0644"
     backup: "{{ pf_backup_conf }}"
+  when: pf_fail2ban_enable
   notify: reload fail2ban
 
 # EOF

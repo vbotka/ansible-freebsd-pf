@@ -24,6 +24,7 @@
     line: "{{ item }}"
     backup: "{{ pf_backup_conf }}"
   loop: "{{ pf_ssh_whitelist }}"
+  when: pf_sshguard_enable
   notify: restart sshguard
 
 # EOF

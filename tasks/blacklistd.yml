@@ -26,6 +26,7 @@
     group: "wheel"
     mode: "0644"
     backup: "{{ pf_backup_conf }}"
+  when: pf_blacklistd_enable
   notify: restart blacklistd
 
 # EOF
