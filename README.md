@@ -19,7 +19,7 @@ No requirements.
 Variables
 ---------
 
-By default the filter is disabled.
+By default the firewall is disabled.
 
 ```
 pf_enable: False
