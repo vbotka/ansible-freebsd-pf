@@ -4,18 +4,24 @@
 pf_debug: False
 pf_enable: False
 pf_blacklistd_enable: False
-sshguard_enable: False
+pf_fail2ban_enable: False
+pf_sshguard_enable: False
 pflog_enable: True
-pfconf_only: False
 pf_backup_conf: no
 
+# Type of the template to create pf_rules
 pf_type: "server"
+
+# Configure pf_rules and do not notify handler to reload
+pfconf_only: False
 
 # packages
 freebsd_install_method: "packages"
 #freebsd_install_method: "ports"
 freebsd_use_packages: "yes"
-freebsd_pf_packages:
+pf_fail2ban_packages:
+  - security/py-fail2ban
+pf_sshguard_packages:
   - security/sshguard
 
 # rc.conf
@@ -36,6 +42,8 @@ pf_lan_net: "10.1.0.0/24, 10.1.1.0/24"
 pf_smb_net: "10.1.0.0/27, 10.1.1.0/27, 10.1.0.90, 10.1.1.90"
 pf_reserved_internal_net: "10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 255.255.255.255/32"
 pf_rules_custom: []
+
+# sshguard
 pf_ssh_whitelist: []
 
 # blacklistd
@@ -47,6 +55,16 @@ pf_blacklistd_conf_local:
   - { adr: "smtp", type: "stream", proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h" }
   - { adr: "submission", type: "stream", proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h" }
   - { adr: "*", type: "*", proto: "*", owner: "*", name: "*", nfail: "3", disable: "60" }
+
+# fail2ban
+pf_fail2ban_flags: ""
+pf_fail2ban_local_template: "default-fail2ban.local.j2"
+pf_fail2ban_local_conf:
+  - { section: "definition", line: "loglevel = INFO" }
+pf_fail2ban_jail_local_template: "default-jail.local.j2"
+pf_fail2ban_jail_local_conf:
+  - { section: "default", line: "banaction = pf[actiontype=<allports>]" }
+  - { section: "default", line: "banaction = pf[actiontype=<multiport>]" }
 
 # EOF
 ...

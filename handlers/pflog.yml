@@ -1,0 +1,32 @@
+---
+# handlers for freebsd-pf
+
+# pflog --------------------------------------------------------------
+- name: enable and start pflog
+  service:
+    name: "pflog"
+    state: started
+    enabled: yes
+  when: pflog_enable
+
+- name: disable and stop pflog
+  service:
+    name: "pflog"
+    state: stopped
+    enabled: no
+  when: not pflog_enable
+
+- name: restart pflog
+  service:
+    name: "pflog"
+    state: restarted
+  when: pflog_enable
+      
+- name: reload pflog
+  service:
+    name: "pflog"
+    state: reloaded
+  when: pflog_enable
+
+# EOF
+...

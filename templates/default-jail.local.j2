@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+[DEFAULT]
+{% for item in pf_fail2ban_jail_local_conf %}
+{% if item.section == "default" %}
+{{ item.line }}
+{% endif %}
+{% endfor %}
+
+# EOF

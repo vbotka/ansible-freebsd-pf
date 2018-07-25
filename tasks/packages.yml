@@ -1,17 +1,38 @@
 ---
 
-- name: "packages: Install packages"
+- name: "packages: Install sshguard packages"
   pkgng:
     name: "{{ item }}"
-  loop: "{{ freebsd_pf_packages }}"
-  when: freebsd_install_method == "packages"
+  loop: "{{ pf_sshguard_packages }}"
+  when:
+    - pf_sshguard_enable
+    - freebsd_install_method == "packages"
 
-- name: "packages: Install ports"
+- name: "packages: Install sshguard ports"
   portinstall:
     name: "{{ item }}"
     use_packages: "{{ freebsd_use_packages }}"
-  loop: "{{ freebsd_pf_packages }}"
-  when: freebsd_install_method == "ports"
+  loop: "{{ pf_sshguard_packages }}"
+  when:
+    - pf_sshguard_enable
+    - freebsd_install_method == "ports"
+
+- name: "packages: Install fail2ban packages"
+  pkgng:
+    name: "{{ item }}"
+  loop: "{{ pf_fail2ban_packages }}"
+  when:
+    - pf_fail2ban_enable
+    - freebsd_install_method == "packages"
+
+- name: "packages: Install fail2ban ports"
+  portinstall:
+    name: "{{ item }}"
+    use_packages: "{{ freebsd_use_packages }}"
+  loop: "{{ pf_fail2ban_packages }}"
+  when:
+    - pf_fail2ban_enable
+    - freebsd_install_method == "ports"
 
 # EOF
 ...

@@ -1,12 +1,14 @@
 ---
 
+- name: "blacklistd: Stat /etc/rc.d/blacklistd"
+  stat:
+    path: "/etc/rc.d/blacklistd"
+  register: pf_blacklistd_service
+
 - name: "blacklistd: Stop play if blacklistd is enabled and no service exists"
   block:
-    - stat:
-        path: "/etc/rc.d/blacklistd"
-      register: pf_blacklistd_service
     - debug:
-        msg: "Play stopped. blacklistd is enabled and no service exists."
+        msg: "Play stopped. blacklistd is enabled, but no service exists."
       when:
         - pf_blacklistd_enable
         - not pf_blacklistd_service.stat.exists
@@ -14,6 +16,7 @@
       when:
         - pf_blacklistd_enable
         - not pf_blacklistd_service.stat.exists
+  when: not ansible_check_mode
 
 - name: "blacklistd: Configure /etc/blacklistd.conf"
   template:

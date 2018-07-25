@@ -1,0 +1,37 @@
+---
+
+# blacklistd
+- name: "rcconf: Enable and start blacklistd"
+  lineinfile:
+    dest: "/etc/rc.conf"
+    regexp: "^blacklistd_enable"
+    line: "blacklistd_enable=\"YES\""
+    backup: "{{ pf_backup_conf }}"
+  notify:
+    - enable and start blacklistd
+    - reload pf
+  when: pf_blacklistd_enable
+
+- name: "rcconf: Disable and stop blacklistd"
+  lineinfile:
+    dest: "/etc/rc.conf"
+    regexp: "^blacklistd_enable"
+    line: "blacklistd_enable=\"NO\""
+    backup: "{{ pf_backup_conf }}"
+  notify:
+    - disable and stop blacklistd
+    - reload pf
+  when: not pf_blacklistd_enable
+
+- name: "rcconf: Configure blacklistd"
+  lineinfile:
+    dest: "/etc/rc.conf"
+    regexp: "^{{ item.regexp }}"
+    line: "{{ item.regexp }}={{ item.line }}"
+    backup: "{{ pf_backup_conf }}"
+  loop:
+    - { regexp: "blacklistd_flags", line: "\"{{ pf_blacklistd_flags }}\""}
+  notify: restart blacklistd
+
+# EOF
+...

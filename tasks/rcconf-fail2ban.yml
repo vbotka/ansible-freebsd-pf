@@ -1,0 +1,37 @@
+---
+
+# fail2ban
+- name: "rcconf: Enable and start fail2ban"
+  lineinfile:
+    dest: "/etc/rc.conf"
+    regexp: "^fail2ban_enable"
+    line: "fail2ban_enable=\"YES\""
+    backup: "{{ pf_backup_conf }}"
+  notify:
+    - enable and start fail2ban
+    - reload pf
+  when: pf_fail2ban_enable
+
+- name: "rcconf: Disable and stop fail2ban"
+  lineinfile:
+    dest: "/etc/rc.conf"
+    regexp: "^fail2ban_enable"
+    line: "fail2ban_enable=\"NO\""
+    backup: "{{ pf_backup_conf }}"
+  notify:
+    - disable and stop fail2ban
+    - reload pf
+  when: not pf_fail2ban_enable
+
+- name: "rcconf: Configure fail2ban"
+  lineinfile:
+    dest: "/etc/rc.conf"
+    regexp: "^{{ item.regexp }}"
+    line: "{{ item.regexp }}={{ item.line }}"
+    backup: "{{ pf_backup_conf }}"
+  loop:
+    - { regexp: "fail2ban_flags", line: "\"{{ pf_fail2ban_flags }}\""}
+  notify: restart fail2ban
+
+# EOF
+...

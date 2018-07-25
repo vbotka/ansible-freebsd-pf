@@ -13,23 +13,24 @@ As it manipulates the firewall, there is a risk of being locked out. It's necess
 Requirements
 ------------
 
-No requiremenst.
+No requirements.
 
 
 Variables
 ---------
 
-By default the filter is dissabled.
+By default the filter is disabled.
 
 ```
 pf_enable: False
 ```
 
-By default [sshguard](https://www.sshguard.net/) and [blacklistd](https://www.freebsd.org/cgi/man.cgi?query=blacklistd) are dissabled.
+By default [sshguard](https://www.sshguard.net/), [blacklistd](https://www.freebsd.org/cgi/man.cgi?query=blacklistd) and [fail2ban](https://www.fail2ban.org/) are disabled.
 
 ```
-sshguard_enable: False
 pf_blacklistd_enable: False
+pf_fail2ban_enable: False
+pf_sshguard_enable: False
 ```
 
 TBD. Check the defaults and examples in vars.
@@ -87,9 +88,10 @@ ansible-playbook -e 'pf_enable=True' freebsd-pf.yml
 References
 ----------
 
-- [How to Install Blacklistd on FreeBSD 11.1](https://www.vultr.com/docs/how-to-install-blacklistd-on-freebsd-11-1)
-- [How to get PF and sshguard to stop this guy?](https://forums.freebsd.org/threads/how-to-get-pf-and-sshguard-to-stop-this-guy.64933/)
-
+- [Blacklistd on FreeBSD](https://www.vultr.com/docs/how-to-install-blacklistd-on-freebsd-11-1)
+- [PF and sshguard](https://forums.freebsd.org/threads/how-to-get-pf-and-sshguard-to-stop-this-guy.64933/)
+- [Fail2Ban with PF](http://www.purplehat.org/?page_id=566)
+- [Fail2Ban pf.conf: fix multiport syntax](https://github.com/fail2ban/fail2ban/pull/1925)
 
 License
 -------

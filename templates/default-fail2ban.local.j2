@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+[Definition]
+{% for item in pf_fail2ban_local_conf %}
+{% if item.section == "definition" %}
+{{ item.line }}
+{% endif %}
+{% endfor %}
+
+# EOF

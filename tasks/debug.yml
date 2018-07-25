@@ -12,15 +12,18 @@
 
          freebsd_install_method [ {{ freebsd_install_method}} ]
          freebsd_use_packages [ {{ freebsd_use_packages }} ]
-         freebsd_pf_packages
-         {{ freebsd_pf_packages | to_nice_yaml }}
+         pf_fail2ban_packages
+         {{ pf_fail2ban_packages | to_nice_yaml }}
+         pf_sshguard_packages
+         {{ pf_sshguard_packages | to_nice_yaml }}
 
          pf_enable [ {{ pf_enable }} ]
          pfconf_only [ {{ pfconf_only }} ]
          pf_backup_conf [ {{ pf_backup_conf }} ]
          pflog_enable [ {{ pflog_enable }} ]
          pf_blacklistd_enable [ {{ pf_blacklistd_enable }} ]
-         sshguard_enable [ {{ sshguard_enable }} ]
+         pf_fail2ban_enable [ {{ pf_fail2ban_enable }} ]
+         pf_sshguard_enable [ {{ pf_sshguard_enable }} ]
          pf_type [ {{ pf_type }} ]
          pf_rules [ {{ pf_rules }} ]
          pf_flags [ {{ pf_flags }} ]
@@ -44,6 +47,13 @@
          {{ pf_blacklistd_conf_local | default("ABSENT") | to_yaml }}
          pf_blacklistd_conf_remote
          {{ pf_blacklistd_conf_remote | default("ABSENT") | to_yaml }}
+         pf_fail2ban_flags [ {{ pf_fail2ban_flags }} ]
+         pf_fail2ban_local_template [ {{ pf_fail2ban_local_template }}]
+         pf_fail2ban_local_conf
+         {{ pf_fail2ban_local_conf | to_yaml }}
+         pf_fail2ban_jail_local_template [ {{ pf_fail2ban_jail_local_template }} ]
+         pf_fail2ban_jail_local_conf
+         {{ pf_fail2ban_jail_local_conf | to_yaml }}
   debug:
     msg: "{{ msg.split('\n') }}"
 

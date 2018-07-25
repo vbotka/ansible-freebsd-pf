@@ -16,4 +16,5 @@ galaxy_info:
     - pf
     - sshguard
     - blacklistd
+    - fail2ban
 dependencies: []

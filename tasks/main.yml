@@ -8,20 +8,32 @@
 - import_tasks: packages.yml
   tags: pf_packages
 
+- import_tasks: sshguard.yml
+  tags: pf_sshguard
+
 - import_tasks: blacklistd.yml
   tags: pf_blacklistd
 
-- import_tasks: pfconf_only.yml
-  when: pfconf_only
-  tags: pf_conf_only
+- import_tasks: fail2ban.yml
+  tags: pf_fail2ban
 
 - import_tasks: pfconf.yml
-  when: not pfconf_only
   tags: pf_conf
 
-- import_tasks: rcconf.yml
-  when: not pfconf_only
-  tags: pf_rcconf
+- import_tasks: rcconf-sshguard.yml
+  tags: pf_rcconf_sshguard
+
+- import_tasks: rcconf-blacklistd.yml
+  tags: pf_rcconf_blacklistd
+
+- import_tasks: rcconf-fail2ban.yml
+  tags: pf_rcconf_fail2ban
+
+- import_tasks: rcconf-pf.yml
+  tags: pf_rcconf_pf
+
+- import_tasks: rcconf-pflog.yml
+  tags: pf_rcconf_pflog
 
 # EOF
 ...

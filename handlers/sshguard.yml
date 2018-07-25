@@ -1,0 +1,32 @@
+---
+# handlers for freebsd-pf
+
+# sshguard -----------------------------------------------------------
+- name: enable and start sshguard
+  service:
+    name: "sshguard"
+    state: started
+    enabled: yes
+  when: pf_sshguard_enable
+
+- name: disable and stop sshguard
+  service:
+    name: "sshguard"
+    state: stopped
+    enabled: no
+  when: not pf_sshguard_enable
+
+- name: restart sshguard
+  service:
+    name: "sshguard"
+    state: restarted
+  when: pf_sshguard_enable
+
+#  /usr/local/etc/rc.d/sshguard: unknown directive 'reload'.
+#- name: reload sshguard
+#  service:
+#    name: "sshguard"
+#    state: reloaded
+
+# EOF
+...

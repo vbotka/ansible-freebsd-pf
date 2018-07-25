@@ -23,6 +23,9 @@ scrub in on $ext_if all fragment reassemble
 ### optionally use blacklistd
 {% if pf_blacklistd_enable %}anchor "blacklistd/*" in on $ext_if
 {% endif %}
+# optionally use fail2ban
+{% if pf_fail2ban_enable %}anchor "f2b/*"
+{% endif %}
 
 ### set a default deny everything policy.
 block all

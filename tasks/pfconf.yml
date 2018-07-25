@@ -1,14 +1,5 @@
 ---
 
-- name: "pfconf: Configure pf whitelist sshguard"
-  lineinfile:
-    dest: "/usr/local/etc/sshguard.whitelist"
-    line: "{{ item }}"
-    backup: "{{ pf_backup_conf }}"
-  loop: "{{ pf_ssh_whitelist }}"
-  notify: restart sshguard
-  tags: pf_sshguard_whitelist
-
 - debug:
     msg: "pf_ext_if: {{ pf_ext_if }}"
   when: pf_debug
@@ -23,7 +14,6 @@
     backup: "{{ pf_backup_conf }}"
     validate: "pfctl -n -f %s"
   notify: reload pf
-  tags: pf_rules
 
 # EOF
 ...
