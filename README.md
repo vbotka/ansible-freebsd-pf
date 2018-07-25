@@ -33,7 +33,7 @@ pf_fail2ban_enable: False
 pf_sshguard_enable: False
 ```
 
-TBD. Check the defaults and examples in vars.
+TBD. Review the defaults and examples in vars.
 
 
 Workflow
