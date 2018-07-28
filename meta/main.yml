@@ -1,5 +1,5 @@
 galaxy_info:
-  role_name: freebsd_pf"
+  role_name: freebsd_pf
   author: Vladimir Botka
   description: FreeBSD. Configure PF firewall.
   company: https://botka.link
