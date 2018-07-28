@@ -1,9 +1,9 @@
-freebsd-pf
+freebsd_pf
 ==========
 
 [![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-pf.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-pf)
 
-[Ansible role.](https://galaxy.ansible.com/vbotka/freebsd-pf/) FreeBSD. Configure PF firewall.
+[Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_pf/) FreeBSD. Configure PF firewall.
 
 As it manipulates the firewall, there is a risk of being locked out. It's necessary to read the handbook.
 - https://www.freebsd.org/doc/en/books/handbook/firewalls-pf.html
@@ -48,13 +48,13 @@ Workflow
 2) Install role.
 
 ```
-# ansible-galaxy install vbotka.freebsd-pf
+# ansible-galaxy install vbotka.freebsd_pf
 ```
 
 3) Fit variables.
 
 ```
-# editor vbotka.freebsd-pf/vars/main.yml
+# editor vbotka.freebsd_pf/vars/main.yml
 ```
 
 4) Create playbook.
@@ -63,7 +63,7 @@ Workflow
 # cat freebsd-pf.yml
 - hosts: srv.example.com
   roles:
-    - vbotka.freebsd-pf
+    - vbotka.freebsd_pf
 ```
 
 5) Review handlers to see how start/restart/reload of pf is implemented.
