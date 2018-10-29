@@ -88,6 +88,8 @@ ansible-playbook -e 'pf_enable=True' freebsd-pf.yml
 References
 ----------
 
+- [Firewalling with OpenBSD's PF packet filter](http://rlworkman.net/howtos/OpenBSD_pf_guide.html)
+- [A Beginner's Guide To Firewalling with pf](http://srobb.net/pf.html)
 - [Blacklistd on FreeBSD](https://www.vultr.com/docs/how-to-install-blacklistd-on-freebsd-11-1)
 - [PF and sshguard](https://forums.freebsd.org/threads/how-to-get-pf-and-sshguard-to-stop-this-guy.64933/)
 - [Fail2Ban with PF](http://www.purplehat.org/?page_id=566)
