@@ -20,6 +20,16 @@ ext_if = "{{ pf_ext_if }}"
 ### packets are reassembled.
 scrub in on $ext_if all fragment reassemble
 
+### NAT
+{% for rule in pf_rules_nat %}
+{{ rule }}
+{% endfor %}
+
+### Redirection
+{% for rule in pf_rules_rdr %}
+{{ rule }}
+{% endfor %}
+
 ### optionally use blacklistd
 {% if pf_blacklistd_enable %}anchor "blacklistd/*" in on $ext_if
 {% endif %}

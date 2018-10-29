@@ -42,6 +42,8 @@ pf_lan_net: "10.1.0.0/24, 10.1.1.0/24"
 pf_smb_net: "10.1.0.0/27, 10.1.1.0/27, 10.1.0.90, 10.1.1.90"
 pf_reserved_internal_net: "10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 255.255.255.255/32"
 pf_rules_custom: []
+pf_rules_nat: []
+pf_rules_rdr: []
 
 # sshguard
 pf_ssh_whitelist: []
