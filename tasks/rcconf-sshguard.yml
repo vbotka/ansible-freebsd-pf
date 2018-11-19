@@ -16,7 +16,7 @@
   when:
     - pf_sshguard_enable
     - service_status.stat.exists
-  
+
 - name: "rcconf: Disable and stop sshguard"
   lineinfile:
     dest: "/etc/rc.conf"

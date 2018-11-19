@@ -9,7 +9,7 @@
     backup: "{{ pf_backup_conf }}"
   notify: start pf
   when: pf_enable
-  
+
 - name: "rcconf: Disable and stop pf"
   lineinfile:
     dest: "/etc/rc.conf"
@@ -18,7 +18,7 @@
     backup: "{{ pf_backup_conf }}"
   notify: disable and stop pf
   when: not pf_enable
-  
+
 - name: "rcconf: Configure pf"
   lineinfile:
     dest: "/etc/rc.conf"

@@ -9,7 +9,7 @@
     backup: "{{ pf_backup_conf }}"
   notify: enable and start pflog
   when: pflog_enable
-  
+
 - name: "rcconf: Disable and stop pflog"
   lineinfile:
     dest: "/etc/rc.conf"

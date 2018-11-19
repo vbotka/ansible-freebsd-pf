@@ -33,7 +33,7 @@
     - not ansible_check_mode
     - not pfconf_only
   changed_when: pf_enable
-      
+
 - name: reload pf
 # service: name="pf" state="reloaded"
   shell: (( sleep 5; nohup service pf reload 1>/dev/null 2>&1 ) & )

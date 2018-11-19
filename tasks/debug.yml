@@ -10,7 +10,7 @@
          ansible_distribution_version [ {{ ansible_distribution_version }} ]
          ansible_distribution_release [ {{ ansible_distribution_release }} ]
 
-         freebsd_install_method [ {{ freebsd_install_method}} ]
+         freebsd_install_method [ {{ freebsd_install_method }} ]
          freebsd_use_packages [ {{ freebsd_use_packages }} ]
          pf_fail2ban_packages
          {{ pf_fail2ban_packages | to_nice_yaml }}
