@@ -8,7 +8,7 @@
     line: "pf_enable=\"YES\""
     backup: "{{ pf_backup_conf }}"
   notify: start pf
-  when: pf_enable
+  when: pf_enable|bool
 
 - name: "rcconf: Disable and stop pf"
   lineinfile:
@@ -17,7 +17,7 @@
     line: "pf_enable=\"NO\""
     backup: "{{ pf_backup_conf }}"
   notify: disable and stop pf
-  when: not pf_enable
+  when: not pf_enable|bool
 
 - name: "rcconf: Configure pf"
   lineinfile:

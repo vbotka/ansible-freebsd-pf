@@ -10,7 +10,7 @@
   notify:
     - enable and start blacklistd
     - reload pf
-  when: pf_blacklistd_enable
+  when: pf_blacklistd_enable|bool
 
 - name: "rcconf: Disable and stop blacklistd"
   lineinfile:
@@ -21,7 +21,7 @@
   notify:
     - disable and stop blacklistd
     - reload pf
-  when: not pf_blacklistd_enable
+  when: not pf_blacklistd_enable|bool
 
 - name: "rcconf: Configure blacklistd"
   lineinfile:

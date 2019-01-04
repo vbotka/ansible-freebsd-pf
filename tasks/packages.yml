@@ -9,7 +9,7 @@
   until: result is succeeded
   delay: "{{ freebsd_install_delay }}"
   when:
-    - pf_sshguard_enable
+    - pf_sshguard_enable|bool
     - freebsd_install_method == "packages"
 
 - name: "packages: Install sshguard ports"
@@ -22,7 +22,7 @@
   until: result is succeeded
   delay: "{{ freebsd_install_delay }}"
   when:
-    - pf_sshguard_enable
+    - pf_sshguard_enable|bool
     - freebsd_install_method == "ports"
 
 - name: "packages: Install fail2ban packages"
@@ -34,7 +34,7 @@
   until: result is succeeded
   delay: "{{ freebsd_install_delay }}"
   when:
-    - pf_fail2ban_enable
+    - pf_fail2ban_enable|bool
     - freebsd_install_method == "packages"
 
 - name: "packages: Install fail2ban ports"
@@ -47,7 +47,7 @@
   until: result is succeeded
   delay: "{{ freebsd_install_delay }}"
   when:
-    - pf_fail2ban_enable
+    - pf_fail2ban_enable|bool
     - freebsd_install_method == "ports"
 
 # EOF

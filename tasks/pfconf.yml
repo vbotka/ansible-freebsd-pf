@@ -2,7 +2,7 @@
 
 - debug:
     msg: "pf_ext_if: {{ pf_ext_if }}"
-  when: pf_debug
+  when: pf_debug|bool
 
 - name: "pfconf: Configure rules using {{ pf_type }}-pf.conf.j2 template"
   template:

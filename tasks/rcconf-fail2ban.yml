@@ -10,7 +10,7 @@
   notify:
     - enable and start fail2ban
     - reload pf
-  when: pf_fail2ban_enable
+  when: pf_fail2ban_enable|bool
 
 - name: "rcconf: Disable and stop fail2ban"
   lineinfile:
@@ -21,7 +21,7 @@
   notify:
     - disable and stop fail2ban
     - reload pf
-  when: not pf_fail2ban_enable
+  when: not pf_fail2ban_enable|bool
 
 - name: "rcconf: Configure fail2ban"
   lineinfile:

@@ -10,11 +10,11 @@
     - debug:
         msg: "Play stopped. sshguard is enabled, but no service exists."
       when:
-        - pf_sshguard_enable
+        - pf_sshguard_enable|bool
         - not pf_sshguard_service.stat.exists
     - meta: end_play
       when:
-        - pf_sshguard_enable
+        - pf_sshguard_enable|bool
         - not pf_sshguard_service.stat.exists
   when: not ansible_check_mode
 
@@ -24,7 +24,7 @@
     line: "{{ item }}"
     backup: "{{ pf_backup_conf }}"
   loop: "{{ pf_ssh_whitelist }}"
-  when: pf_sshguard_enable
+  when: pf_sshguard_enable|bool
   notify: restart sshguard
 
 # EOF

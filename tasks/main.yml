@@ -2,8 +2,8 @@
 # tasks for freebsd-pf
 
 - import_tasks: debug.yml
-  when: pf_debug
-  tags: pf_debug
+  when: pf_debug|bool
+  tags: [pf_debug, always]
 
 - import_tasks: packages.yml
   tags: pf_packages

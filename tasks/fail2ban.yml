@@ -10,11 +10,11 @@
     - debug:
         msg: "Play stopped. fail2ban is enabled, but no service exists."
       when:
-        - pf_fail2ban_enable
+        - pf_fail2ban_enable|bool
         - not pf_fail2ban_service.stat.exists
     - meta: end_play
       when:
-        - pf_fail2ban_enable
+        - pf_fail2ban_enable|bool
         - not pf_fail2ban_service.stat.exists
   when: not ansible_check_mode
 
@@ -26,7 +26,7 @@
     group: "wheel"
     mode: "0644"
     backup: "{{ pf_backup_conf }}"
-  when: pf_fail2ban_enable
+  when: pf_fail2ban_enable|bool
   notify: reload fail2ban
 
 - name: "fail2ban: Configure /usr/local/etc/fail2ban/jail.local"
@@ -37,7 +37,7 @@
     group: "wheel"
     mode: "0644"
     backup: "{{ pf_backup_conf }}"
-  when: pf_fail2ban_enable
+  when: pf_fail2ban_enable|bool
   notify: reload fail2ban
 
 # EOF

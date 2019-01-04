@@ -10,11 +10,11 @@
     - debug:
         msg: "Play stopped. blacklistd is enabled, but no service exists."
       when:
-        - pf_blacklistd_enable
+        - pf_blacklistd_enable|bool
         - not pf_blacklistd_service.stat.exists
     - meta: end_play
       when:
-        - pf_blacklistd_enable
+        - pf_blacklistd_enable|bool
         - not pf_blacklistd_service.stat.exists
   when: not ansible_check_mode
 
@@ -26,7 +26,7 @@
     group: "wheel"
     mode: "0644"
     backup: "{{ pf_backup_conf }}"
-  when: pf_blacklistd_enable
+  when: pf_blacklistd_enable|bool
   notify: restart blacklistd
 
 # EOF
