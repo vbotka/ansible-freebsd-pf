@@ -38,6 +38,10 @@
          pf_lan_net [ {{ pf_lan_net }} ]
          pf_smb_net [ {{ pf_smb_net }} ]
          pf_reserved_internal_net [ {{ pf_reserved_internal_net }} ]
+         pf_rules_nat
+         {{ pf_rules_nat | to_nice_yaml }}
+         pf_rules_rdr
+         {{ pf_rules_rdr | to_nice_yaml }}
          pf_rules_custom
          {{ pf_rules_custom | default("ABSENT") | to_nice_yaml }}
          pf_ssh_whitelist

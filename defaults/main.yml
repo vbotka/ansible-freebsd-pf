@@ -9,7 +9,8 @@ pf_sshguard_enable: False
 pflog_enable: True
 pf_backup_conf: no
 
-# Type of the template to create pf_rules
+# pf.conf template
+# src: "{{ pf_type }}-pf.conf.j2"
 pf_type: "server"
 
 # Configure pf_rules and do not notify handler to reload
