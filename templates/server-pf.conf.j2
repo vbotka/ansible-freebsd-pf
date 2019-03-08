@@ -30,6 +30,9 @@ scrub in on $ext_if all fragment reassemble
 {{ rule }}
 {% endfor %}
 
+# Bypass blacklisted SSH
+# pass in quick on $ext_if inet proto tcp from <MY-TRUSTED-IP> to any port ssh
+
 ### optionally use blacklistd
 {% if pf_blacklistd_enable %}anchor "blacklistd/*" in on $ext_if
 {% endif %}
