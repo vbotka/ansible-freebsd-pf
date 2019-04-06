@@ -133,7 +133,8 @@ An option how to easier find the problem is to enable
 ansible-playbook -e 'pfconf_only=yes pfconf_validate=no' freebsd-pf.yml
 ```
 
-Created configuration file /etc/pf.conf contains the syntax error which can be located and found in the file /etc/pf.conf.
+Created configuration file /etc/pf.conf contains the syntax error
+which can be located and found in the file /etc/pf.conf.
 
 ```
 pfctl -n -f /etc/pf.conf
@@ -145,6 +146,14 @@ After the configuration has been fixed, updated and validated reload the rules.
 ansible srv.example.com -m service -a "name=pf state=reloaded"
 ```
 
+Configuration file /etc/pf.conf won't be created and the play will be
+ended if both *pfconf_only=no* and *pfconf_validate=no*
+
+```
+ansible-playbook -e 'pfconf_only=no pfconf_validate=no' freebsd-pf.yml
+fatal: [srv.example.com]: FAILED! => changed=false
+  msg: Validation can be turned off if pfconf_only=yes. End of play.
+```
 
 References
 ----------

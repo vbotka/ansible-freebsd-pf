@@ -1,11 +1,17 @@
 ---
 
 - name: "pfconf: Debug"
+  vars:
+    msg: |
+         pf_type [ {{ pf_type }} ]
+         pf_ext_if [ {{ pf_ext_if }} ]
+         pfconf_validate [ {{ pfconf_validate }} ]
+         pfconf_only [ {{ pfconf_only }} ]
   debug:
-    msg: "pf_ext_if: {{ pf_ext_if }}"
+    msg: "{{ msg.split('\n') }}"
   when: pf_debug|bool
 
-- name: "pfconf: Configure rules using {{ pf_type }}-pf.conf.j2 template"
+- name: "pfconf: Configure and validate rules using {{ pf_type }}-pf.conf.j2 template"
   when: pfconf_validate|bool
   block:
     - name: "pfconf: Configure rules using {{ pf_type }}-pf.conf.j2 template"
@@ -23,14 +29,14 @@
       fail:
         msg: "Validation error: {{ ansible_failed_result }}"
 
-- name: "pfconf: Configure rules using {{ pf_type }}-pf.conf.j2 template"
+- name: "pfconf: Configure, do not validate rules using {{ pf_type }}-pf.conf.j2 template"
   when: not pfconf_validate|bool
   block:
     - name: "Fail when pfconf_validate=no and pfconf_only=no"
       fail:
-        msg: "Validation can be turned off. Only if pfconf_only=yes. End of play."
-      when: not pfconf_only
-    - name: "pfconf: Configure rules using {{ pf_type }}-pf.conf.j2 template"
+        msg: "Validation can be turned off if pfconf_only=yes. End of play."
+      when: not pfconf_only|bool
+    - name: "pfconf: Configure, do not validate rules using {{ pf_type }}-pf.conf.j2 template"
       template:
         dest: "/etc/pf.conf"
         src: "{{ pf_type }}-pf.conf.j2"
