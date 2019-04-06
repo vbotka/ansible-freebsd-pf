@@ -8,7 +8,8 @@
 - name: "pfconf: Configure rules using {{ pf_type }}-pf.conf.j2 template"
   when: pfconf_validate|bool
   block:
-    - template:
+    - name: "pfconf: Configure rules using {{ pf_type }}-pf.conf.j2 template"
+      template:
         dest: "/etc/pf.conf"
         src: "{{ pf_type }}-pf.conf.j2"
         owner: "root"
@@ -18,16 +19,19 @@
         validate: "{{ pfconf_validate_command }}"
       notify: reload pf
   rescue:
-    - fail:
+    - name: "pfconf: Validation failed "
+      fail:
         msg: "Validation error: {{ ansible_failed_result }}"
 
 - name: "pfconf: Configure rules using {{ pf_type }}-pf.conf.j2 template"
   when: not pfconf_validate|bool
   block:
-    - fail:
+    - name: "Fail when pfconf_validate=no and pfconf_only=no"
+      fail:
         msg: "Validation can be turned off. Only if pfconf_only=yes. End of play."
       when: not pfconf_only
-    - template:
+    - name: "pfconf: Configure rules using {{ pf_type }}-pf.conf.j2 template"
+      template:
         dest: "/etc/pf.conf"
         src: "{{ pf_type }}-pf.conf.j2"
         owner: "root"
