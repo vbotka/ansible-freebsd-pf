@@ -17,13 +17,15 @@
          pf_sshguard_packages
          {{ pf_sshguard_packages | to_nice_yaml }}
 
-         pf_enable [ {{ pf_enable }} ]
-         pfconf_only [ {{ pfconf_only }} ]
-         pf_backup_conf [ {{ pf_backup_conf }} ]
-         pflog_enable [ {{ pflog_enable }} ]
-         pf_blacklistd_enable [ {{ pf_blacklistd_enable }} ]
-         pf_fail2ban_enable [ {{ pf_fail2ban_enable }} ]
-         pf_sshguard_enable [ {{ pf_sshguard_enable }} ]
+         pf_enable [ {{ pf_enable|bool }} ]
+         pfconf_only [ {{ pfconf_only|bool }} ]
+         pfconf_validate [ {{ pfconf_validate|bool }} ]
+         pfconf_validate_command [ {{ pfconf_validate_command }} ]
+         pf_backup_conf [ {{ pf_backup_conf|bool }} ]
+         pflog_enable [ {{ pflog_enable|bool }} ]
+         pf_blacklistd_enable [ {{ pf_blacklistd_enable|bool }} ]
+         pf_fail2ban_enable [ {{ pf_fail2ban_enable|bool }} ]
+         pf_sshguard_enable [ {{ pf_sshguard_enable|bool }} ]
          pf_type [ {{ pf_type }} ]
          pf_rules [ {{ pf_rules }} ]
          pf_flags [ {{ pf_flags }} ]

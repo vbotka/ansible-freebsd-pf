@@ -1,12 +1,12 @@
 ---
 
 # sshguard
-- name: "rcconf: Check if sshguard is installed"
+- name: "rcconf-sshguard: Check if sshguard is installed"
   stat:
     path: "/usr/local/etc/rc.d/sshguard"
   register: service_status
 
-- name: "rcconf: Enable and start sshguard"
+- name: "rcconf-sshguard: Enable and start sshguard"
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^sshguard_enable"
@@ -17,7 +17,7 @@
     - pf_sshguard_enable|bool
     - service_status.stat.exists
 
-- name: "rcconf: Disable and stop sshguard"
+- name: "rcconf-sshguard: Disable and stop sshguard"
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^sshguard_enable"

@@ -85,6 +85,69 @@ and enable the firewall in the second step
 ansible-playbook -e 'pf_enable=True' freebsd-pf.yml
 ```
 
+Update the firewall.
+--------------------
+
+Open a ssh connection to the host for the case that something goes
+wrong. Update and validate the configuration. Do not reload the rules.
+
+```
+ansible-playbook -e 'pfconf_only=yes pfconf_validate=yes' freebsd-pf.yml
+```
+
+After the configuration has been updated and validated reload the rules.
+
+```
+ansible srv.example.com -m service -a "name=pf state=reloaded"
+
+```
+
+Troubleshooting
+---------------
+
+As first step enable backup of the configuration files.
+
+```
+pf_backup_conf: yes
+```
+
+In case the configuration does not pass the validation the play stops.
+
+```
+TASK [vbotka.freebsd_pf : template] **********************************************
+fatal: [srv.example.com]: FAILED! => changed=false
+  checksum: 765302b1f0de9f200b2cab396e0271fc04e6adcc
+  exit_status: 1
+  msg: failed to validate
+  stderr: |-
+    /home/admin/.ansible/tmp/ansible-tmp-1554558267.39-44232067735996/source:119: syntax error
+```
+
+The message above shows the location of the syntax error (source:119)
+in the temporary file created by the template module. It's difficult to
+find the error if this temporary file is not available for a review.
+
+An option how to easier find the problem is to enable
+*pfconf_only=yes* and disable validation *pfconf_validate=no*
+
+```
+ansible-playbook -e 'pfconf_only=yes pfconf_validate=no' freebsd-pf.yml
+```
+
+Created configuration file /etc/pf.conf contains the syntax error which can be located and found in the file /etc/pf.conf.
+
+```
+pfctl -n -f /etc/pf.conf
+```
+
+After the configuration has been fixed, updated and validated reload the rules.
+
+```
+ansible srv.example.com -m service -a "name=pf state=reloaded"
+
+```
+
+
 References
 ----------
 

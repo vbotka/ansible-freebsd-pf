@@ -9,12 +9,12 @@
 - name: start pf
 # service: name="pf" state="started" enabled="yes"
   shell: (( sleep 5; nohup service pf start 1>/dev/null 2>&1 ) & )
-  async: 1
+  async: "{{ pf_async_timeout }}"
   poll: 0
   when:
-    - pf_enable
+    - pf_enable|bool
     - not ansible_check_mode
-    - not pfconf_only
+    - not pfconf_only|bool
   changed_when: true
 
 - name: disable and stop pf
@@ -26,7 +26,7 @@
 - name: restart pf
 # service: name="pf" state="restarted"
   shell: (( sleep 5; nohup service pf restart 1>/dev/null 2>&1 ) & )
-  async: 1
+  async: "{{ pf_async_timeout }}"
   poll: 0
   when:
     - pf_enable
@@ -37,7 +37,7 @@
 - name: reload pf
 # service: name="pf" state="reloaded"
   shell: (( sleep 5; nohup service pf reload 1>/dev/null 2>&1 ) & )
-  async: 1
+  async: "{{ pf_async_timeout }}"
   poll: 0
   when:
     - pf_enable

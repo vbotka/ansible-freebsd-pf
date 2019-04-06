@@ -1,19 +1,39 @@
 ---
 
-- debug:
+- name: "pfconf: Debug"
+  debug:
     msg: "pf_ext_if: {{ pf_ext_if }}"
   when: pf_debug|bool
 
 - name: "pfconf: Configure rules using {{ pf_type }}-pf.conf.j2 template"
-  template:
-    dest: "/etc/pf.conf"
-    src: "{{ pf_type }}-pf.conf.j2"
-    owner: "root"
-    group: "wheel"
-    mode: "0640"
-    backup: "{{ pf_backup_conf }}"
-    validate: "pfctl -n -f %s"
-  notify: reload pf
+  when: pfconf_validate|bool
+  block:
+    - template:
+        dest: "/etc/pf.conf"
+        src: "{{ pf_type }}-pf.conf.j2"
+        owner: "root"
+        group: "wheel"
+        mode: "0640"
+        backup: "{{ pf_backup_conf }}"
+        validate: "{{ pfconf_validate_command }}"
+      notify: reload pf
+  rescue:
+    - fail:
+        msg: "Validation error: {{ ansible_failed_result }}"
+
+- name: "pfconf: Configure rules using {{ pf_type }}-pf.conf.j2 template"
+  when: not pfconf_validate|bool
+  block:
+    - fail:
+        msg: "Validation can be turned off. Only if pfconf_only=yes. End of play."
+      when: not pfconf_only
+    - template:
+        dest: "/etc/pf.conf"
+        src: "{{ pf_type }}-pf.conf.j2"
+        owner: "root"
+        group: "wheel"
+        mode: "0640"
+        backup: "{{ pf_backup_conf }}"
 
 # EOF
 ...

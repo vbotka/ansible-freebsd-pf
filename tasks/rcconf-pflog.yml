@@ -1,7 +1,7 @@
 ---
 
 # pflog
-- name: "rcconf: Enable and start pflog"
+- name: "rcconf-pflog: Enable and start pflog"
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^pflog_enable"
@@ -10,7 +10,7 @@
   notify: enable and start pflog
   when: pflog_enable|bool
 
-- name: "rcconf: Disable and stop pflog"
+- name: "rcconf-pflog: Disable and stop pflog"
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^pflog_enable"
@@ -19,7 +19,7 @@
   notify: disable and stop pflog
   when: not pflog_enable|bool
 
-- name: "rcconf: Configure pflog"
+- name: "rcconf-pflog: Configure pflog"
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^{{ item.regexp }}"

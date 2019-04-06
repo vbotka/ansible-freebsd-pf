@@ -1,5 +1,5 @@
 ---
-# tasks for freebsd-pf
+# tasks for freebsd_pf
 
 - import_tasks: debug.yml
   when: pf_debug|bool

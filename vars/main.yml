@@ -1,5 +1,5 @@
 ---
-# vars for freebsd-pf
+# vars for freebsd_pf
 
 # pf_debug: True
 # pf_enable: False

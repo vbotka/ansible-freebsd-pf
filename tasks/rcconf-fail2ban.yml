@@ -1,7 +1,7 @@
 ---
 
 # fail2ban
-- name: "rcconf: Enable and start fail2ban"
+- name: "rcconf-fail2ban: Enable and start fail2ban"
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^fail2ban_enable"
@@ -12,7 +12,7 @@
     - reload pf
   when: pf_fail2ban_enable|bool
 
-- name: "rcconf: Disable and stop fail2ban"
+- name: "rcconf-fail2ban: Disable and stop fail2ban"
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^fail2ban_enable"
@@ -23,7 +23,7 @@
     - reload pf
   when: not pf_fail2ban_enable|bool
 
-- name: "rcconf: Configure fail2ban"
+- name: "rcconf-fail2ban: Configure fail2ban"
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^{{ item.regexp }}"

@@ -1,7 +1,7 @@
 ---
 
 # pf
-- name: "rcconf: Enable and start pf"
+- name: "rcconf-pf: Enable and start pf"
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^pf_enable"
@@ -10,7 +10,7 @@
   notify: start pf
   when: pf_enable|bool
 
-- name: "rcconf: Disable and stop pf"
+- name: "rcconf-pf: Disable and stop pf"
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^pf_enable"
@@ -19,7 +19,7 @@
   notify: disable and stop pf
   when: not pf_enable|bool
 
-- name: "rcconf: Configure pf"
+- name: "rcconf-pf: Configure pf"
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^{{ item.regexp }}"

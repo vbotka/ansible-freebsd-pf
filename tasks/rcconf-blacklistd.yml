@@ -1,7 +1,7 @@
 ---
 
 # blacklistd
-- name: "rcconf: Enable and start blacklistd"
+- name: "rcconf-blacklistd: Enable and start blacklistd"
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^blacklistd_enable"
@@ -12,7 +12,7 @@
     - reload pf
   when: pf_blacklistd_enable|bool
 
-- name: "rcconf: Disable and stop blacklistd"
+- name: "rcconf-blacklistd: Disable and stop blacklistd"
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^blacklistd_enable"
@@ -23,7 +23,7 @@
     - reload pf
   when: not pf_blacklistd_enable|bool
 
-- name: "rcconf: Configure blacklistd"
+- name: "rcconf-blacklistd: Configure blacklistd"
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^{{ item.regexp }}"
