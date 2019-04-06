@@ -99,13 +99,12 @@ After the configuration has been updated and validated reload the rules.
 
 ```
 ansible srv.example.com -m service -a "name=pf state=reloaded"
-
 ```
 
 Troubleshooting
 ---------------
 
-As first step enable backup of the configuration files.
+As a first step enable backup of the configuration files.
 
 ```
 pf_backup_conf: yes
@@ -120,7 +119,7 @@ fatal: [srv.example.com]: FAILED! => changed=false
   exit_status: 1
   msg: failed to validate
   stderr: |-
-    /home/admin/.ansible/tmp/ansible-tmp-1554558267.39-44232067735996/source:119: syntax error
+    /home/freebsd/.ansible/tmp/ansible-tmp-1554558267.39-44232067735996/source:119: syntax error
 ```
 
 The message above shows the location of the syntax error (source:119)
@@ -144,7 +143,6 @@ After the configuration has been fixed, updated and validated reload the rules.
 
 ```
 ansible srv.example.com -m service -a "name=pf state=reloaded"
-
 ```
 
 
