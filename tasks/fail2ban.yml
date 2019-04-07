@@ -6,19 +6,15 @@
   register: pf_fail2ban_service
 
 - name: "fail2ban: Stop play if fail2ban is enabled and no service exists"
-  block:
-    - debug:
-        msg: "Play stopped. fail2ban is enabled, but no service exists."
-      when:
-        - pf_fail2ban_enable|bool
-        - not pf_fail2ban_service.stat.exists
-    - meta: end_play
-      when:
-        - pf_fail2ban_enable|bool
-        - not pf_fail2ban_service.stat.exists
-  when: not ansible_check_mode
+  fail:
+    msg: "Play stopped. fail2ban is enabled, but no service exists."
+  when:
+    - pf_fail2ban_enable|bool
+    - not pf_fail2ban_service.stat.exists
+    - not ansible_check_mode
 
 - name: "fail2ban: Configure /usr/local/etc/fail2ban/fail2ban.local"
+  when: pf_fail2ban_enable|bool
   template:
     dest: "/usr/local/etc/fail2ban/fail2ban.local"
     src: "{{ pf_fail2ban_local_template }}"
@@ -26,10 +22,10 @@
     group: "wheel"
     mode: "0644"
     backup: "{{ pf_backup_conf }}"
-  when: pf_fail2ban_enable|bool
   notify: reload fail2ban
 
 - name: "fail2ban: Configure /usr/local/etc/fail2ban/jail.local"
+  when: pf_fail2ban_enable|bool
   template:
     dest: "/usr/local/etc/fail2ban/jail.local"
     src: "{{ pf_fail2ban_jail_local_template }}"
@@ -37,7 +33,6 @@
     group: "wheel"
     mode: "0644"
     backup: "{{ pf_backup_conf }}"
-  when: pf_fail2ban_enable|bool
   notify: reload fail2ban
 
 # EOF

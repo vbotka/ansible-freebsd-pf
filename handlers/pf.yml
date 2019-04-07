@@ -1,5 +1,5 @@
 ---
-# handlers for freebsd-pf
+# handlers for freebsd_pf
 
 # pf -----------------------------------------------------------------
 # start, restart, reload of pf break the ssh connection. Sleep for 5
@@ -29,10 +29,10 @@
   async: "{{ pf_async_timeout }}"
   poll: 0
   when:
-    - pf_enable
+    - pf_enable|bool
     - not ansible_check_mode
-    - not pfconf_only
-  changed_when: pf_enable
+    - not pfconf_only|bool
+  changed_when: pf_enable|bool
 
 - name: reload pf
 # service: name="pf" state="reloaded"
@@ -40,10 +40,10 @@
   async: "{{ pf_async_timeout }}"
   poll: 0
   when:
-    - pf_enable
+    - pf_enable|bool
     - not ansible_check_mode
-    - not pfconf_only
-  changed_when: pf_enable
+    - not pfconf_only|bool
+  changed_when: pf_enable|bool
 
 # EOF
 ...

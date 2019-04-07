@@ -7,26 +7,26 @@
     name: "pflog"
     state: started
     enabled: yes
-  when: pflog_enable
+  when: pflog_enable|bool
 
 - name: disable and stop pflog
   service:
     name: "pflog"
     state: stopped
     enabled: no
-  when: not pflog_enable
+  when: not pflog_enable|bool
 
 - name: restart pflog
   service:
     name: "pflog"
     state: restarted
-  when: pflog_enable
+  when: pflog_enable|bool
 
 - name: reload pflog
   service:
     name: "pflog"
     state: reloaded
-  when: pflog_enable
+  when: pflog_enable|bool
 
 # EOF
 ...

@@ -22,12 +22,10 @@
 - name: "rcconf-pf: Configure pf"
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "^{{ item.regexp }}"
-    line: "{{ item.regexp }}={{ item.line }}"
+    regexp: "^\\s*{{ item.regexp }}\\s*="
+    line: "{{ item.regexp }}=\"{{ item.line }}\""
     backup: "{{ pf_backup_conf }}"
-  loop:
-    - { regexp: "pf_rules", line: "\"{{ pf_rules }}\""}
-    - { regexp: "pf_flags", line: "\"{{ pf_flags }}\""}
+  loop: "{{ pf_rcconf }}"
   notify: reload pf
 
 # EOF

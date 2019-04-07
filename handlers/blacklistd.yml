@@ -1,5 +1,5 @@
 ---
-# handlers for freebsd-pf
+# handlers for freebsd_pf
 
 # blacklistd ---------------------------------------------------------
 

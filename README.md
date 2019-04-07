@@ -146,8 +146,12 @@ After the configuration has been fixed, updated and validated reload the rules.
 ansible srv.example.com -m service -a "name=pf state=reloaded"
 ```
 
-Configuration file /etc/pf.conf won't be created and the play will be
-ended if both *pfconf_only=no* and *pfconf_validate=no*
+Security
+--------
+
+To prevent not validated configuration will be reloaded by the
+handler, configuration file /etc/pf.conf won't be created and the play
+will be ended if both *pfconf_only=no* and *pfconf_validate=no*
 
 ```
 ansible-playbook -e 'pfconf_only=no pfconf_validate=no' freebsd-pf.yml

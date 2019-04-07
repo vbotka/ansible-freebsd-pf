@@ -1,6 +1,7 @@
 ---
 
 - name: "pfconf: Debug"
+  when: pf_debug|bool
   vars:
     msg: |
          pf_type [ {{ pf_type }} ]
@@ -9,7 +10,6 @@
          pfconf_only [ {{ pfconf_only }} ]
   debug:
     msg: "{{ msg.split('\n') }}"
-  when: pf_debug|bool
 
 - name: "pfconf: Configure and validate rules using {{ pf_type }}-pf.conf.j2 template"
   when: pfconf_validate|bool

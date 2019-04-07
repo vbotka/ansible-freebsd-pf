@@ -2,32 +2,30 @@
 
 # pflog
 - name: "rcconf-pflog: Enable and start pflog"
+  when: pflog_enable|bool
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^pflog_enable"
     line: "pflog_enable=\"YES\""
     backup: "{{ pf_backup_conf }}"
   notify: enable and start pflog
-  when: pflog_enable|bool
 
 - name: "rcconf-pflog: Disable and stop pflog"
+  when: not pflog_enable|bool
   lineinfile:
     dest: "/etc/rc.conf"
     regexp: "^pflog_enable"
     line: "pflog_enable=\"NO\""
     backup: "{{ pf_backup_conf }}"
   notify: disable and stop pflog
-  when: not pflog_enable|bool
 
 - name: "rcconf-pflog: Configure pflog"
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "^{{ item.regexp }}"
-    line: "{{ item.regexp }}={{ item.line }}"
+    regexp: "^\\s*{{ item.regexp }}\\s*="
+    line: "{{ item.regexp }}=\"{{ item.line }}\""
     backup: "{{ pf_backup_conf }}"
-  loop:
-    - { regexp: "pflog_logfile", line: "\"{{ pflog_logfile }}\""}
-    - { regexp: "pflog_flags", line: "\"{{ pflog_flags }}\""}
+  loop: "{{ pflog_rcconf }}"
   notify: reload pflog
 
 # EOF

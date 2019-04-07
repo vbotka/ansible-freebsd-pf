@@ -9,7 +9,7 @@
 - name: "rcconf-sshguard: Enable and start sshguard"
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "^sshguard_enable"
+    regexp: "^\\s*sshguard_enable\\s*="
     line: "sshguard_enable=\"YES\""
     backup: "{{ pf_backup_conf }}"
   notify: enable and start sshguard
@@ -20,7 +20,7 @@
 - name: "rcconf-sshguard: Disable and stop sshguard"
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "^sshguard_enable"
+    regexp: "^\\s*sshguard_enable\\s*="
     line: "sshguard_enable=\"NO\""
     backup: "{{ pf_backup_conf }}"
   notify: disable and stop sshguard
