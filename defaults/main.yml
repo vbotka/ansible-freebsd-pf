@@ -59,6 +59,7 @@ pf_reserved_internal_net: "10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 255.255.25
 pf_rules_custom: []
 pf_rules_nat: []
 pf_rules_rdr: []
+pf_log_all_blocked: false
 
 # sshguard
 pf_ssh_whitelist: []

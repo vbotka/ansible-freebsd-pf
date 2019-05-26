@@ -1,5 +1,4 @@
-freebsd_pf
-==========
+# freebsd_pf
 
 [![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-pf.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-pf)
 
@@ -10,14 +9,12 @@ As it manipulates the firewall, there is a risk of being locked out. It's necess
 - https://www.openbsd.org/faq/pf/filter.html
 
 
-Requirements
-------------
+## Requirements
 
 No requirements.
 
 
-Variables
----------
+## Variables
 
 By default the firewall is disabled.
 
@@ -33,11 +30,16 @@ pf_fail2ban_enable: False
 pf_sshguard_enable: False
 ```
 
+By default blocked packages are not logged.
+
+```
+pf_log_all_blocked: False
+```
+
 TBD. Review the defaults and examples in vars.
 
 
-Workflow
---------
+## Workflow
 
 1) Change shell to /bin/sh.
 
@@ -85,8 +87,7 @@ and enable the firewall in the second step
 ansible-playbook -e 'pf_enable=True' freebsd-pf.yml
 ```
 
-Update the firewall.
---------------------
+## Update the firewall
 
 Open a ssh connection to the host for the case that something goes
 wrong. Update and validate the configuration. Do not reload the rules.
@@ -101,8 +102,8 @@ After the configuration has been updated and validated reload the rules.
 ansible srv.example.com -m service -a "name=pf state=reloaded"
 ```
 
-Troubleshooting
----------------
+
+## Troubleshooting
 
 As a first step enable backup of the configuration files.
 
@@ -146,8 +147,8 @@ After the configuration has been fixed, updated and validated reload the rules.
 ansible srv.example.com -m service -a "name=pf state=reloaded"
 ```
 
-Security
---------
+
+## Security
 
 To prevent not validated configuration will be reloaded by the
 handler, configuration file /etc/pf.conf won't be created and the play
@@ -159,8 +160,8 @@ fatal: [srv.example.com]: FAILED! => changed=false
   msg: Validation can be turned off if pfconf_only=yes. End of play.
 ```
 
-References
-----------
+
+## References
 
 - [Book of PF](https://nostarch.com/pf3)
 - [Firewalling with OpenBSD's PF packet filter](http://rlworkman.net/howtos/OpenBSD_pf_guide.html)
@@ -171,12 +172,12 @@ References
 - [Fail2Ban with PF](http://www.purplehat.org/?page_id=566)
 - [Fail2Ban pf.conf: fix multiport syntax](https://github.com/fail2ban/fail2ban/pull/1925)
 
-License
--------
+
+## License
 
 [![license](https://img.shields.io/badge/license-BSD-red.svg)](https://www.freebsd.org/doc/en/articles/bsdl-gpl/article.html)
 
-Author Information
-------------------
+
+## Author Information
 
 [Vladimir Botka](https://botka.link)

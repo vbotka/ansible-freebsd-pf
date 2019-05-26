@@ -41,7 +41,7 @@ scrub in on $ext_if all fragment reassemble
 {% endif %}
 
 ### set a default deny everything policy.
-block all
+block {% if pf_log_all_blocked %}log {% endif %}all
 
 ### exercise antispoofing on the external interface, but add the local
 ### loopback interface as an exception, to prevent services utilizing the
