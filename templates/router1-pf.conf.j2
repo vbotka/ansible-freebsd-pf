@@ -27,7 +27,7 @@ pubserv = "{ {{ pf_pubserv }} }"
 # internally accessible services (transport layer neutral)
 lanserv = "{ {{ pf_lanserv }} }"
 # samba ports (transport layer neutral)
-samba_ports = "{ {{ pf_samba_ports }} }"
+samba_ports = "{ {{ pf_samba_udp_ports }} }"
 # externally permitted inbound icmp types
 icmp_types = "echoreq"
 # internal network
