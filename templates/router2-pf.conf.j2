@@ -19,17 +19,17 @@ logopt = "log"
 ext_if  = "{{ pf_ext_if }}"
 lan_if  = "{{ pf_lan_if }}"
 # publically accesible services (transport layer neutral)
-pubserv = "{ {{ pf_pubserv }} }"
+pubserv = "{{ pf_pubserv }}"
 # internally accessible services (transport layer neutral)
-lanserv = "{ {{ pf_lanserv }} }"
+lanserv = "{{ pf_lanserv }}"
 # samba ports (transport layer neutral)
-samba_ports = "{ {{ pf_samba_udp_ports }} }"
+samba_ports = "{{ pf_samba_udp_ports }}"
 # externally permitted inbound icmp types
 icmp_types = "echoreq"
 # internal network
-lan_net = "{ {{ pf_lan_net }} }"
+lan_net = "{{ pf_lan_net }}"
 # hosts granted acces to samba (cifs/smb) shares
-smb_net = "{ {{ pf_smb_net }} }"
+smb_net = "{{ pf_smb_net }}"
 # block these networks
 #table  { 0.0.0.0/8, 10.0.0.0/8, 20.20.20.0/24, 127.0.0.0/8, \
 #         169.254.0.0/16, 172.16.0.0/12,  192.0.2.0/24, \
@@ -57,7 +57,7 @@ scrub in on $ext_if all fragment reassemble
 # redirection (and nat, too!)
 #------------------------------------------------------------------------
 # network address translation
-nat on $ext_if from $lan_net to any -> ($ext_if)
+nat on $ext_if from {$lan_net} to any -> ($ext_if)
 #------------------------------------------------------------------------
 # firewall policy
 #------------------------------------------------------------------------
@@ -91,14 +91,14 @@ block in $logopt quick proto tcp flags SF/SF
 #pass in  quick all
 #pass out quick all
 # allow permitted icmp
-pass in inet proto icmp all icmp-type $icmp_types keep state
+pass in inet proto icmp all icmp-type {$icmp_types} keep state
 # allow permitted services
-pass in on $ext_if inet proto tcp from any to any port $pubserv flags S/SA keep state
-pass in on $lan_if inet proto {tcp udp} from $lan_net to any port $lanserv keep state
-pass in on $lan_if inet proto {tcp udp} from $smb_net to any port $samba_ports keep state
+pass in on $ext_if inet proto tcp from any to any port {$pubserv} flags S/SA keep state
+pass in on $lan_if inet proto {tcp udp} from {$lan_net} to any port {$lanserv} keep state
+pass in on $lan_if inet proto {tcp udp} from {$smb_net} to any port {$samba_ports} keep state
 # permit access between LAN hosts
-pass in  from $lan_net to $lan_net keep state
-pass out from $lan_net to $lan_net keep state
+pass in  from {$lan_net} to {$lan_net} keep state
+pass out from {$lan_net} to {$lan_net} keep state
 # permit full outbound access
 # warning: potentially insecure. you may wish to lock down outbound access.
 pass out from any to any keep state
