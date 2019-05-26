@@ -7,7 +7,7 @@
 # before restarting pf. Shell module must be used instead of service.
 
 - name: start pf
-# service: name="pf" state="started" enabled="yes"
+  # service: name="pf" state="started" enabled="yes"
   shell: (( sleep 5; nohup service pf start 1>/dev/null 2>&1 ) & )
   async: "{{ pf_async_timeout }}"
   poll: 0
@@ -24,7 +24,7 @@
     enabled: no
 
 - name: restart pf
-# service: name="pf" state="restarted"
+  # service: name="pf" state="restarted"
   shell: (( sleep 5; nohup service pf restart 1>/dev/null 2>&1 ) & )
   async: "{{ pf_async_timeout }}"
   poll: 0
@@ -35,7 +35,7 @@
   changed_when: pf_enable|bool
 
 - name: reload pf
-# service: name="pf" state="reloaded"
+  # service: name="pf" state="reloaded"
   shell: (( sleep 5; nohup service pf reload 1>/dev/null 2>&1 ) & )
   async: "{{ pf_async_timeout }}"
   poll: 0

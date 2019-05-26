@@ -23,10 +23,10 @@
   when: pf_sshguard_enable|bool
 
 #  /usr/local/etc/rc.d/sshguard: unknown directive 'reload'.
-#- name: reload sshguard
-#  service:
-#    name: "sshguard"
-#    state: reloaded
+# - name: reload sshguard
+#   service:
+#     name: "sshguard"
+#     state: reloaded
 
 # EOF
 ...

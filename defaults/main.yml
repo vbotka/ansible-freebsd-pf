@@ -24,7 +24,7 @@ pfconf_validate_command: "pfctl -n -f %s"
 
 # packages
 freebsd_install_method: "packages"
-#freebsd_install_method: "ports"
+# freebsd_install_method: "ports"
 freebsd_use_packages: "yes"
 freebsd_install_retries: 10
 freebsd_install_delay: 5
@@ -49,8 +49,8 @@ pflog_rcconf:
 pf_ext_if: "{{ ansible_default_ipv4.device|default(ansible_interfaces[0]) }}"
 pf_wifi_if: "ath0"
 pf_lan_if: "fxp1"
-pf_pubserv: "22, 443" 
-pf_lanserv: "22, 53, 67, 80, 443" 
+pf_pubserv: "22, 443"
+pf_lanserv: "22, 53, 67, 80, 443"
 pf_samba_tcp_ports: "netbios-ns, netbios-dgm, netbios-ssn, microsoft-ds, swat"
 pf_samba_udp_ports: "netbios-ns, netbios-dgm, netbios-ssn"
 pf_nfs_ports: "sunrpc nfsd-status nfsd-keepalive nfsd lockd 874"
@@ -77,7 +77,7 @@ pf_blacklistd_conf_local:
   - {adr: "*", type: "*", proto: "*", owner: "*", name: "*", nfail: "3", disable: "60"}
 pf_blacklistd_rcconf:
   - {regexp: "blacklistd_flags", line: "{{ pf_blacklistd_flags }}"}
-  
+
 # fail2ban
 pf_fail2ban_flags: ""
 pf_fail2ban_local_template: "default-fail2ban.local.j2"
