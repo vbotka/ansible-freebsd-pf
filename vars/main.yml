@@ -21,18 +21,18 @@
 #   - pass in on $ext_if inet proto udp from $ext_if:network to port $samba_udp_ports keep state
 #
 # NFSD
-#  - nfs_ports="{ sunrpc nfsd-status nfsd-keepalive nfsd lockd 797 }"
+#  - nfs_ports="{ sunrpc nfsd-status nfsd-keepalive nfsd lockd 874 }"
 #  - nfs_clients="{ 10.132.0.3, 10.132.0.4 }"
-#  - pass in on $ext_if proto tcp from $nfs_clients to $ext_if port $nfs_ports keep state flags S/SA
-#  - pass in on $ext_if proto udp from $nfs_clients to $ext_if port $nfs_ports keep state
-#  - pass out on $ext_if proto tcp from $ext_if to $nfs_clients port $nfs_ports keep state flags S/SA
-#  - pass out on $ext_if proto udp from $ext_if to $nfs_clients port $nfs_ports keep state
+#  - pass quick on $ext_if proto tcp from $nfs_clients to $ext_if port $nfs_ports keep state flags S/SA
+#  - pass quick on $ext_if proto udp from $nfs_clients to $ext_if port $nfs_ports keep state
+#  - pass quick on $ext_if proto tcp from $ext_if to $nfs_clients port $nfs_ports keep state flags S/SA
+#  - pass quick on $ext_if proto udp from $ext_if to $nfs_clients port $nfs_ports keep state
 # NFS
-#  - nfs_server="10.132.0.2"
-#  - pass in on $ext_if proto tcp from $nfs_server to $ext_if port $nfs_ports keep state flags S/SA
-#  - pass in on $ext_if proto udp from $nfs_server to $ext_if port $nfs_ports
-#  - pass out on $ext_if proto tcp from $ext_if to $nfs_server port $nfs_ports keep state flags S/SA
-#  - pass out on $ext_if proto udp from $ext_if to $nfs_server port $nfs_ports
+#  - nfs_servers="10.132.0.2"
+#  - pass quick on $ext_if proto tcp from $nfs_servers to $ext_if port $nfs_ports keep state flags S/SA
+#  - pass quick on $ext_if proto udp from $nfs_servers to $ext_if port $nfs_ports
+#  - pass quick on $ext_if proto tcp from $ext_if to $nfs_servers port $nfs_ports keep state flags S/SA
+#  - pass quick on $ext_if proto udp from $ext_if to $nfs_servers port $nfs_ports
 #
 # pf_ssh_whitelist:
 #   - 192.168.1.0/24
