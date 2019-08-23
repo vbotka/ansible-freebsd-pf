@@ -21,7 +21,8 @@
 #   - pass in on $ext_if inet proto udp from $ext_if:network to port $samba_udp_ports keep state
 #
 # NFSD
-#  - nfs_ports="{ sunrpc nfsd-status nfsd-keepalive nfsd lockd 874 }"
+# mountd port "725" not in /etc/services
+#  - nfs_ports="{ sunrpc nfsd-status nfsd-keepalive nfsd lockd 725 }"
 #  - nfs_clients="{ 10.132.0.3, 10.132.0.4 }"
 #  - pass quick on $ext_if proto tcp from $nfs_clients to $ext_if port $nfs_ports keep state flags S/SA
 #  - pass quick on $ext_if proto udp from $nfs_clients to $ext_if port $nfs_ports keep state
