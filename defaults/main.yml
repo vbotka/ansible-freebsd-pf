@@ -73,6 +73,7 @@ pf_blacklistd_conf_local:
   - {adr: "ssh", type: "stream", proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h"}
   - {adr: "ftp", type: "stream", proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h"}
   - {adr: "smtp", type: "stream", proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h"}
+  - {adr: "smtps", type: "stream", proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h"}
   - {adr: "submission", type: "stream", proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h"}
   - {adr: "*", type: "*", proto: "*", owner: "*", name: "*", nfail: "3", disable: "60"}
 pf_blacklistd_rcconf:
