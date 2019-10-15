@@ -8,6 +8,7 @@ As it manipulates the firewall, there is a risk of being locked out. It's necess
 - https://www.freebsd.org/doc/en/books/handbook/firewalls-pf.html
 - https://www.openbsd.org/faq/pf/filter.html
 
+Please feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-freebsd-pf/issues).
 
 ## Requirements
 
