@@ -6,14 +6,14 @@
   service:
     name: "sshguard"
     state: started
-    enabled: yes
+    enabled: true
   when: pf_sshguard_enable|bool
 
 - name: disable and stop sshguard
   service:
     name: "sshguard"
     state: stopped
-    enabled: no
+    enabled: false
   when: not pf_sshguard_enable|bool
 
 - name: restart sshguard

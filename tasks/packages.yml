@@ -5,8 +5,8 @@
     name: "{{ item }}"
   loop: "{{ pf_sshguard_packages }}"
   register: result
-  retries: "{{ freebsd_install_retries }}"
   until: result is succeeded
+  retries: "{{ freebsd_install_retries }}"
   delay: "{{ freebsd_install_delay }}"
   when:
     - pf_sshguard_enable|bool
@@ -18,8 +18,8 @@
     use_packages: "{{ freebsd_use_packages }}"
   loop: "{{ pf_sshguard_packages }}"
   register: result
-  retries: "{{ freebsd_install_retries }}"
   until: result is succeeded
+  retries: "{{ freebsd_install_retries }}"
   delay: "{{ freebsd_install_delay }}"
   when:
     - pf_sshguard_enable|bool
@@ -30,8 +30,8 @@
     name: "{{ item }}"
   loop: "{{ pf_fail2ban_packages }}"
   register: result
-  retries: "{{ freebsd_install_retries }}"
   until: result is succeeded
+  retries: "{{ freebsd_install_retries }}"
   delay: "{{ freebsd_install_delay }}"
   when:
     - pf_fail2ban_enable|bool
@@ -43,8 +43,8 @@
     use_packages: "{{ freebsd_use_packages }}"
   loop: "{{ pf_fail2ban_packages }}"
   register: result
-  retries: "{{ freebsd_install_retries }}"
   until: result is succeeded
+  retries: "{{ freebsd_install_retries }}"
   delay: "{{ freebsd_install_delay }}"
   when:
     - pf_fail2ban_enable|bool

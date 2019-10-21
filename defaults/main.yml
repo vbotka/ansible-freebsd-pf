@@ -1,13 +1,13 @@
 ---
 # defaults for freebsd_pf
 
-pf_debug: False
-pf_enable: False
-pf_blacklistd_enable: False
-pf_fail2ban_enable: False
-pf_sshguard_enable: False
-pflog_enable: True
-pf_backup_conf: no
+pf_debug: false
+pf_enable: false
+pf_blacklistd_enable: false
+pf_fail2ban_enable: false
+pf_sshguard_enable: false
+pflog_enable: true
+pf_backup_conf: false
 
 # pf.conf template
 # src: "{{ pf_type }}-pf.conf.j2"
@@ -16,9 +16,9 @@ pf_type: "server"
 # Async timeout to start/restart/reload pf. See handlers/pf.yml
 pf_async_timeout: 45
 # Configure pf_rules and do not notify handler to reload
-pfconf_only: False
+pfconf_only: false
 # Validate /etc/pf.conf
-pfconf_validate: True
+pfconf_validate: true
 # Validate command
 pfconf_validate_command: "pfctl -n -f %s"
 

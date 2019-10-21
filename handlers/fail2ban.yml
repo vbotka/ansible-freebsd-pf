@@ -7,18 +7,18 @@
   service:
     name: "fail2ban"
     state: started
-    enabled: yes
+    enabled: true
   when:
-    - pf_fail2ban_enable
+    - pf_fail2ban_enable|bool
     - pf_fail2ban_service.stat.exists
 
 - name: disable and stop fail2ban
   service:
     name: "fail2ban"
     state: stopped
-    enabled: no
+    enabled: false
   when:
-    - not pf_fail2ban_enable
+    - not pf_fail2ban_enable|bool
     - pf_fail2ban_service.stat.exists
 
 - name: restart fail2ban
@@ -26,7 +26,7 @@
     name: "fail2ban"
     state: restarted
   when:
-    - pf_fail2ban_enable
+    - pf_fail2ban_enable|bool
     - pf_fail2ban_service.stat.exists
 
 - name: reload fail2ban
@@ -34,7 +34,7 @@
     name: "fail2ban"
     state: reloaded
   when:
-    - pf_fail2ban_enable
+    - pf_fail2ban_enable|bool
     - pf_fail2ban_service.stat.exists
 
 # EOF

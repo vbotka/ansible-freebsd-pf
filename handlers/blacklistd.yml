@@ -7,7 +7,7 @@
   service:
     name: "blacklistd"
     state: started
-    enabled: yes
+    enabled: true
   when:
     - pf_blacklistd_enable
     - pf_blacklistd_service.stat.exists
@@ -16,7 +16,7 @@
   service:
     name: "blacklistd"
     state: stopped
-    enabled: no
+    enabled: false
   when:
     - not pf_blacklistd_enable
     - pf_blacklistd_service.stat.exists
