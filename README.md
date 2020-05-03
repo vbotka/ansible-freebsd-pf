@@ -10,12 +10,13 @@ As it manipulates the firewall, there is a risk of being locked out. It's necess
 
 Please feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-freebsd-pf/issues).
 
+
 ## Requirements
 
-No requirements.
+None
 
 
-## Variables
+## Role Variables
 
 By default the firewall is disabled.
 
@@ -37,41 +38,41 @@ By default blocked packages are not logged.
 pf_log_all_blocked: False
 ```
 
-TBD. Review the defaults and examples in vars.
+Review the defaults and examples in vars.
 
 
 ## Workflow
 
-1) Change shell to /bin/sh.
+1) Change shell to /bin/sh
 
 ```
-# ansible srv.example.com -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod freebsd -s /bin/sh'
+shell> ansible srv.example.com -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod freebsd -s /bin/sh'
 ```
 
-2) Install role.
+2) Install role
 
 ```
-# ansible-galaxy install vbotka.freebsd_pf
+shell> ansible-galaxy install vbotka.freebsd_pf
 ```
 
-3) Fit variables.
+3) Fit variables
 
 ```
-# editor vbotka.freebsd_pf/vars/main.yml
+shell> editor vbotka.freebsd_pf/vars/main.yml
 ```
 
-4) Create playbook.
+4) Create playbook
 
 ```
-# cat freebsd-pf.yml
+shell> cat freebsd-pf.yml
 - hosts: srv.example.com
   roles:
     - vbotka.freebsd_pf
 ```
 
-5) Review handlers to see how start/restart/reload of pf is implemented.
+5) Review handlers to see how start/restart/reload of pf is implemented
 
-6) Configure the firewall.
+6) Configure the firewall
 
 Starting and restarting of the firewall breaks the ssh connection. See
 the handlers for details. Both handlers starting and reloading in
@@ -79,34 +80,34 @@ consequence doesn't work properly and the ssh connection will
 stale. Therefore let us first configure the rules
 
 ```
-# ansible-playbook -e 'pf_enable=False' freebsd-pf.yml
+shell> ansible-playbook -e 'pf_enable=False' freebsd-pf.yml
 ```
 
 and enable the firewall in the second step
 
 ```
-ansible-playbook -e 'pf_enable=True' freebsd-pf.yml
+shell> ansible-playbook -e 'pf_enable=True' freebsd-pf.yml
 ```
+
 
 ## Update the firewall
 
-Open a ssh connection to the host for the case that something goes
-wrong. Update and validate the configuration. Do not reload the rules.
+Open ssh connection to the host for the case that something goes wrong. Update and validate the configuration. Do not reload the rules
 
 ```
-ansible-playbook -e 'pfconf_only=yes pfconf_validate=yes' freebsd-pf.yml
+shell> ansible-playbook -e 'pfconf_only=True pfconf_validate=True' freebsd-pf.yml
 ```
 
-After the configuration has been updated and validated reload the rules.
+Reload the rules after the configuration has been updated and validated
 
 ```
-ansible srv.example.com -m service -a "name=pf state=reloaded"
+shell> ansible srv.example.com -m service -a "name=pf state=reloaded"
 ```
 
 
 ## Troubleshooting
 
-As a first step enable backup of the configuration files.
+As a first step enable backup of the configuration files
 
 ```
 pf_backup_conf: yes
@@ -124,41 +125,35 @@ fatal: [srv.example.com]: FAILED! => changed=false
     /home/freebsd/.ansible/tmp/ansible-tmp-1554558267.39-44232067735996/source:119: syntax error
 ```
 
-The message above shows the location of the syntax error (source:119)
-in the temporary file created by the template module. It's difficult to
-find the error if this temporary file is not available for a review.
+The message above shows the location of the syntax error (source:119) in the temporary file created by the template module. It's difficult to find the error if this temporary file is not available for a review.
 
-An option how to easier find the problem is to enable
-*pfconf_only=yes* and disable validation *pfconf_validate=no*
+Enable *pfconf_only=True* and disable validation *pfconf_validate=False* to find the problem
 
 ```
-ansible-playbook -e 'pfconf_only=yes pfconf_validate=no' freebsd-pf.yml
+shell> ansible-playbook -e 'pfconf_only=True pfconf_validate=False' freebsd-pf.yml
 ```
 
-Created configuration file /etc/pf.conf contains the syntax error
-which can be located and found in the file /etc/pf.conf.
+Locate the syntax error in the configuration file /etc/pf.conf
 
 ```
-pfctl -n -f /etc/pf.conf
+shell> pfctl -n -f /etc/pf.conf
 ```
 
-After the configuration has been fixed, updated and validated reload the rules.
+Updated, validated, and reload the rules after the configuration has been fixed
 
 ```
-ansible srv.example.com -m service -a "name=pf state=reloaded"
+shell> ansible srv.example.com -m service -a "name=pf state=reloaded"
 ```
 
 
 ## Security
 
-To prevent not validated configuration will be reloaded by the
-handler, configuration file /etc/pf.conf won't be created and the play
-will be ended if both *pfconf_only=no* and *pfconf_validate=no*
+To prevent not-validated configuration be reloaded by the handler configuration file /etc/pf.conf won't be created and the play will be terminatedd if both *pfconf_only=False* and *pfconf_validate=False*
 
 ```
-ansible-playbook -e 'pfconf_only=no pfconf_validate=no' freebsd-pf.yml
+shell> ansible-playbook -e 'pfconf_only=False pfconf_validate=False' freebsd-pf.yml
 fatal: [srv.example.com]: FAILED! => changed=false
-  msg: Validation can be turned off if pfconf_only=yes. End of play.
+  msg: Validation can be turned off if pfconf_only=True. End of play.
 ```
 
 

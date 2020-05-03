@@ -9,7 +9,7 @@
 - name: "rcconf-fail2ban: Enable and start fail2ban"
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "^\\s*fail2ban_enable\\s*="
+    regexp: "^\\s*fail2ban_enable\\s*=\\s*(.*)$"
     line: "fail2ban_enable=\"YES\""
     backup: "{{ pf_backup_conf }}"
   notify:
@@ -22,7 +22,7 @@
 - name: "rcconf-fail2ban: Disable and stop fail2ban"
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "^\\s*fail2ban_enable\\s*="
+    regexp: "^\\s*fail2ban_enable\\s*=\\s*(.*)$"
     line: "fail2ban_enable=\"NO\""
     backup: "{{ pf_backup_conf }}"
   notify:
@@ -35,7 +35,7 @@
 - name: "rcconf-fail2ban: Configure fail2ban"
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "^\\s*{{ item.regexp }}\\s*="
+    regexp: "^\\s*{{ item.regexp }}\\s*=\\s*(.*)$"
     line: "{{ item.regexp }}=\"{{ item.line }}\""
     backup: "{{ pf_backup_conf }}"
   loop: "{{ pf_fail2ban_rcconf }}"

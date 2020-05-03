@@ -5,7 +5,7 @@
   when: pflog_enable|bool
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "^pflog_enable"
+    regexp: "^\\s*pflog_enable\\s*=\\s*(.*)$"
     line: "pflog_enable=\"YES\""
     backup: "{{ pf_backup_conf }}"
   notify: enable and start pflog
@@ -14,7 +14,7 @@
   when: not pflog_enable|bool
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "^pflog_enable"
+    regexp: "^\\s*pflog_enable\\s*=\\s*(.*)$"
     line: "pflog_enable=\"NO\""
     backup: "{{ pf_backup_conf }}"
   notify: disable and stop pflog
@@ -22,7 +22,7 @@
 - name: "rcconf-pflog: Configure pflog"
   lineinfile:
     dest: "/etc/rc.conf"
-    regexp: "^\\s*{{ item.regexp }}\\s*="
+    regexp: "^\\s*{{ item.regexp }}\\s*=\\s*(.*)$"
     line: "{{ item.regexp }}=\"{{ item.line }}\""
     backup: "{{ pf_backup_conf }}"
   loop: "{{ pflog_rcconf }}"

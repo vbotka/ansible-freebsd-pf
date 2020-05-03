@@ -4,10 +4,10 @@
   when: pf_debug|bool
   vars:
     msg: |
-         pf_type [ {{ pf_type }} ]
-         pf_ext_if [ {{ pf_ext_if }} ]
-         pfconf_validate [ {{ pfconf_validate }} ]
-         pfconf_only [ {{ pfconf_only }} ]
+         pf_type [{{ pf_type }}]
+         pf_ext_if [{{ pf_ext_if }}]
+         pfconf_validate [{{ pfconf_validate }}]
+         pfconf_only [{{ pfconf_only }}]
   debug:
     msg: "{{ msg.split('\n') }}"
 
@@ -25,16 +25,16 @@
         validate: "{{ pfconf_validate_command }}"
       notify: reload pf
   rescue:
-    - name: "pfconf: Validation failed "
+    - name: "pfconf: Validation failed"
       fail:
         msg: "Validation error: {{ ansible_failed_result }}"
 
 - name: "pfconf: Configure, do not validate rules using {{ pf_type }}-pf.conf.j2 template"
   when: not pfconf_validate|bool
   block:
-    - name: "Fail when pfconf_validate=no and pfconf_only=no"
+    - name: "Fail when pfconf_validate=False and pfconf_only=False"
       fail:
-        msg: "Validation can be turned off if pfconf_only=yes. End of play."
+        msg: "Validation can be turned off if pfconf_only=True. End of play."
       when: not pfconf_only|bool
     - name: "pfconf: Configure, do not validate rules using {{ pf_type }}-pf.conf.j2 template"
       template:
