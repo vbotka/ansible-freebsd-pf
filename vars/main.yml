@@ -1,6 +1,11 @@
 ---
 # vars for freebsd_pf
 
+# The general, highly simplified syntax for filter rules is:
+# action [direction] [log] [quick] [on interface] [af] [proto protocol]
+#        [from src_addr [port src_port]] [to dst_addr [port dst_port]]
+#        [flags tcp_flags] [state]
+
 # pf_debug: True
 # pf_enable: False
 #
