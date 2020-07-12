@@ -3,27 +3,27 @@
 # pf
 - name: "rcconf-pf: Enable and start pf"
   lineinfile:
-    dest: "/etc/rc.conf"
-    regexp: "^\\s*pf_enable\\s*=\\s*(.*)$"
-    line: "pf_enable=\"YES\""
+    dest: /etc/rc.conf
+    regexp: '^\s*pf_enable\s*=\s*(.*)$'
+    line: 'pf_enable="YES"'
     backup: "{{ pf_backup_conf }}"
   notify: start pf
   when: pf_enable|bool
 
 - name: "rcconf-pf: Disable and stop pf"
   lineinfile:
-    dest: "/etc/rc.conf"
-    regexp: "^\\s*pf_enable\\s*=\\s*(.*)$"
-    line: "pf_enable=\"NO\""
+    dest: /etc/rc.conf
+    regexp: '^\s*pf_enable\s*=\s*(.*)$'
+    line: 'pf_enable="NO"'
     backup: "{{ pf_backup_conf }}"
   notify: disable and stop pf
   when: not pf_enable|bool
 
 - name: "rcconf-pf: Configure pf"
   lineinfile:
-    dest: "/etc/rc.conf"
-    regexp: "^\\s*{{ item.regexp }}\\s*=\\s*(.*)$"
-    line: "{{ item.regexp }}=\"{{ item.line }}\""
+    dest: /etc/rc.conf
+    regexp: '^\s*{{ item.regexp }}\s*=\s*(.*)$'
+    line: '{{ item.regexp }}="{{ item.line }}"'
     backup: "{{ pf_backup_conf }}"
   loop: "{{ pf_rcconf }}"
   notify: reload pf

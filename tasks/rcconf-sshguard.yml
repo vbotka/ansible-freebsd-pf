@@ -3,14 +3,14 @@
 # sshguard
 - name: "rcconf-sshguard: Check if sshguard is installed"
   stat:
-    path: "/usr/local/etc/rc.d/sshguard"
+    path: /usr/local/etc/rc.d/sshguard
   register: service_status
 
 - name: "rcconf-sshguard: Enable and start sshguard"
   lineinfile:
-    dest: "/etc/rc.conf"
-    regexp: "^\\s*sshguard_enable\\s*=\\s*(.*)$"
-    line: "sshguard_enable=\"YES\""
+    dest: /etc/rc.conf
+    regexp: '^\s*sshguard_enable\s*=\s*(.*)$'
+    line: 'sshguard_enable="YES"'
     backup: "{{ pf_backup_conf }}"
   notify: enable and start sshguard
   when:
@@ -19,9 +19,9 @@
 
 - name: "rcconf-sshguard: Disable and stop sshguard"
   lineinfile:
-    dest: "/etc/rc.conf"
-    regexp: "^\\s*sshguard_enable\\s*=\\s*(.*)$"
-    line: "sshguard_enable=\"NO\""
+    dest: /etc/rc.conf
+    regexp: '^\s*sshguard_enable\s*=\s*(.*)$'
+    line: 'sshguard_enable="NO"'
     backup: "{{ pf_backup_conf }}"
   notify: disable and stop sshguard
   when:

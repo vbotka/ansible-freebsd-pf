@@ -2,27 +2,27 @@
 
 - name: "blacklistd: Stat /etc/rc.d/blacklistd"
   stat:
-    path: "/etc/rc.d/blacklistd"
+    path: /etc/rc.d/blacklistd
   register: pf_blacklistd_service
 
 - name: "blacklistd: Stop play if blacklistd is enabled and no service exists"
   fail:
-    msg: "Play stopped. blacklistd is enabled, but no service exists."
+    msg: Play stopped. blacklistd is enabled, but no service exists.
   when:
     - pf_blacklistd_enable|bool
     - not pf_blacklistd_service.stat.exists
     - not ansible_check_mode
 
 - name: "blacklistd: Configure /etc/blacklistd.conf"
-  when: pf_blacklistd_enable|bool
   template:
-    dest: "/etc/blacklistd.conf"
-    src: "blacklistd.conf.j2"
-    owner: "root"
-    group: "wheel"
+    dest: /etc/blacklistd.conf
+    src: blacklistd.conf.j2
+    owner: root
+    group: wheel
     mode: "0644"
     backup: "{{ pf_backup_conf }}"
   notify: restart blacklistd
+  when: pf_blacklistd_enable|bool
 
 # EOF
 ...

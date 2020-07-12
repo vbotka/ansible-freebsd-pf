@@ -1,7 +1,6 @@
 ---
 
 - name: "pfconf: Debug"
-  when: pf_debug|bool
   vars:
     msg: |
          pf_type [{{ pf_type }}]
@@ -9,17 +8,17 @@
          pfconf_validate [{{ pfconf_validate }}]
          pfconf_only [{{ pfconf_only }}]
   debug:
-    msg: "{{ msg.split('\n') }}"
+    msg: "{{ msg.split('\n')[:-1] }}"
+  when: pf_debug|bool
 
 - name: "pfconf: Configure and validate rules using {{ pf_type }}-pf.conf.j2 template"
-  when: pfconf_validate|bool
   block:
     - name: "pfconf: Configure rules using {{ pf_type }}-pf.conf.j2 template"
       template:
-        dest: "/etc/pf.conf"
+        dest: /etc/pf.conf
         src: "{{ pf_type }}-pf.conf.j2"
-        owner: "root"
-        group: "wheel"
+        owner: root
+        group: wheel
         mode: "0640"
         backup: "{{ pf_backup_conf }}"
         validate: "{{ pfconf_validate_command }}"
@@ -28,9 +27,9 @@
     - name: "pfconf: Validation failed"
       fail:
         msg: "Validation error: {{ ansible_failed_result }}"
+  when: pfconf_validate|bool
 
 - name: "pfconf: Configure, do not validate rules using {{ pf_type }}-pf.conf.j2 template"
-  when: not pfconf_validate|bool
   block:
     - name: "Fail when pfconf_validate=False and pfconf_only=False"
       fail:
@@ -38,12 +37,13 @@
       when: not pfconf_only|bool
     - name: "pfconf: Configure, do not validate rules using {{ pf_type }}-pf.conf.j2 template"
       template:
-        dest: "/etc/pf.conf"
+        dest: /etc/pf.conf
         src: "{{ pf_type }}-pf.conf.j2"
-        owner: "root"
-        group: "wheel"
+        owner: root
+        group: wheel
         mode: "0640"
         backup: "{{ pf_backup_conf }}"
+  when: not pfconf_validate|bool
 
 # EOF
 ...

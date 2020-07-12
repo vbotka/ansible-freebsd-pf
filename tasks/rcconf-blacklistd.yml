@@ -2,32 +2,32 @@
 
 # blacklistd
 - name: "rcconf-blacklistd: Enable and start blacklistd"
-  when: pf_blacklistd_enable|bool
   lineinfile:
-    dest: "/etc/rc.conf"
-    regexp: "^\\s*blacklistd_enable\\s*=\\s*(.*)$"
-    line: "blacklistd_enable=\"YES\""
+    dest: /etc/rc.conf
+    regexp: '^\s*blacklistd_enable\s*=\s*(.*)$'
+    line: 'blacklistd_enable="YES"'
     backup: "{{ pf_backup_conf }}"
   notify:
     - enable and start blacklistd
     - reload pf
+  when: pf_blacklistd_enable|bool
 
 - name: "rcconf-blacklistd: Disable and stop blacklistd"
-  when: not pf_blacklistd_enable|bool
   lineinfile:
-    dest: "/etc/rc.conf"
-    regexp: "^\\s*blacklistd_enable\\s*=\\s*(.*)$"
-    line: "blacklistd_enable=\"NO\""
+    dest: /etc/rc.conf
+    regexp: '^\s*blacklistd_enable\s*=\s*(.*)$'
+    line: 'blacklistd_enable="NO"'
     backup: "{{ pf_backup_conf }}"
   notify:
     - disable and stop blacklistd
     - reload pf
+  when: not pf_blacklistd_enable|bool
 
 - name: "rcconf-blacklistd: Configure blacklistd"
   lineinfile:
-    dest: "/etc/rc.conf"
-    regexp: "^\\s*{{ item.regexp }}\\s*=\\s*(.*)$"
-    line: "{{ item.regexp }}=\"{{ item.line }}\""
+    dest: /etc/rc.conf
+    regexp: '^\s*{{ item.regexp }}\s*=\s*(.*)$'
+    line: '{{ item.regexp }}="{{ item.line }}"'
     backup: "{{ pf_backup_conf }}"
   loop: "{{ pf_blacklistd_rcconf }}"
   notify: restart blacklistd
