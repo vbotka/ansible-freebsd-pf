@@ -1,8 +1,9 @@
 ---
 # defaults for freebsd_pf
 
-pf_debug: false
+pf_install: true
 pf_enable: false
+pf_debug: false
 pf_blacklistd_enable: false
 pf_fail2ban_enable: false
 pf_sshguard_enable: false

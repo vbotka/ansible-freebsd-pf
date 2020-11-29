@@ -6,6 +6,7 @@
   tags: [pf_debug, always]
 
 - import_tasks: packages.yml
+  when: pf_install|bool
   tags: pf_packages
 
 - import_tasks: sshguard.yml

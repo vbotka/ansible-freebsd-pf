@@ -18,6 +18,7 @@
          pf_sshguard_packages
          {{ pf_sshguard_packages|to_nice_yaml }}
 
+         pf_install [{{ pf_install|bool }}]
          pf_enable [{{ pf_enable|bool }}]
          pfconf_only [{{ pfconf_only|bool }}]
          pfconf_validate [{{ pfconf_validate|bool }}]
