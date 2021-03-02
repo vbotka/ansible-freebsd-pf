@@ -1,6 +1,6 @@
 # freebsd_pf
 
-[![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-pf.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-pf)
+[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_pf)[![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-pf.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-pf)
 
 [Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_pf/) FreeBSD. Configure PF firewall.
 
@@ -8,7 +8,9 @@ As it manipulates the firewall, there is a risk of being locked out. It's necess
 - https://www.freebsd.org/doc/en/books/handbook/firewalls-pf.html
 - https://www.openbsd.org/faq/pf/filter.html
 
-Please feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-freebsd-pf/issues).
+Feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-freebsd-pf/issues).
+
+[Contributions are welcome](https://github.com/firstcontributions/first-contributions).
 
 
 ## Requirements
