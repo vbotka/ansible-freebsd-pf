@@ -76,7 +76,15 @@ shell> cat freebsd-pf.yml
 
 5) Review handlers to see how start/restart/reload of pf is implemented
 
-6) Configure the firewall
+6) Install packages
+
+```shell
+shell> ansible-playbook -t pf_packages  -e 'pf_install=True' freebsd-pf.yml
+```
+
+Then disable the installation to speedup the execution of the playbook.
+
+7) Configure the firewall
 
 Starting and restarting of the firewall breaks the ssh connection. See
 the handlers for details. Both handlers starting and reloading in
