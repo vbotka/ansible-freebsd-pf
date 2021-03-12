@@ -42,3 +42,8 @@
 #
 # pf_ssh_whitelist:
 #   - 192.168.1.0/24
+
+# pf_fail2ban_jail_local_template: "default-jail.local.j2"
+# pf_fail2ban_jail_local_conf:
+#   - {section: "default", line: "banaction = pf[actiontype=<allports>]"}
+#   - {section: "default", line: "banaction = pf[actiontype=<multiport>]"}

@@ -86,9 +86,7 @@ pf_fail2ban_local_template: "default-fail2ban.local.j2"
 pf_fail2ban_local_conf:
   - {section: "definition", line: "loglevel = INFO"}
 pf_fail2ban_jail_local_template: "default-jail.local.j2"
-pf_fail2ban_jail_local_conf:
-  - {section: "default", line: "banaction = pf[actiontype=<allports>]"}
-  - {section: "default", line: "banaction = pf[actiontype=<multiport>]"}
+pf_fail2ban_jail_local_conf: []
 pf_fail2ban_rcconf:
   - {regexp: "fail2ban_flags", line: "{{ pf_fail2ban_flags }}"}
 
