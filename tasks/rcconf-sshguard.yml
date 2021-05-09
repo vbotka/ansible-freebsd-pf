@@ -2,12 +2,12 @@
 
 # sshguard
 - name: "rcconf-sshguard: Check if sshguard is installed"
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/etc/rc.d/sshguard
   register: service_status
 
 - name: "rcconf-sshguard: Enable and start sshguard"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: '^\s*sshguard_enable\s*=\s*(.*)$'
     line: 'sshguard_enable="YES"'
@@ -18,7 +18,7 @@
     - service_status.stat.exists
 
 - name: "rcconf-sshguard: Disable and stop sshguard"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: '^\s*sshguard_enable\s*=\s*(.*)$'
     line: 'sshguard_enable="NO"'

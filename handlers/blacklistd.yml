@@ -4,8 +4,8 @@
 # blacklistd ---------------------------------------------------------
 
 - name: enable and start blacklistd
-  service:
-    name: "blacklistd"
+  ansible.builtin.service:
+    name: blacklistd
     state: started
     enabled: true
   when:
@@ -13,8 +13,8 @@
     - pf_blacklistd_service.stat.exists
 
 - name: disable and stop blacklistd
-  service:
-    name: "blacklistd"
+  ansible.builtin.service:
+    name: blacklistd
     state: stopped
     enabled: false
   when:
@@ -22,8 +22,8 @@
     - pf_blacklistd_service.stat.exists
 
 - name: restart blacklistd
-  service:
-    name: "blacklistd"
+  ansible.builtin.service:
+    name: blacklistd
     state: restarted
   when:
     - pf_blacklistd_enable
@@ -31,7 +31,7 @@
 
 # /etc/rc.d/blacklistd: unknown directive 'reload'.
 #  - name: reload blacklistd
-#    service:
+#    ansible.builtin.service:
 #      name: "blacklistd"
 #      state: reloaded
 

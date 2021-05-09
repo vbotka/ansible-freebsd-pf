@@ -2,12 +2,12 @@
 
 # fail2ban
 - name: "rcconf-fail2ban: Check if fail2ban is installed"
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/etc/rc.d/fail2ban
   register: service_status
 
 - name: "rcconf-fail2ban: Enable and start fail2ban"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: '^\s*fail2ban_enable\s*=\s*(.*)$'
     line: 'fail2ban_enable="YES"'
@@ -20,7 +20,7 @@
     - service_status.stat.exists
 
 - name: "rcconf-fail2ban: Disable and stop fail2ban"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: '^\s*fail2ban_enable\s*=\s*(.*)$'
     line: 'fail2ban_enable="NO"'
@@ -33,7 +33,7 @@
     - service_status.stat.exists
 
 - name: "rcconf-fail2ban: Configure fail2ban"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: '^\s*{{ item.regexp }}\s*=\s*(.*)$'
     line: '{{ item.regexp }}="{{ item.line }}"'

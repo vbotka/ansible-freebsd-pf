@@ -3,22 +3,22 @@
 
 # sshguard -----------------------------------------------------------
 - name: enable and start sshguard
-  service:
-    name: "sshguard"
+  ansible.builtin.service:
+    name: sshguard
     state: started
     enabled: true
   when: pf_sshguard_enable|bool
 
 - name: disable and stop sshguard
-  service:
-    name: "sshguard"
+  ansible.builtin.service:
+    name: sshguard
     state: stopped
     enabled: false
   when: not pf_sshguard_enable|bool
 
 - name: restart sshguard
-  service:
-    name: "sshguard"
+  ansible.builtin.service:
+    name: sshguard
     state: restarted
   when: pf_sshguard_enable|bool
 

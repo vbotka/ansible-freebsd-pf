@@ -20,4 +20,7 @@ galaxy_info:
     - blacklistd
     - fail2ban
 dependencies: []
+collections:
+  - ansible.builtin
+  - community.general
 ...

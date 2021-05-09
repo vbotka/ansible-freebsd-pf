@@ -2,7 +2,7 @@
 
 # pflog
 - name: "rcconf-pflog: Enable and start pflog"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: '^\s*pflog_enable\s*=\s*(.*)$'
     line: 'pflog_enable="YES"'
@@ -11,7 +11,7 @@
   when: pflog_enable|bool
 
 - name: "rcconf-pflog: Disable and stop pflog"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: '^\s*pflog_enable\s*=\s*(.*)$'
     line: 'pflog_enable="NO"'
@@ -20,7 +20,7 @@
   when: not pflog_enable|bool
 
 - name: "rcconf-pflog: Configure pflog"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: '^\s*{{ item.regexp }}\s*=\s*(.*)$'
     line: '{{ item.regexp }}="{{ item.line }}"'

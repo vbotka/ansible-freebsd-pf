@@ -1,12 +1,12 @@
 ---
 
 - name: "fail2ban: Stat /usr/local/etc/rc.d/fail2ban"
-  stat:
+  ansible.builtin.stat:
     path: /usr/local/etc/rc.d/fail2ban
   register: pf_fail2ban_service
 
 - name: "fail2ban: Stop play if fail2ban is enabled and no service exists"
-  fail:
+  ansible.builtin.fail:
     msg: Play stopped. fail2ban is enabled, but no service exists.
   when:
     - pf_fail2ban_enable|bool
@@ -14,7 +14,7 @@
     - not ansible_check_mode
 
 - name: "fail2ban: Configure /usr/local/etc/fail2ban/fail2ban.local"
-  template:
+  ansible.builtin.template:
     dest: /usr/local/etc/fail2ban/fail2ban.local
     src: "{{ pf_fail2ban_local_template }}"
     owner: root
@@ -25,7 +25,7 @@
   when: pf_fail2ban_enable|bool
 
 - name: "fail2ban: Configure /usr/local/etc/fail2ban/jail.local"
-  template:
+  ansible.builtin.template:
     dest: /usr/local/etc/fail2ban/jail.local
     src: "{{ pf_fail2ban_jail_local_template }}"
     owner: root
