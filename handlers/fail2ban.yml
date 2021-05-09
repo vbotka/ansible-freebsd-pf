@@ -4,8 +4,8 @@
 # fail2ban ---------------------------------------------------------
 
 - name: enable and start fail2ban
-  service:
-    name: "fail2ban"
+  ansible.builtin.service:
+    name: fail2ban
     state: started
     enabled: true
   when:
@@ -13,8 +13,8 @@
     - pf_fail2ban_service.stat.exists
 
 - name: disable and stop fail2ban
-  service:
-    name: "fail2ban"
+  ansible.builtin.service:
+    name: fail2ban
     state: stopped
     enabled: false
   when:
@@ -22,16 +22,16 @@
     - pf_fail2ban_service.stat.exists
 
 - name: restart fail2ban
-  service:
-    name: "fail2ban"
+  ansible.builtin.service:
+    name: fail2ban
     state: restarted
   when:
     - pf_fail2ban_enable|bool
     - pf_fail2ban_service.stat.exists
 
 - name: reload fail2ban
-  service:
-    name: "fail2ban"
+  ansible.builtin.service:
+    name: fail2ban
     state: reloaded
   when:
     - pf_fail2ban_enable|bool

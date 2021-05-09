@@ -1,7 +1,7 @@
 ---
 
 - name: "packages: Install sshguard packages"
-  pkgng:
+  community.general.pkgng:
     name: "{{ item }}"
   loop: "{{ pf_sshguard_packages }}"
   register: result
@@ -13,7 +13,7 @@
     - freebsd_install_method|lower == "packages"
 
 - name: "packages: Install sshguard ports"
-  portinstall:
+  community.general.portinstall:
     name: "{{ item }}"
     use_packages: "{{ freebsd_use_packages }}"
   loop: "{{ pf_sshguard_packages }}"
@@ -26,7 +26,7 @@
     - freebsd_install_method|lower == "ports"
 
 - name: "packages: Install fail2ban packages"
-  pkgng:
+  community.general.pkgng:
     name: "{{ item }}"
   loop: "{{ pf_fail2ban_packages }}"
   register: result
@@ -38,7 +38,7 @@
     - freebsd_install_method|lower == "packages"
 
 - name: "packages: Install fail2ban ports"
-  portinstall:
+  community.general.portinstall:
     name: "{{ item }}"
     use_packages: "{{ freebsd_use_packages }}"
   loop: "{{ pf_fail2ban_packages }}"

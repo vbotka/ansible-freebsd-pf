@@ -8,7 +8,9 @@
 
 - name: start pf
   # service: name="pf" state="started" enabled="yes"
-  shell: (( sleep 5; nohup service pf start 1>/dev/null 2>&1 ) & )
+  shell:
+    cmd: >
+      (( sleep 5; nohup service pf start 1>/dev/null 2>&1 ) & )
   async: "{{ pf_async_timeout }}"
   poll: 0
   when:
@@ -20,14 +22,16 @@
     - not pfconf_only|bool
 
 - name: disable and stop pf
-  service:
-    name: "pf"
+  ansible.builtin.service:
+    name: pf
     state: stopped
     enabled: false
 
 - name: restart pf
   # service: name="pf" state="restarted"
-  shell: (( sleep 5; nohup service pf restart 1>/dev/null 2>&1 ) & )
+  shell:
+    cmd: >
+      (( sleep 5; nohup service pf restart 1>/dev/null 2>&1 ) & )
   async: "{{ pf_async_timeout }}"
   poll: 0
   when:
@@ -40,7 +44,9 @@
 
 - name: reload pf
   # service: name="pf" state="reloaded"
-  shell: (( sleep 5; nohup service pf reload 1>/dev/null 2>&1 ) & )
+  shell:
+    cmd: >
+      (( sleep 5; nohup service pf reload 1>/dev/null 2>&1 ) & )
   async: "{{ pf_async_timeout }}"
   poll: 0
   when:

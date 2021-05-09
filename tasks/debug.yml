@@ -2,7 +2,7 @@
 
 - name: Debug
   vars:
-    msg: |
+    msg: |-
          ansible_architecture [{{ ansible_architecture }}]
          ansible_os_family [{{ ansible_os_family }}]
          ansible_distribution [{{ ansible_distribution }}]
@@ -65,8 +65,8 @@
          pf_fail2ban_jail_local_template [{{ pf_fail2ban_jail_local_template }}]
          pf_fail2ban_jail_local_conf
          {{ pf_fail2ban_jail_local_conf|to_yaml }}
-  debug:
-    msg: "{{ msg.split('\n')[:-1] }}"
+  ansible.builtin.debug:
+    msg: "{{ msg.split('\n') }}"
 
 # EOF
 ...

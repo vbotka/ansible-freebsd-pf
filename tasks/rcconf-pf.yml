@@ -2,7 +2,7 @@
 
 # pf
 - name: "rcconf-pf: Enable and start pf"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: '^\s*pf_enable\s*=\s*(.*)$'
     line: 'pf_enable="YES"'
@@ -11,7 +11,7 @@
   when: pf_enable|bool
 
 - name: "rcconf-pf: Disable and stop pf"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: '^\s*pf_enable\s*=\s*(.*)$'
     line: 'pf_enable="NO"'
@@ -20,7 +20,7 @@
   when: not pf_enable|bool
 
 - name: "rcconf-pf: Configure pf"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: '^\s*{{ item.regexp }}\s*=\s*(.*)$'
     line: '{{ item.regexp }}="{{ item.line }}"'

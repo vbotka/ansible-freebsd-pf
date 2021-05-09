@@ -3,28 +3,28 @@
 
 # pflog --------------------------------------------------------------
 - name: enable and start pflog
-  service:
-    name: "pflog"
+  ansible.builtin.service:
+    name: pflog
     state: started
     enabled: true
   when: pflog_enable|bool
 
 - name: disable and stop pflog
-  service:
-    name: "pflog"
+  ansible.builtin.service:
+    name: pflog
     state: stopped
     enabled: false
   when: not pflog_enable|bool
 
 - name: restart pflog
-  service:
-    name: "pflog"
+  ansible.builtin.service:
+    name: pflog
     state: restarted
   when: pflog_enable|bool
 
 - name: reload pflog
-  service:
-    name: "pflog"
+  ansible.builtin.service:
+    name: pflog
     state: reloaded
   when: pflog_enable|bool
 

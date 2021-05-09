@@ -13,9 +13,11 @@ Feel free to [share your feedback and report issues](https://github.com/vbotka/a
 [Contributions are welcome](https://github.com/firstcontributions/first-contributions).
 
 
-## Requirements
+## Requirements and dpendencies
 
-None
+### Collections
+
+* community.general
 
 
 ## Role Variables

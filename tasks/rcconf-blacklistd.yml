@@ -2,7 +2,7 @@
 
 # blacklistd
 - name: "rcconf-blacklistd: Enable and start blacklistd"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: '^\s*blacklistd_enable\s*=\s*(.*)$'
     line: 'blacklistd_enable="YES"'
@@ -13,7 +13,7 @@
   when: pf_blacklistd_enable|bool
 
 - name: "rcconf-blacklistd: Disable and stop blacklistd"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: '^\s*blacklistd_enable\s*=\s*(.*)$'
     line: 'blacklistd_enable="NO"'
@@ -24,7 +24,7 @@
   when: not pf_blacklistd_enable|bool
 
 - name: "rcconf-blacklistd: Configure blacklistd"
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/rc.conf
     regexp: '^\s*{{ item.regexp }}\s*=\s*(.*)$'
     line: '{{ item.regexp }}="{{ item.line }}"'
