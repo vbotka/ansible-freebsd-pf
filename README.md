@@ -19,6 +19,11 @@ Feel free to [share your feedback and report issues](https://github.com/vbotka/a
 
 * community.general
 
+### Dependencies
+
+- [security/sshguard/](https://www.freshports.org/security/sshguard/). See [sshguard fails to start](https://mail-index.netbsd.org/netbsd-users/2018/05/21/msg020789.html)
+- [security/py-fail2ban/](https://www.freshports.org/security/py-fail2ban/)
+
 
 ## Role Variables
 
