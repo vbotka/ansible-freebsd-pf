@@ -6,13 +6,12 @@ pf_enable: false
 pf_debug: false
 pf_blacklistd_enable: false
 pf_fail2ban_enable: false
-pf_sshguard_enable: false
 pflog_enable: true
 pf_backup_conf: false
 
 # pf.conf template
 # src: "{{ pf_type }}-pf.conf.j2"
-pf_type: "server"
+pf_type: server
 
 # Async timeout to start/restart/reload pf. See handlers/pf.yml
 pf_async_timeout: 45
@@ -64,9 +63,6 @@ pf_rules_nat: []
 pf_rules_rdr: []
 pf_log_all_blocked: false
 
-# sshguard
-pf_ssh_whitelist: []
-
 # blacklistd
 pf_blacklistd_flags: "-r"
 pf_blacklistd_conf_remote: []
@@ -89,6 +85,12 @@ pf_fail2ban_jail_local_template: default-jail.local.j2
 pf_fail2ban_jail_local_conf: []
 pf_fail2ban_rcconf:
   - {regexp: fail2ban_flags, line: "{{ pf_fail2ban_flags }}"}
+
+# sshguard
+# Make sure '/usr/local/etc/rc.d/sshguard start' works
+# See https://mail-index.netbsd.org/netbsd-users/2018/05/21/msg020789.html
+pf_sshguard_enable: false
+pf_ssh_whitelist: []
 
 # EOF
 ...
