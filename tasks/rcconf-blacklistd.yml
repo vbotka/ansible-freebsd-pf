@@ -1,6 +1,5 @@
 ---
 
-# blacklistd
 - name: "rcconf-blacklistd: Enable and start blacklistd"
   ansible.builtin.lineinfile:
     dest: /etc/rc.conf

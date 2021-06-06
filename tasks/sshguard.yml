@@ -5,13 +5,12 @@
     path: /usr/local/etc/rc.d/sshguard
   register: pf_sshguard_service
 
-- name: "sshguard: Stop play if sshguard is enabled and no service exists"
+- name: "sshguard: Fail if sshguard is enabled and no service exists"
   ansible.builtin.fail:
-    msg: Play stopped. sshguard is enabled, but no service exists.
+    msg: Failed. sshguard is enabled, but no service exists.
   when:
     - pf_sshguard_enable|bool
     - not pf_sshguard_service.stat.exists
-    - not ansible_check_mode
 
 - name: "sshguard: Configure pf whitelist sshguard"
   ansible.builtin.lineinfile:

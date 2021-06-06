@@ -1,6 +1,5 @@
 ---
 
-# sshguard
 - name: "rcconf-sshguard: Check if sshguard is installed"
   ansible.builtin.stat:
     path: /usr/local/etc/rc.d/sshguard

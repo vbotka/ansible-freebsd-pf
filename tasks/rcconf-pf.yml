@@ -1,6 +1,5 @@
 ---
 
-# pf
 - name: "rcconf-pf: Enable and start pf"
   ansible.builtin.lineinfile:
     dest: /etc/rc.conf
