@@ -24,8 +24,8 @@ pfconf_validate: true
 pfconf_validate_command: "pfctl -n -f %s"
 
 # packages
-freebsd_install_method: "packages"
-# freebsd_install_method: "ports"
+freebsd_install_method: packages
+# freebsd_install_method: ports
 freebsd_use_packages: "yes"
 freebsd_install_retries: 10
 freebsd_install_delay: 5
@@ -35,21 +35,21 @@ pf_sshguard_packages:
   - security/sshguard
 
 # rc.conf
-pf_rules: "/etc/pf.conf"
+pf_rules: /etc/pf.conf
 pf_flags: ""
-pflog_logfile: "/var/log/pflog"
+pflog_logfile: /var/log/pflog
 pflog_flags: ""
 pf_rcconf:
-  - {regexp: "pf_rules", line: "{{ pf_rules }}"}
-  - {regexp: "pf_flags", line: "{{ pf_flags }}"}
+  - {regexp: pf_rules, line: "{{ pf_rules }}"}
+  - {regexp: pf_flags, line: "{{ pf_flags }}"}
 pflog_rcconf:
-  - {regexp: "pflog_logfile", line: "{{ pflog_logfile }}"}
-  - {regexp: "pflog_flags", line: "{{ pflog_flags }}"}
+  - {regexp: pflog_logfile, line: "{{ pflog_logfile }}"}
+  - {regexp: pflog_flags, line: "{{ pflog_flags }}"}
 
 # pf.conf
 pf_ext_if: "{{ ansible_default_ipv4.device|default(ansible_interfaces[0]) }}"
-pf_wifi_if: "ath0"
-pf_lan_if: "fxp1"
+pf_wifi_if: ath0
+pf_lan_if: fxp1
 pf_pubserv: "22, 443"
 pf_lanserv: "22, 53, 67, 80, 443"
 pf_samba_tcp_ports: "netbios-ns, netbios-dgm, netbios-ssn, microsoft-ds, swat"
@@ -71,24 +71,24 @@ pf_ssh_whitelist: []
 pf_blacklistd_flags: "-r"
 pf_blacklistd_conf_remote: []
 pf_blacklistd_conf_local:
-  - {adr: "ssh", type: "stream", proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h"}
-  - {adr: "ftp", type: "stream", proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h"}
-  - {adr: "smtp", type: "stream", proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h"}
-  - {adr: "smtps", type: "stream", proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h"}
-  - {adr: "submission", type: "stream", proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h"}
+  - {adr: ssh, type: stream, proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h"}
+  - {adr: ftp, type: stream, proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h"}
+  - {adr: smtp, type: stream, proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h"}
+  - {adr: smtps, type: stream, proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h"}
+  - {adr: submission, type: stream, proto: "*", owner: "*", name: "*", nfail: "3", disable: "24h"}
   - {adr: "*", type: "*", proto: "*", owner: "*", name: "*", nfail: "3", disable: "60"}
 pf_blacklistd_rcconf:
-  - {regexp: "blacklistd_flags", line: "{{ pf_blacklistd_flags }}"}
+  - {regexp: blacklistd_flags, line: "{{ pf_blacklistd_flags }}"}
 
 # fail2ban
 pf_fail2ban_flags: ""
-pf_fail2ban_local_template: "default-fail2ban.local.j2"
+pf_fail2ban_local_template: default-fail2ban.local.j2
 pf_fail2ban_local_conf:
-  - {section: "definition", line: "loglevel = INFO"}
-pf_fail2ban_jail_local_template: "default-jail.local.j2"
+  - {section: definition, line: "loglevel = INFO"}
+pf_fail2ban_jail_local_template: default-jail.local.j2
 pf_fail2ban_jail_local_conf: []
 pf_fail2ban_rcconf:
-  - {regexp: "fail2ban_flags", line: "{{ pf_fail2ban_flags }}"}
+  - {regexp: fail2ban_flags, line: "{{ pf_fail2ban_flags }}"}
 
 # EOF
 ...

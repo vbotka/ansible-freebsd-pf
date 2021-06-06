@@ -5,13 +5,12 @@
     path: /etc/rc.d/blacklistd
   register: pf_blacklistd_service
 
-- name: "blacklistd: Stop play if blacklistd is enabled and no service exists"
+- name: "blacklistd: Fail if blacklistd is enabled and no service exists"
   ansible.builtin.fail:
-    msg: Play stopped. blacklistd is enabled, but no service exists.
+    msg: Failed. blacklistd is enabled, but no service exists.
   when:
     - pf_blacklistd_enable|bool
     - not pf_blacklistd_service.stat.exists
-    - not ansible_check_mode
 
 - name: "blacklistd: Configure /etc/blacklistd.conf"
   ansible.builtin.template:

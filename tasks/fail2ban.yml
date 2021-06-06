@@ -5,13 +5,12 @@
     path: /usr/local/etc/rc.d/fail2ban
   register: pf_fail2ban_service
 
-- name: "fail2ban: Stop play if fail2ban is enabled and no service exists"
+- name: "fail2ban: Fail if fail2ban is enabled and no service exists"
   ansible.builtin.fail:
-    msg: Play stopped. fail2ban is enabled, but no service exists.
+    msg: Failed. fail2ban is enabled, but no service exists.
   when:
     - pf_fail2ban_enable|bool
     - not pf_fail2ban_service.stat.exists
-    - not ansible_check_mode
 
 - name: "fail2ban: Configure /usr/local/etc/fail2ban/fail2ban.local"
   ansible.builtin.template:

@@ -4,7 +4,7 @@
 
 [Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_pf/) FreeBSD. Configure PF firewall.
 
-As it manipulates the firewall, there is a risk of being locked out. It's necessary to read the handbook.
+As it manipulates the firewall, there is a risk of being locked out. It's necessary to read the handbook
 - https://www.freebsd.org/doc/en/books/handbook/firewalls-pf.html
 - https://www.openbsd.org/faq/pf/filter.html
 
@@ -13,7 +13,7 @@ Feel free to [share your feedback and report issues](https://github.com/vbotka/a
 [Contributions are welcome](https://github.com/firstcontributions/first-contributions).
 
 
-## Requirements and dpendencies
+## Requirements and dependencies
 
 ### Collections
 
@@ -22,15 +22,13 @@ Feel free to [share your feedback and report issues](https://github.com/vbotka/a
 
 ## Role Variables
 
-By default the firewall is disabled.
+By default the firewall is disabled
 
 ```yaml
 pf_enable: False
 ```
 
-By default [sshguard](https://www.sshguard.net/),
-[blacklistd](https://www.freebsd.org/cgi/man.cgi?query=blacklistd) and
-[fail2ban](https://www.fail2ban.org/) are disabled.
+By default [sshguard](https://www.sshguard.net/), [blacklistd](https://www.freebsd.org/cgi/man.cgi?query=blacklistd) and [fail2ban](https://www.fail2ban.org/) are disabled
 
 ```yaml
 pf_blacklistd_enable: False
@@ -38,7 +36,7 @@ pf_fail2ban_enable: False
 pf_sshguard_enable: False
 ```
 
-By default blocked packages are not logged.
+By default blocked packages are not logged
 
 ```yaml
 pf_log_all_blocked: False
@@ -55,13 +53,14 @@ Review the defaults and examples in vars.
 shell> ansible srv.example.com -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod freebsd -s /bin/sh'
 ```
 
-2) Install role
+2) Install the role and collections
 
 ```shell
-shell> ansible-galaxy install vbotka.freebsd_pf
+shell> ansible-galaxy role install vbotka.freebsd_pf
+shell> ansible-galaxy collection install community.general
 ```
 
-3) Fit variables
+3) Fit variables, e.g. in vars/main.yml
 
 ```shell
 shell> editor vbotka.freebsd_pf/vars/main.yml
@@ -84,14 +83,13 @@ shell> cat freebsd-pf.yml
 shell> ansible-playbook -t pf_packages  -e 'pf_install=True' freebsd-pf.yml
 ```
 
-Then disable the installation to speedup the execution of the playbook.
+Optionally disable the installation to speedup the execution of the playbook.
 
 7) Configure the firewall
 
-Starting and restarting of the firewall breaks the ssh connection. See
-the handlers for details. Both handlers starting and reloading in
-consequence doesn't work properly and the ssh connection will
-stale. Therefore let us first configure the rules
+Starting and restarting of the firewall breaks the ssh connection. See the handlers for
+details. As a consequence, both handlers starting and reloading don't work properly and the ssh
+connection will stale. Therefore, let us first configure the rules
 
 ```shell
 shell> ansible-playbook -e 'pf_enable=False' freebsd-pf.yml
@@ -106,8 +104,8 @@ shell> ansible-playbook -e 'pf_enable=True' freebsd-pf.yml
 
 ## Update the firewall
 
-Open ssh connection to the host for the case that something goes
-wrong. Update and validate the configuration. Do not reload the rules
+Open ssh connection to the host for the case that something goes wrong. Update and validate the
+configuration. Do not reload the rules
 
 ```shell
 shell> ansible-playbook -e 'pfconf_only=True pfconf_validate=True' freebsd-pf.yml
@@ -128,7 +126,7 @@ As a first step enable backup of the configuration files
 pf_backup_conf: yes
 ```
 
-In case the configuration does not pass the validation the play stops.
+In case the configuration does not pass the validation the play stops
 
 ```yaml
 TASK [vbotka.freebsd_pf : template] **********************************************
@@ -140,10 +138,9 @@ fatal: [srv.example.com]: FAILED! => changed=false
     /home/freebsd/.ansible/tmp/ansible-tmp-1554558267.39-44232067735996/source:119: syntax error
 ```
 
-The message above shows the location of the syntax error (source:119)
-in the temporary file created by the template module. It's difficult
-to find the error if this temporary file is not available for a
-review.
+The message above shows the location of the syntax error (source:119) in the temporary file created
+by the template module. It's difficult to find the error if this temporary file is not available for
+a review.
 
 Enable *pfconf_only=True* and disable validation *pfconf_validate=False* to find the problem
 
@@ -157,7 +154,7 @@ Locate the syntax error in the configuration file /etc/pf.conf
 shell> pfctl -n -f /etc/pf.conf
 ```
 
-Updated, validated, and reload the rules after the configuration has been fixed
+Update, validate, and reload the rules after the configuration was fixed
 
 ```shell
 shell> ansible srv.example.com -m service -a "name=pf state=reloaded"
@@ -166,9 +163,9 @@ shell> ansible srv.example.com -m service -a "name=pf state=reloaded"
 
 ## Security
 
-To prevent not-validated configuration to be reloaded by the handler
-configuration file /etc/pf.conf won't be created and the play will be
-terminated if both *pfconf_only=False* and *pfconf_validate=False*
+To prevent not-validated configuration to be reloaded by the handler configuration file /etc/pf.conf
+won't be created and the play will be terminated if both *pfconf_only=False* and
+*pfconf_validate=False*
 
 ```shell
 shell> ansible-playbook -e 'pfconf_only=False pfconf_validate=False' freebsd-pf.yml

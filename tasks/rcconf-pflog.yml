@@ -1,6 +1,5 @@
 ---
 
-# pflog
 - name: "rcconf-pflog: Enable and start pflog"
   ansible.builtin.lineinfile:
     dest: /etc/rc.conf

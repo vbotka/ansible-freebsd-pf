@@ -1,54 +1,48 @@
 ---
 
-- name: "packages: Install sshguard packages"
-  community.general.pkgng:
-    name: "{{ item }}"
-  loop: "{{ pf_sshguard_packages }}"
-  register: result
-  until: result is succeeded
-  retries: "{{ freebsd_install_retries }}"
-  delay: "{{ freebsd_install_delay }}"
-  when:
-    - pf_sshguard_enable|bool
-    - freebsd_install_method|lower == "packages"
+- name: "packages: Install sshguard"
+  block:
+    - name: "packages: Install sshguard packages"
+      community.general.pkgng:
+        name: "{{ pf_sshguard_packages }}"
+      register: result
+      until: result is succeeded
+      retries: "{{ freebsd_install_retries }}"
+      delay: "{{ freebsd_install_delay }}"
+      when: freebsd_install_method|lower == "packages"
+    - name: "packages: Install sshguard ports"
+      community.general.portinstall:
+        name: "{{ item }}"
+        use_packages: "{{ freebsd_use_packages }}"
+      loop: "{{ pf_sshguard_packages }}"
+      register: result
+      until: result is succeeded
+      retries: "{{ freebsd_install_retries }}"
+      delay: "{{ freebsd_install_delay }}"
+      when: freebsd_install_method|lower == "ports"
+  when: pf_sshguard_enable|bool
 
-- name: "packages: Install sshguard ports"
-  community.general.portinstall:
-    name: "{{ item }}"
-    use_packages: "{{ freebsd_use_packages }}"
-  loop: "{{ pf_sshguard_packages }}"
-  register: result
-  until: result is succeeded
-  retries: "{{ freebsd_install_retries }}"
-  delay: "{{ freebsd_install_delay }}"
-  when:
-    - pf_sshguard_enable|bool
-    - freebsd_install_method|lower == "ports"
-
-- name: "packages: Install fail2ban packages"
-  community.general.pkgng:
-    name: "{{ item }}"
-  loop: "{{ pf_fail2ban_packages }}"
-  register: result
-  until: result is succeeded
-  retries: "{{ freebsd_install_retries }}"
-  delay: "{{ freebsd_install_delay }}"
-  when:
-    - pf_fail2ban_enable|bool
-    - freebsd_install_method|lower == "packages"
-
-- name: "packages: Install fail2ban ports"
-  community.general.portinstall:
-    name: "{{ item }}"
-    use_packages: "{{ freebsd_use_packages }}"
-  loop: "{{ pf_fail2ban_packages }}"
-  register: result
-  until: result is succeeded
-  retries: "{{ freebsd_install_retries }}"
-  delay: "{{ freebsd_install_delay }}"
-  when:
-    - pf_fail2ban_enable|bool
-    - freebsd_install_method|lower == "ports"
+- name: "packages: Install fail2ban"
+  block:
+    - name: "packages: Install fail2ban packages"
+      community.general.pkgng:
+        name: "{{ pf_fail2ban_packages }}"
+      register: result
+      until: result is succeeded
+      retries: "{{ freebsd_install_retries }}"
+      delay: "{{ freebsd_install_delay }}"
+      when: freebsd_install_method|lower == "packages"
+    - name: "packages: Install fail2ban ports"
+      community.general.portinstall:
+        name: "{{ item }}"
+        use_packages: "{{ freebsd_use_packages }}"
+      loop: "{{ pf_fail2ban_packages }}"
+      register: result
+      until: result is succeeded
+      retries: "{{ freebsd_install_retries }}"
+      delay: "{{ freebsd_install_delay }}"
+      when: freebsd_install_method|lower == "ports"
+  when: pf_fail2ban_enable|bool
 
 # EOF
 ...

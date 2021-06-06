@@ -33,7 +33,7 @@
   block:
     - name: "Fail when pfconf_validate=False and pfconf_only=False"
       ansible.builtin.fail:
-        msg: "Validation can be turned off if pfconf_only=True. End of play."
+        msg: "Failed. Validation can be turned off if pfconf_only=True."
       when: not pfconf_only|bool
     - name: "pfconf: Configure, do not validate rules using {{ pf_type }}-pf.conf.j2 template"
       ansible.builtin.template:
