@@ -1,0 +1,105 @@
+# {{ ansible_managed }}
+
+######################################
+# Ruleset based on the
+# Click Death Squad's PF Ruleset v1.3
+# by: iztehsux@gmail.com
+#
+# Modified for ansible Role by
+# Nicolas Goy <kuon@goyman.com>
+#
+# Additional modifications by
+# Vladimir Botka <vbotka@gmail.com>
+#
+######################################
+
+### macro name for external interface.
+ext_if = "{{ pf_ext_if }}"
+
+### all incoming traffic on external interface is normalized and fragmented
+### packets are reassembled.
+{{ srv2_scrub }}
+
+### NAT
+{% for rule in pf_rules_nat %}
+{{ rule }}
+{% endfor %}
+
+### Redirection
+{% for rule in pf_rules_rdr %}
+{{ rule }}
+{% endfor %}
+
+# Bypass blacklisted SSH
+# pass in quick on $ext_if inet proto tcp from <MY-TRUSTED-IP> to any port ssh
+
+### optionally use blacklistd
+{% if pf_blacklistd_enable %}anchor "blacklistd/*" in on $ext_if
+{% endif %}
+# optionally use fail2ban
+{% if pf_fail2ban_enable %}anchor "f2b/*"
+{% endif %}
+
+### set a default deny everything policy.
+block {% if pf_log_all_blocked %}log {% endif %}all
+
+### exercise antispoofing on the external interface, but add the local
+### loopback interface as an exception, to prevent services utilizing the
+### local loop from being blocked accidentally.
+{{ srv2_skiplo0 }}
+{{ srv2_antispoof }}
+
+### block anything coming from sources that we have no back routes for.
+{{ srv2_no_back_route }}
+
+### block packets that fail a reverse path check. we look up the routing
+### table, check to make sure that the outbound is the same as the source
+### it came in on. if not, it is probably source address spoofed.
+{{ srv2_no_reverse_path }}
+
+### drop broadcast requests quietly.
+{{ srv2_drop_broadcast }}
+
+### ssh whitelist (no bruteforce protection)
+{% for item in pf_ssh_whitelist %}
+pass in quick on $ext_if proto tcp from {{ item }} to any port ssh
+{% endfor %}
+
+### block packets claiming to come from reserved internal address blocks, as
+### they are obviously forged and cannot be contacted from the outside world.
+reserved_internal_net = "{ {{ pf_reserved_internal_net }} }"
+{{ srv2_block_internal }}
+
+### block probes that can possibly determine our operating system by disallowing
+### certain combinations that are commonly used by nmap, queso and xprobe2, who
+### are attempting to fingerprint the server.
+### * F : FIN  - Finish; end of session
+### * S : SYN  - Synchronize; indicates request to start session
+### * R : RST  - Reset; drop a connection
+### * P : PUSH - Push; packet is sent immediately
+### * A : ACK  - Acknowledgement
+### * U : URG  - Urgent
+### * E : ECE  - Explicit Congestion Notification Echo
+### * W : CWR  - Congestion Window Reduced
+{{ srv2_block_probes }}
+
+### keep state on any outbound tcp, udp or icmp traffic. modulate the isn of
+### outgoing packets. (initial sequence number) broken operating systems
+### sometimes don't randomize this number, making it guessable.
+{{ srv2_keep_outbound }}
+
+### set a rule that allows inbound ssh traffic with synproxy handshaking.
+{{ srv2_pss_ssh }}
+
+### protect from ssh flood
+{{ srv2_sshabuse }}
+
+### protect ssh with sshguard
+{{ srv2_sshguard }}
+
+### custom rules set by ansible
+{% for rule in pf_rules_custom %}
+{{ rule }}
+{% endfor %}
+
+# EOF

@@ -1,0 +1,25 @@
+---
+# defaults for freebsd_pf
+
+pf_install: true
+pf_enable: false
+pf_debug: false
+pf_blacklistd_enable: false
+pf_fail2ban_enable: false
+pflog_enable: true
+pf_backup_conf: false
+
+# pf.conf template
+# src: "{{ pf_type }}-pf.conf.j2"
+pf_type: server
+
+# Async timeout to start/restart/reload pf. See handlers/pf.yml
+pf_async_timeout: 45
+# Configure pf_rules and do not notify handler to reload
+pfconf_only: false
+# Validate /etc/pf.conf
+pfconf_validate: true
+# Validate command
+pfconf_validate_command: "pfctl -n -f %s"
+
+# EOF

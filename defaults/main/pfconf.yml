@@ -1,0 +1,21 @@
+---
+# pf.conf
+
+pf_ext_if: "{{ ansible_default_ipv4.device|default(ansible_interfaces[0]) }}"
+pf_wifi_if: ath0
+pf_lan_if: fxp1
+pf_pubserv: "22, 443"
+pf_lanserv: "22, 53, 67, 80, 443"
+pf_samba_tcp_ports: "netbios-ns, netbios-dgm, netbios-ssn, microsoft-ds, swat"
+pf_samba_udp_ports: "netbios-ns, netbios-dgm, netbios-ssn"
+pf_nfs_ports: "sunrpc nfsd-status nfsd-keepalive nfsd lockd 874"
+pf_lan_net: "10.1.0.0/24, 10.1.1.0/24"
+# hosts granted acces to samba (cifs/smb) shares
+pf_smb_net: "10.1.0.0/27, 10.1.1.0/27, 10.1.0.90, 10.1.1.90"
+pf_reserved_internal_net: "10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 255.255.255.255/32"
+pf_rules_custom: []
+pf_rules_nat: []
+pf_rules_rdr: []
+pf_log_all_blocked: false
+
+# EOF
