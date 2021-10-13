@@ -1,0 +1,15 @@
+---
+# rc.conf
+
+pf_rules: /etc/pf.conf
+pf_flags: ""
+pflog_logfile: /var/log/pflog
+pflog_flags: ""
+pf_rcconf:
+  - {regexp: pf_rules, line: "{{ pf_rules }}"}
+  - {regexp: pf_flags, line: "{{ pf_flags }}"}
+pflog_rcconf:
+  - {regexp: pflog_logfile, line: "{{ pflog_logfile }}"}
+  - {regexp: pflog_flags, line: "{{ pflog_flags }}"}
+
+# EOF
