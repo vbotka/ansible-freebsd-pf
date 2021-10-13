@@ -8,7 +8,7 @@
 
 - name: start pf
   # service: name="pf" state="started" enabled="yes"
-  shell:
+  ansible.builtin.shell:
     cmd: >
       (( sleep 5; nohup service pf start 1>/dev/null 2>&1 ) & )
   async: "{{ pf_async_timeout }}"
@@ -29,7 +29,7 @@
 
 - name: restart pf
   # service: name="pf" state="restarted"
-  shell:
+  ansible.builtin.shell:
     cmd: >
       (( sleep 5; nohup service pf restart 1>/dev/null 2>&1 ) & )
   async: "{{ pf_async_timeout }}"
@@ -44,7 +44,7 @@
 
 - name: reload pf
   # service: name="pf" state="reloaded"
-  shell:
+  ansible.builtin.shell:
     cmd: >
       (( sleep 5; nohup service pf reload 1>/dev/null 2>&1 ) & )
   async: "{{ pf_async_timeout }}"

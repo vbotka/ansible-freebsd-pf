@@ -4,7 +4,7 @@
 - name: Import debug.yml
   ansible.builtin.import_tasks: debug.yml
   when: pf_debug|bool
-  tags: [pf_debug, always]
+  tags: pf_debug
 
 - name: Import packages.yml
   ansible.builtin.import_tasks: packages.yml
