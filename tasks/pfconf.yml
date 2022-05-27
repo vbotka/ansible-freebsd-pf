@@ -3,10 +3,10 @@
 - name: "pfconf: Debug"
   vars:
     msg: |-
-         pf_type [{{ pf_type }}]
-         pf_ext_if [{{ pf_ext_if }}]
-         pfconf_validate [{{ pfconf_validate }}]
-         pfconf_only [{{ pfconf_only }}]
+         pf_type: {{ pf_type }}
+         pf_ext_if: {{ pf_ext_if }}
+         pfconf_validate: {{ pfconf_validate }}
+         pfconf_only: {{ pfconf_only }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
   when: pf_debug|bool

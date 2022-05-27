@@ -1,0 +1,110 @@
+# {{ ansible_managed }} 
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+# Credit: How To Set Up A FreeBSD Wireless Access Point
+# https://www.howtoforge.com/setting_up_a_freebsd_wlan_access_point
+#
+# This configuration is set for use on a machine that is a router with
+# two (2) network cards:
+# ext_if - connects to the upstream link (cable/dsl modem, WAN, etc.)
+# lan_if - wired card for internal network
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#------------------------------------------------------------------------
+# macros
+#------------------------------------------------------------------------
+logopt = "log"
+# interfaces
+ext_if  = "{{ pf_ext_if }}"
+lan_if  = "{{ pf_lan_if }}"
+# publically accesible services (transport layer neutral)
+pubserv = "{{ pf_pubserv }}"
+# internally accessible services (transport layer neutral)
+lanserv = "{{ pf_lanserv }}"
+# samba ports (transport layer neutral)
+samba_ports = "{{ pf_samba_udp_ports }}"
+# externally permitted inbound icmp types
+icmp_types = "echoreq"
+# internal network
+lan_net = "{{ pf_lan_net }}"
+# hosts granted acces to samba (cifs/smb) shares
+smb_net = "{{ pf_smb_net }}"
+# block these networks
+#table  { 0.0.0.0/8, 10.0.0.0/8, 20.20.20.0/24, 127.0.0.0/8, \
+#         169.254.0.0/16, 172.16.0.0/12,  192.0.2.0/24, \
+#         192.168.0.0/16, 224.0.0.0/3, 255.255.255.255 }
+#table <private> const { 127/8, 10/8, 172.16/12, 192.168/16 }
+#------------------------------------------------------------------------
+# options
+#------------------------------------------------------------------------
+# config
+set block-policy return
+set loginterface $ext_if
+set skip on lo0
+# scrub
+#scrub all reassemble tcp no-df
+#scrub in all fragment reassemble
+#scrub out all random-id
+scrub in on $ext_if all fragment reassemble
+# optionally use blacklistd
+{% if pf_blacklistd_enable %}anchor "blacklistd/*" in on $ext_if
+{% endif %}
+# optionally use fail2ban
+{% if pf_fail2ban_enable %}anchor "f2b/*"
+{% endif %}
+#------------------------------------------------------------------------
+# redirection (and nat, too!)
+#------------------------------------------------------------------------
+# network address translation
+nat on $ext_if from {$lan_net} to any -> ($ext_if)
+#------------------------------------------------------------------------
+# firewall policy
+#------------------------------------------------------------------------
+# restrictive default rules
+block {% if pf_log_all_blocked %}log {% endif %}all
+block return-rst  in  $logopt on $ext_if proto tcp all
+block return-icmp in  $logopt on $ext_if proto udp all
+block             in  $logopt on $ext_if proto icmp all
+block             out $logopt on $ext_if all
+# trust localhost
+pass in  quick on lo0 all
+pass out quick on lo0 all
+# anti spoofing
+#block drop in  $logopt quick on $ext_if inet from <private> to any
+#block drop out $logopt quick on $ext_if inet from any to <private>
+antispoof for {$lan_if, $ext_if}
+# anti fake return-scans
+block  return-rst  out on $ext_if proto tcp all
+block  return-rst  in  on $ext_if proto tcp all
+block  return-icmp out on $ext_if proto udp all
+block  return-icmp in  on $ext_if proto udp all
+# toy with script kiddies scanning us
+block in $logopt quick proto tcp flags FUP/WEUAPRSF
+block in $logopt quick proto tcp flags WEUAPRSF/WEUAPRSF
+block in $logopt quick proto tcp flags SRAFU/WEUAPRSF
+block in $logopt quick proto tcp flags /WEUAPRSF
+block in $logopt quick proto tcp flags SR/SR
+block in $logopt quick proto tcp flags SF/SF
+# open firewall fully
+# warning: insecure. 'nuff said.
+#pass in  quick all
+#pass out quick all
+# allow permitted icmp
+pass in inet proto icmp all icmp-type {$icmp_types} keep state
+# allow permitted services
+{% for rule in pf_rules_services %}
+{{ rule }}
+{% endfor %}
+# custom rules
+{% for rule in pf_rules_custom %}
+{{ rule }}
+{% endfor %}
+# permit access between LAN hosts
+pass in  from {$lan_net} to {$lan_net} keep state
+pass out from {$lan_net} to {$lan_net} keep state
+# permit full outbound access
+# warning: potentially insecure. you may wish to lock down outbound access.
+pass out from any to any keep state
+
+# EOF
