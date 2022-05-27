@@ -4,10 +4,10 @@ galaxy_info:
   role_name: freebsd_pf
   author: Vladimir Botka
   description: FreeBSD. Configure PF firewall.
-  company: https://botka.link
+  company: https://botka.info
   github_branch: master
   license: BSD
-  min_ansible_version: "2.11"
+  min_ansible_version: "2.12"
   platforms:
     - name: FreeBSD
       versions:

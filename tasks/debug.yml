@@ -3,68 +3,67 @@
 - name: Debug
   vars:
     msg: |-
-         ansible_architecture [{{ ansible_architecture }}]
-         ansible_os_family [{{ ansible_os_family }}]
-         ansible_distribution [{{ ansible_distribution }}]
-         ansible_distribution_major_version [{{ ansible_distribution_major_version }}]
-         ansible_distribution_version [{{ ansible_distribution_version }}]
-         ansible_distribution_release [{{ ansible_distribution_release }}]
-         ansible_python_version [{{ ansible_python_version }}]
+         ansible_architecture: {{ ansible_architecture }}
+         ansible_os_family: {{ ansible_os_family }}
+         ansible_distribution: {{ ansible_distribution }}
+         ansible_distribution_major_version: {{ ansible_distribution_major_version }}
+         ansible_distribution_version: {{ ansible_distribution_version }}
+         ansible_distribution_release: {{ ansible_distribution_release }}
+         ansible_python_version: {{ ansible_python_version }}
 
-         freebsd_install_method [{{ freebsd_install_method }}]
-         freebsd_use_packages [{{ freebsd_use_packages }}]
-         pf_fail2ban_packages
-         {{ pf_fail2ban_packages|to_nice_yaml }}
-         pf_sshguard_packages
-         {{ pf_sshguard_packages|to_nice_yaml }}
-
-         pf_install [{{ pf_install|bool }}]
-         pf_enable [{{ pf_enable|bool }}]
-         pfconf_only [{{ pfconf_only|bool }}]
-         pfconf_validate [{{ pfconf_validate|bool }}]
-         pfconf_validate_command [{{ pfconf_validate_command }}]
-         pf_backup_conf [{{ pf_backup_conf|bool }}]
-         pflog_enable [{{ pflog_enable|bool }}]
-         pf_blacklistd_enable [{{ pf_blacklistd_enable|bool }}]
-         pf_fail2ban_enable [{{ pf_fail2ban_enable|bool }}]
-         pf_sshguard_enable [{{ pf_sshguard_enable|bool }}]
-         pf_type [{{ pf_type }}]
-         pf_log_all_blocked [{{ pf_log_all_blocked }}]
-         pf_rules [{{ pf_rules }}]
-         pf_flags [{{ pf_flags }}]
-         pflog_logfile [{{ pflog_logfile }}]
-         pflog_flags [{{ pflog_flags }}]
-         pf_ext_if [{{ pf_ext_if }}]
-         pf_wifi_if [{{ pf_wifi_if }}]
-         pf_lan_if [{{ pf_lan_if }}]
-         pf_pubserv [{{ pf_pubserv }}]
-         pf_lanserv [{{ pf_lanserv }}]
-         pf_samba_tcp_ports [{{ pf_samba_tcp_ports }}]
-         pf_samba_udp_ports [{{ pf_samba_udp_ports }}]
-         pf_nfs_ports [{{ pf_nfs_ports }}]
-         pf_lan_net [{{ pf_lan_net }}]
-         pf_smb_net [{{ pf_smb_net }}]
-         pf_reserved_internal_net [{{ pf_reserved_internal_net }}]
-         pf_rules_nat
-         {{ pf_rules_nat|to_nice_yaml }}
-         pf_rules_rdr
-         {{ pf_rules_rdr|to_nice_yaml }}
-         pf_rules_custom
-         {{ pf_rules_custom|default("UNDEFINED")|to_nice_yaml }}
-         pf_ssh_whitelist
-         {{ pf_ssh_whitelist|default("UNDEFINED")|to_nice_yaml }}
-         pf_blacklistd_flags [{{ pf_blacklistd_flags }}]
-         pf_blacklistd_conf_local
-         {{ pf_blacklistd_conf_local|default("UNDEFINED")|to_yaml }}
-         pf_blacklistd_conf_remote
-         {{ pf_blacklistd_conf_remote|default("UNDEFINED")|to_yaml }}
-         pf_fail2ban_flags [{{ pf_fail2ban_flags }}]
-         pf_fail2ban_local_template [{{ pf_fail2ban_local_template }}]
-         pf_fail2ban_local_conf
-         {{ pf_fail2ban_local_conf|to_yaml }}
-         pf_fail2ban_jail_local_template [{{ pf_fail2ban_jail_local_template }}]
-         pf_fail2ban_jail_local_conf
-         {{ pf_fail2ban_jail_local_conf|to_yaml }}
+         freebsd_install_method: {{ freebsd_install_method }}
+         freebsd_use_packages: {{ freebsd_use_packages }}
+         pf_fail2ban_packages:
+           {{ pf_fail2ban_packages|to_nice_yaml|indent(2) }}
+         pf_sshguard_packages:
+           {{ pf_sshguard_packages|to_nice_yaml|indent(2) }}
+         pf_install: {{ pf_install|bool }}
+         pf_enable: {{ pf_enable|bool }}
+         pfconf_only: {{ pfconf_only|bool }}
+         pfconf_validate: {{ pfconf_validate|bool }}
+         pfconf_validate_command: {{ pfconf_validate_command }}
+         pf_backup_conf: {{ pf_backup_conf|bool }}
+         pflog_enable: {{ pflog_enable|bool }}
+         pf_blacklistd_enable: {{ pf_blacklistd_enable|bool }}
+         pf_fail2ban_enable: {{ pf_fail2ban_enable|bool }}
+         pf_sshguard_enable: {{ pf_sshguard_enable|bool }}
+         pf_type: {{ pf_type }}
+         pf_log_all_blocked: {{ pf_log_all_blocked }}
+         pf_rules: {{ pf_rules }}
+         pf_flags: {{ pf_flags }}
+         pflog_logfile: {{ pflog_logfile }}
+         pflog_flags: {{ pflog_flags }}
+         pf_ext_if: {{ pf_ext_if }}
+         pf_wifi_if: {{ pf_wifi_if }}
+         pf_lan_if: {{ pf_lan_if }}
+         pf_pubserv: {{ pf_pubserv }}
+         pf_lanserv: {{ pf_lanserv }}
+         pf_samba_tcp_ports: {{ pf_samba_tcp_ports }}
+         pf_samba_udp_ports: {{ pf_samba_udp_ports }}
+         pf_nfs_ports: {{ pf_nfs_ports }}
+         pf_lan_net: {{ pf_lan_net }}
+         pf_smb_net: {{ pf_smb_net }}
+         pf_reserved_internal_net: {{ pf_reserved_internal_net }}
+         pf_rules_nat:
+           {{ pf_rules_nat|to_nice_yaml|indent(2) }}
+         pf_rules_rdr:
+           {{ pf_rules_rdr|to_nice_yaml|indent(2) }}
+         pf_rules_custom:
+           {{ pf_rules_custom|to_nice_yaml|indent(2) }}
+         pf_ssh_whitelist:
+           {{ pf_ssh_whitelist|to_nice_yaml|indent(2) }}
+         pf_blacklistd_flags: {{ pf_blacklistd_flags }}
+         pf_blacklistd_conf_local:
+           {{ pf_blacklistd_conf_local|to_yaml|indent(2) }}
+         pf_blacklistd_conf_remote:
+           {{ pf_blacklistd_conf_remote|to_yaml|indent(2) }}
+         pf_fail2ban_flags: {{ pf_fail2ban_flags }}
+         pf_fail2ban_local_template: {{ pf_fail2ban_local_template }}
+         pf_fail2ban_local_conf:
+           {{ pf_fail2ban_local_conf|to_yaml|indent(2) }}
+         pf_fail2ban_jail_local_template: {{ pf_fail2ban_jail_local_template }}
+         pf_fail2ban_jail_local_conf:
+           {{ pf_fail2ban_jail_local_conf|to_yaml|indent(2) }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
 

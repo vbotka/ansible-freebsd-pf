@@ -8,9 +8,34 @@
 
 # pf_debug: True
 # pf_enable: False
-#
+# pf_backup_conf: true
+# pf_blacklistd_enable: false
+# pf_fail2ban_enable: false
+
+# pfconf_only: false
+# pfconf_validate: true
+
+# pf_log_all_blocked: false
+# pf_type: router3
+# pf_ext_if: eth0
+# pf_lan_if: re0
+
+# pf_pubserv: "22, 443"
+# pf_lanserv: "22, 53, 67, 80, 110, 123, 194, 427, 443, 587, 995"
+# pf_lan_net: "10.1.0.0/24, 10.1.1.0/24"
+# pf_smb_net: "10.1.0.0/27, 10.1.1.0/27, 10.1.0.90, 10.1.1.90"
+
+# pf_rules_services:
+#   - "{{ '#' }} pass in on $ext_if inet proto tcp from any to any port {$pubserv} flags S/SA keep state"
+#   - pass in on $lan_if inet proto {tcp udp} from {$lan_net} to any port {$lanserv} keep state
+#   - pass in on $lan_if inet proto {tcp udp} from {$smb_net} to any port {$samba_ports} keep state
+
 # pf_rules_custom:
-#
+
+# DHCP. When firewall is between DHCP clients and a DHCP server, I allow 67/68 traffic
+#   - pass quick on $ext_if inet proto tcp from any port 67:68 to any port 67:68 keep state flags S/SA
+#   - pass quick on $ext_if inet proto udp from any port 67:68 to any port 67:68 keep state
+
 # SSH, DNS, Mailserver, Webserver
 #   - ext_tcp_ports="{ ssh, domain, smtp, smtps, submission, http, https, pop3, pop3s, imap, imaps }"
 #   - ext_udp_ports="{ domain }"
@@ -18,13 +43,13 @@
 #   - sto_ext_ports="(max-src-conn-rate 500/10, overload <blocked_hosts> flush global)"
 #   - pass in on $ext_if proto tcp to ($ext_if) port $ext_tcp_ports $syn_state $sto_ext_ports
 #   - pass in on $ext_if proto udp to ($ext_if) port $ext_udp_ports keep state $sto_ext_ports
-#
+
 # Samba
 #   - samba_tcp_ports="{ netbios-ns, netbios-dgm, netbios-ssn, microsoft-ds, swat }"
 #   - samba_udp_ports="{ netbios-ns, netbios-dgm, netbios-ssn }"
 #   - pass in on $ext_if inet proto tcp from $ext_if:network to port $samba_tcp_ports keep state
 #   - pass in on $ext_if inet proto udp from $ext_if:network to port $samba_udp_ports keep state
-#
+
 # NFSD
 # mountd port "725" not in /etc/services
 #  - nfs_ports="{ sunrpc nfsd-status nfsd-keepalive nfsd lockd 725 }"
@@ -39,7 +64,7 @@
 #  - pass quick on $ext_if proto udp from $nfs_servers to $ext_if port $nfs_ports
 #  - pass quick on $ext_if proto tcp from $ext_if to $nfs_servers port $nfs_ports keep state flags S/SA
 #  - pass quick on $ext_if proto udp from $ext_if to $nfs_servers port $nfs_ports
-#
+
 # pf_ssh_whitelist:
 #   - 192.168.1.0/24
 
