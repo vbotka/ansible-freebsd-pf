@@ -1,6 +1,6 @@
 # freebsd_pf
 
-[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_pf)[![Build Status](https://travis-ci.org/vbotka/ansible-freebsd-pf.svg?branch=master)](https://travis-ci.org/vbotka/ansible-freebsd-pf)
+[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_pf)[![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-pf.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-pf)
 
 [Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_pf/) FreeBSD. Configure PF firewall.
 
@@ -199,4 +199,4 @@ fatal: [srv.example.com]: FAILED! => changed=false
 
 ## Author Information
 
-[Vladimir Botka](https://botka.link)
+[Vladimir Botka](https://botka.info)
