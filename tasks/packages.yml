@@ -2,6 +2,7 @@
 
 - name: "packages: Install sshguard"
   block:
+
     - name: "packages: Install sshguard packages"
       community.general.pkgng:
         name: "{{ pf_sshguard_packages }}"
@@ -9,7 +10,8 @@
       until: result is succeeded
       retries: "{{ freebsd_install_retries }}"
       delay: "{{ freebsd_install_delay }}"
-      when: freebsd_install_method|lower == "packages"
+      when: freebsd_install_method|lower == 'packages'
+
     - name: "packages: Install sshguard ports"
       community.general.portinstall:
         name: "{{ item }}"
@@ -19,11 +21,13 @@
       until: result is succeeded
       retries: "{{ freebsd_install_retries }}"
       delay: "{{ freebsd_install_delay }}"
-      when: freebsd_install_method|lower == "ports"
+      when: freebsd_install_method|lower == 'ports'
+
   when: pf_sshguard_enable|bool
 
 - name: "packages: Install fail2ban"
   block:
+
     - name: "packages: Install fail2ban packages"
       community.general.pkgng:
         name: "{{ pf_fail2ban_packages }}"
@@ -31,7 +35,8 @@
       until: result is succeeded
       retries: "{{ freebsd_install_retries }}"
       delay: "{{ freebsd_install_delay }}"
-      when: freebsd_install_method|lower == "packages"
+      when: freebsd_install_method|lower == 'packages'
+
     - name: "packages: Install fail2ban ports"
       community.general.portinstall:
         name: "{{ item }}"
@@ -41,7 +46,8 @@
       until: result is succeeded
       retries: "{{ freebsd_install_retries }}"
       delay: "{{ freebsd_install_delay }}"
-      when: freebsd_install_method|lower == "ports"
+      when: freebsd_install_method|lower == 'ports'
+
   when: pf_fail2ban_enable|bool
 
 # EOF
