@@ -19,21 +19,21 @@
         src: "{{ pf_type }}-pf.conf.j2"
         owner: root
         group: wheel
-        mode: "0640"
+        mode: '0640'
         backup: "{{ pf_backup_conf }}"
         validate: "{{ pfconf_validate_command }}"
       notify: reload pf
   rescue:
     - name: "pfconf: Validation failed"
       ansible.builtin.fail:
-        msg: "Validation error: {{ ansible_failed_result }}"
+        msg: "[ERROR] Validation error: {{ ansible_failed_result }}"
   when: pfconf_validate|bool
 
 - name: "pfconf: Configure, do not validate rules using {{ pf_type }}-pf.conf.j2 template"
   block:
     - name: "Fail when pfconf_validate=False and pfconf_only=False"
       ansible.builtin.fail:
-        msg: "Failed. Validation can be turned off if pfconf_only=True."
+        msg: "[ERROR] Validation can be turned off if pfconf_only=True."
       when: not pfconf_only|bool
     - name: "pfconf: Configure, do not validate rules using {{ pf_type }}-pf.conf.j2 template"
       ansible.builtin.template:
@@ -41,7 +41,7 @@
         src: "{{ pf_type }}-pf.conf.j2"
         owner: root
         group: wheel
-        mode: "0640"
+        mode: '0640'
         backup: "{{ pf_backup_conf }}"
   when: not pfconf_validate|bool
 

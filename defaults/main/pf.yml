@@ -20,6 +20,6 @@ pfconf_only: false
 # Validate /etc/pf.conf
 pfconf_validate: true
 # Validate command
-pfconf_validate_command: "pfctl -n -f %s"
+pfconf_validate_command: 'pfctl -n -f %s'
 
 # EOF

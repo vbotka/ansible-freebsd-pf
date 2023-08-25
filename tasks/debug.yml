@@ -14,9 +14,9 @@
          freebsd_install_method: {{ freebsd_install_method }}
          freebsd_use_packages: {{ freebsd_use_packages }}
          pf_fail2ban_packages:
-           {{ pf_fail2ban_packages|to_nice_yaml|indent(2) }}
+           {{ pf_fail2ban_packages|to_nice_yaml(indent=2)|indent(2) }}
          pf_sshguard_packages:
-           {{ pf_sshguard_packages|to_nice_yaml|indent(2) }}
+           {{ pf_sshguard_packages|to_nice_yaml(indent=2)|indent(2) }}
          pf_install: {{ pf_install|bool }}
          pf_enable: {{ pf_enable|bool }}
          pfconf_only: {{ pfconf_only|bool }}
@@ -45,25 +45,25 @@
          pf_smb_net: {{ pf_smb_net }}
          pf_reserved_internal_net: {{ pf_reserved_internal_net }}
          pf_rules_nat:
-           {{ pf_rules_nat|to_nice_yaml|indent(2) }}
+           {{ pf_rules_nat|to_nice_yaml(indent=2)|indent(2) }}
          pf_rules_rdr:
-           {{ pf_rules_rdr|to_nice_yaml|indent(2) }}
+           {{ pf_rules_rdr|to_nice_yaml(indent=2)|indent(2) }}
          pf_rules_custom:
-           {{ pf_rules_custom|to_nice_yaml|indent(2) }}
+           {{ pf_rules_custom|to_nice_yaml(indent=2)|indent(2) }}
          pf_ssh_whitelist:
-           {{ pf_ssh_whitelist|to_nice_yaml|indent(2) }}
+           {{ pf_ssh_whitelist|to_nice_yaml(indent=2)|indent(2) }}
          pf_blacklistd_flags: {{ pf_blacklistd_flags }}
          pf_blacklistd_conf_local:
-           {{ pf_blacklistd_conf_local|to_yaml|indent(2) }}
+           {{ pf_blacklistd_conf_local|to_yaml(indent=2)|indent(2) }}
          pf_blacklistd_conf_remote:
-           {{ pf_blacklistd_conf_remote|to_yaml|indent(2) }}
+           {{ pf_blacklistd_conf_remote|to_yaml(indent=2)|indent(2) }}
          pf_fail2ban_flags: {{ pf_fail2ban_flags }}
          pf_fail2ban_local_template: {{ pf_fail2ban_local_template }}
          pf_fail2ban_local_conf:
-           {{ pf_fail2ban_local_conf|to_yaml|indent(2) }}
+           {{ pf_fail2ban_local_conf|to_yaml(indent=2)|indent(2) }}
          pf_fail2ban_jail_local_template: {{ pf_fail2ban_jail_local_template }}
          pf_fail2ban_jail_local_conf:
-           {{ pf_fail2ban_jail_local_conf|to_yaml|indent(2) }}
+           {{ pf_fail2ban_jail_local_conf|to_yaml(indent=2)|indent(2) }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
 

@@ -20,10 +20,10 @@
 # pf_ext_if: eth0
 # pf_lan_if: re0
 
-# pf_pubserv: "22, 443"
-# pf_lanserv: "22, 53, 67, 80, 110, 123, 194, 427, 443, 587, 995"
-# pf_lan_net: "10.1.0.0/24, 10.1.1.0/24"
-# pf_smb_net: "10.1.0.0/27, 10.1.1.0/27, 10.1.0.90, 10.1.1.90"
+# pf_pubserv: '22, 443'
+# pf_lanserv: '22, 53, 67, 80, 110, 123, 194, 427, 443, 587, 995'
+# pf_lan_net: '10.1.0.0/24, 10.1.1.0/24'
+# pf_smb_net: '10.1.0.0/27, 10.1.1.0/27, 10.1.0.90, 10.1.1.90'
 
 # pf_rules_services:
 #   - "{{ '#' }} pass in on $ext_if inet proto tcp from any to any port {$pubserv} flags S/SA keep state"
@@ -68,7 +68,7 @@
 # pf_ssh_whitelist:
 #   - 192.168.1.0/24
 
-# pf_fail2ban_jail_local_template: "default-jail.local.j2"
+# pf_fail2ban_jail_local_template: default-jail.local.j2
 # pf_fail2ban_jail_local_conf:
-#   - {section: "default", line: "banaction = pf[actiontype=<allports>]"}
-#   - {section: "default", line: "banaction = pf[actiontype=<multiport>]"}
+#   - {section: 'default', line: 'banaction = pf[actiontype=<allports>]'}
+#   - {section: 'default', line: 'banaction = pf[actiontype=<multiport>]'}

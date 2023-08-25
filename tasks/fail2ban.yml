@@ -7,7 +7,7 @@
 
 - name: "fail2ban: Fail if fail2ban is enabled and no service exists"
   ansible.builtin.fail:
-    msg: Failed. fail2ban is enabled, but no service exists.
+    msg: '[ERROR] fail2ban is enabled, but no service exists.'
   when:
     - pf_fail2ban_enable|bool
     - not pf_fail2ban_service.stat.exists
@@ -18,7 +18,7 @@
     src: "{{ pf_fail2ban_local_template }}"
     owner: root
     group: wheel
-    mode: "0644"
+    mode: '0644'
     backup: "{{ pf_backup_conf }}"
   notify: reload fail2ban
   when: pf_fail2ban_enable|bool
@@ -29,7 +29,7 @@
     src: "{{ pf_fail2ban_jail_local_template }}"
     owner: root
     group: wheel
-    mode: "0644"
+    mode: '0644'
     backup: "{{ pf_backup_conf }}"
   notify: reload fail2ban
   when: pf_fail2ban_enable|bool
