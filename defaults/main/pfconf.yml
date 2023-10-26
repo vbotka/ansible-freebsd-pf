@@ -10,12 +10,12 @@ pf_filtering: []
 
 pf_anchors: |
   {% filter from_yaml %}
-  {% if pf_blacklistd_enable %}- anchor "blacklistd/*" in on $ext_if
+  [{% if pf_blacklistd_enable %}anchor "blacklistd/*" in on $ext_if,
   {% endif %}
-  {% if pf_fail2ban_enable %}- anchor "f2b/*"
+  {% if pf_fail2ban_enable %}anchor "f2b/*",
   {% endif %}
-  {% if pf_relayd_enable %}- anchor "relayd/*"
-  {% endif %}
+  {% if pf_relayd_enable %}anchor "relayd/*",
+  {% endif %}]
   {% endfilter %}
 
 pf_rules_nat: []

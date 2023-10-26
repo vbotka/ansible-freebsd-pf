@@ -72,6 +72,8 @@
            {{ pf_translation|to_nice_yaml(indent=2)|indent(2) }}
          pf_filtering:
            {{ pf_filtering|to_nice_yaml(indent=2)|indent(2) }}
+         pf_anchors:
+           {{ pf_anchors|to_nice_yaml(indent=2)|indent(2) }}
          pf_ext_if: {{ pf_ext_if }}
          pf_wifi_if: {{ pf_wifi_if }}
          pf_lan_if: {{ pf_lan_if }}
