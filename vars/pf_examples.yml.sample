@@ -6,24 +6,26 @@
 #        [from src_addr [port src_port]] [to dst_addr [port dst_port]]
 #        [flags tcp_flags] [state]
 
-# pf_debug: True
-# pf_enable: False
-# pf_backup_conf: true
-# pf_blacklistd_enable: false
-# pf_fail2ban_enable: false
+pf_debug: true
+pf_enable: false
+pf_backup_conf: true
+pf_blacklistd_enable: false
+pf_fail2ban_enable: false
 
-# pfconf_only: false
-# pfconf_validate: true
+pf_conf_only: false
+pf_conf_validate: true
 
-# pf_log_all_blocked: false
-# pf_type: router3
-# pf_ext_if: eth0
-# pf_lan_if: re0
+pf_type: default
+pf_ext_if: eth0
+pf_lan_if: re0
+pf_int_if: re0
+pf_logall_blocked: log
+pf_logopt_blocked: log
 
-# pf_pubserv: '22, 443'
-# pf_lanserv: '22, 53, 67, 80, 110, 123, 194, 427, 443, 587, 995'
-# pf_lan_net: '10.1.0.0/24, 10.1.1.0/24'
-# pf_smb_net: '10.1.0.0/27, 10.1.1.0/27, 10.1.0.90, 10.1.1.90'
+# pf_pubserv: '{ 22, 443 }'
+# pf_lanserv: '{ 22, 53, 67, 80, 110, 123, 194, 427, 443, 587, 995 }'
+# pf_lan_net: '{ 10.1.0.0/24, 10.1.1.0/24 }'
+# pf_smb_net: '{ 10.1.0.0/27, 10.1.1.0/27, 10.1.0.90, 10.1.1.90 }'
 
 # pf_rules_services:
 #   - "{{ '#' }} pass in on $ext_if inet proto tcp from any to any port {$pubserv} flags S/SA keep state"
@@ -31,6 +33,10 @@
 #   - pass in on $lan_if inet proto {tcp udp} from {$smb_net} to any port {$samba_ports} keep state
 
 # pf_rules_custom:
+#   - pass in on $lan_if inet proto {tcp udp} from {$lan_net} to any port {$lan_serv} keep state
+#   - pass out from any to any keep state
+#   - "{{ '#' }} pass in on $ext_if inet proto tcp from any to any port {$pub_serv} flags S/SA keep state"
+#   - pass in on $lan_if inet proto {tcp udp} from {$smb_net} to any port {$samba_ports} keep state
 
 # DHCP. When firewall is between DHCP clients and a DHCP server, I allow 67/68 traffic
 #   - pass quick on $ext_if inet proto tcp from any port 67:68 to any port 67:68 keep state flags S/SA
@@ -72,3 +78,20 @@
 # pf_fail2ban_jail_local_conf:
 #   - {section: 'default', line: 'banaction = pf[actiontype=<allports>]'}
 #   - {section: 'default', line: 'banaction = pf[actiontype=<multiport>]'}
+
+# block return-rst  in  $logopt on $ext_if proto tcp all
+# block return-icmp in  $logopt on $ext_if proto udp all
+# block             in  $logopt on $ext_if proto icmp all
+# block             out $logopt on $ext_if all
+
+# block  return-rst  out on $ext_if proto tcp all
+# block  return-rst  in  on $ext_if proto tcp all
+# block  return-icmp out on $ext_if proto udp all
+# block  return-icmp in  on $ext_if proto udp all
+
+# block in $logopt quick proto tcp flags FUP/WEUAPRSF
+# block in $logopt quick proto tcp flags WEUAPRSF/WEUAPRSF
+# block in $logopt quick proto tcp flags SRAFU/WEUAPRSF
+# block in $logopt quick proto tcp flags /WEUAPRSF
+# block in $logopt quick proto tcp flags SR/SR
+# block in $logopt quick proto tcp flags SF/SF

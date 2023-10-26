@@ -1,0 +1,35 @@
+---
+
+- name: "rcconf-relayd: Enable and start relayd"
+  ansible.builtin.lineinfile:
+    dest: /etc/rc.conf
+    regexp: '^\s*relayd_enable\s*=\s*(.*)$'
+    line: 'relayd_enable="YES"'
+    backup: "{{ pf_backup_conf }}"
+  notify:
+    - enable and start relayd
+    - reload pf
+  when: pf_relayd_enable|bool
+
+- name: "rcconf-relayd: Disable and stop relayd"
+  ansible.builtin.lineinfile:
+    dest: /etc/rc.conf
+    regexp: '^\s*relayd_enable\s*=\s*(.*)$'
+    line: 'relayd_enable="NO"'
+    backup: "{{ pf_backup_conf }}"
+  notify:
+    - disable and stop relayd
+    - reload pf
+  when: not pf_relayd_enable|bool
+
+- name: "rcconf-relayd: Configure relayd"
+  ansible.builtin.lineinfile:
+    dest: /etc/rc.conf
+    regexp: '^\s*{{ item.regexp }}\s*=\s*(.*)$'
+    line: '{{ item.regexp }}="{{ item.line }}"'
+    backup: "{{ pf_backup_conf }}"
+  loop: "{{ pf_relayd_rcconf }}"
+  notify: restart relayd
+
+# EOF
+...

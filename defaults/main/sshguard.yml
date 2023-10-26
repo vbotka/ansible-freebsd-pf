@@ -3,7 +3,6 @@
 # Make sure '/usr/local/etc/rc.d/sshguard start' works
 # See https://mail-index.netbsd.org/netbsd-users/2018/05/21/msg020789.html
 
-pf_sshguard_enable: false
 pf_ssh_whitelist: []
 
 # EOF

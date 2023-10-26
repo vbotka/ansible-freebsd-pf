@@ -1,0 +1,28 @@
+---
+
+- name: "relayd: Stat /usr/local/etc/rc.d/relayd"
+  ansible.builtin.stat:
+    path: /usr/local/etc/rc.d/relayd
+  register: pf_relayd_service
+
+- name: "relayd: Fail if relayd is enabled and no service exists"
+  ansible.builtin.fail:
+    msg: '[ERROR] relayd is enabled, but no service exists.'
+  when:
+    - pf_relayd_enable|bool
+    - not pf_relayd_service.stat.exists
+
+- name: "relayd: Configure /usr/local/etc/relayd.conf"
+  ansible.builtin.template:
+    dest: /usr/local/etc/relayd.conf
+    src: "{{ pf_relayd_template }}"
+    owner: root
+    group: wheel
+    mode: '0644'
+    backup: "{{ pf_backup_conf }}"
+    validate: "{{ pf_relayd_path }} -n -f %s"
+  notify: reload relayd
+  when: pf_relayd_enable|bool
+
+# EOF
+...

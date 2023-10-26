@@ -1,0 +1,6 @@
+---
+
+pf_normalization:
+  - scrub in on $ext_if all fragment reassemble
+
+# EOF

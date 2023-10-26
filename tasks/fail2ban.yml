@@ -1,5 +1,8 @@
 ---
 
+# TODO: Update to version 1.0
+# https://dbdemon.com/pf_and_fail2ban/
+
 - name: "fail2ban: Stat /usr/local/etc/rc.d/fail2ban"
   ansible.builtin.stat:
     path: /usr/local/etc/rc.d/fail2ban

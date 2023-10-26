@@ -1,0 +1,6 @@
+---
+
+pf_translation:
+  - nat on $ext_if from $localnet to any -> ($ext_if)
+
+# EOF

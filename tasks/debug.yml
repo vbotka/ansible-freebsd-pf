@@ -11,28 +11,67 @@
          ansible_distribution_release: {{ ansible_distribution_release }}
          ansible_python_version: {{ ansible_python_version }}
 
+         * packages - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
          freebsd_install_method: {{ freebsd_install_method }}
          freebsd_use_packages: {{ freebsd_use_packages }}
+
          pf_fail2ban_packages:
            {{ pf_fail2ban_packages|to_nice_yaml(indent=2)|indent(2) }}
+         pf_relayd_packages:
+           {{ pf_relayd_packages|to_nice_yaml(indent=2)|indent(2) }}
          pf_sshguard_packages:
            {{ pf_sshguard_packages|to_nice_yaml(indent=2)|indent(2) }}
+         pf_packages_install:
+           {{ pf_packages_install|to_nice_yaml(indent=2)|indent(2) }}
          pf_install: {{ pf_install|bool }}
+
+         * /etc/rc.conf - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
          pf_enable: {{ pf_enable|bool }}
-         pfconf_only: {{ pfconf_only|bool }}
-         pfconf_validate: {{ pfconf_validate|bool }}
-         pfconf_validate_command: {{ pfconf_validate_command }}
-         pf_backup_conf: {{ pf_backup_conf|bool }}
-         pflog_enable: {{ pflog_enable|bool }}
+         pf_rules: {{ pf_rules|d('"/etc/pf.conf"') }}
+         pf_flags: {{ pf_flags|d('""') }}
+         pf_rcconf:
+           {{ pf_rcconf|to_yaml(indent=2)|indent(2) }}
+         pf_log_enable: {{ pf_log_enable|d(false)|bool }}
+         pf_log_logfile: {{ pf_log_logfile|d('"/var/log/pflog"') }}
+         pf_log_flags: {{ pf_log_flags|d('""') }}
+         pf_log_rcconf:
+           {{ pf_log_rcconf|to_yaml(indent=2)|indent(2) }}
          pf_blacklistd_enable: {{ pf_blacklistd_enable|bool }}
+         pf_blacklistd_flags: {{ pf_blacklistd_flags }}
+         pf_blacklistd_rcconf:
+           {{ pf_blacklistd_rcconf|to_yaml(indent=2)|indent(2) }}
          pf_fail2ban_enable: {{ pf_fail2ban_enable|bool }}
+         pf_fail2ban_flags: {{ pf_fail2ban_flags }}
+         pf_fail2ban_rcconf:
+           {{ pf_fail2ban_rcconf|to_yaml(indent=2)|indent(2) }}
+         pf_relayd_enable: {{ pf_relayd_enable|bool }}
+         pf_relayd_flags: {{ pf_relayd_flags }}
+         pf_relayd_rcconf:
+           {{ pf_relayd_rcconf|to_yaml(indent=2)|indent(2) }}
          pf_sshguard_enable: {{ pf_sshguard_enable|bool }}
+
+         * /etc/pf.conf - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+         pf_backup_conf: {{ pf_backup_conf|bool }}
+         pf_conf_only: {{ pf_conf_only|bool }}
+         pf_conf_validate: {{ pf_conf_validate|bool }}
+         pf_conf_validate_command: {{ pf_conf_validate_command }}
+
          pf_type: {{ pf_type }}
-         pf_log_all_blocked: {{ pf_log_all_blocked }}
-         pf_rules: {{ pf_rules }}
-         pf_flags: {{ pf_flags }}
-         pflog_logfile: {{ pflog_logfile }}
-         pflog_flags: {{ pflog_flags }}
+
+         pf_macros:
+           {{ pf_macros|to_yaml(indent=2)|indent(2) }}
+         pf_options:
+           {{ pf_options|to_nice_yaml(indent=2)|indent(2) }}
+         pf_tables:
+           {{ pf_tables|to_nice_yaml(indent=2)|indent(2) }}
+         pf_normalization:
+           {{ pf_normalization|to_nice_yaml(indent=2)|indent(2) }}
+         pf_queuing:
+           {{ pf_queuing|to_nice_yaml(indent=2)|indent(2) }}
+         pf_translation:
+           {{ pf_translation|to_nice_yaml(indent=2)|indent(2) }}
+         pf_filtering:
+           {{ pf_filtering|to_nice_yaml(indent=2)|indent(2) }}
          pf_ext_if: {{ pf_ext_if }}
          pf_wifi_if: {{ pf_wifi_if }}
          pf_lan_if: {{ pf_lan_if }}
@@ -41,29 +80,43 @@
          pf_samba_tcp_ports: {{ pf_samba_tcp_ports }}
          pf_samba_udp_ports: {{ pf_samba_udp_ports }}
          pf_nfs_ports: {{ pf_nfs_ports }}
+         pf_log_all_blocked: {{ pf_log_all_blocked }}
+         pf_log_opt_blocked: {{ pf_log_opt_blocked }}
+         pf_pass_icmp_types: {{ pf_pass_icmp_types }}
+         pf_pass_icmp6_types: {{ pf_pass_icmp6_types }}
          pf_lan_net: {{ pf_lan_net }}
          pf_smb_net: {{ pf_smb_net }}
          pf_reserved_internal_net: {{ pf_reserved_internal_net }}
+
          pf_rules_nat:
            {{ pf_rules_nat|to_nice_yaml(indent=2)|indent(2) }}
          pf_rules_rdr:
            {{ pf_rules_rdr|to_nice_yaml(indent=2)|indent(2) }}
+         pf_rules_services:
+           {{ pf_rules_services|to_nice_yaml(indent=2)|indent(2) }}
          pf_rules_custom:
            {{ pf_rules_custom|to_nice_yaml(indent=2)|indent(2) }}
          pf_ssh_whitelist:
            {{ pf_ssh_whitelist|to_nice_yaml(indent=2)|indent(2) }}
+         * /etc/blacklistd.conf - - - - - - - - - - - - - - - - - - - - - - - - -
+         pf_blacklistd_template: {{ pf_blacklistd_template }}
          pf_blacklistd_flags: {{ pf_blacklistd_flags }}
          pf_blacklistd_conf_local:
            {{ pf_blacklistd_conf_local|to_yaml(indent=2)|indent(2) }}
          pf_blacklistd_conf_remote:
            {{ pf_blacklistd_conf_remote|to_yaml(indent=2)|indent(2) }}
-         pf_fail2ban_flags: {{ pf_fail2ban_flags }}
+         * /usr/local/etc/fail2ban/* - - - - - - - - - - - - - - - - - - - - - -
          pf_fail2ban_local_template: {{ pf_fail2ban_local_template }}
          pf_fail2ban_local_conf:
            {{ pf_fail2ban_local_conf|to_yaml(indent=2)|indent(2) }}
          pf_fail2ban_jail_local_template: {{ pf_fail2ban_jail_local_template }}
          pf_fail2ban_jail_local_conf:
            {{ pf_fail2ban_jail_local_conf|to_yaml(indent=2)|indent(2) }}
+         * /usr/local/etc/relayd.conf - - - - - - - - - - - - - - - - - - - - - -
+         pf_relayd_template: {{ pf_relayd_template }}
+         pf_relayd_conf:
+           {{ pf_relayd_conf|to_yaml(indent=2)|indent(2) }}
+
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
 

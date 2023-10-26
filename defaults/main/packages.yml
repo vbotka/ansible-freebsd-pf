@@ -1,14 +1,31 @@
 ---
-# packages
 
 freebsd_install_method: packages
 # freebsd_install_method: ports
 freebsd_use_packages: true
 freebsd_install_retries: 10
 freebsd_install_delay: 5
+
 pf_fail2ban_packages:
   - security/py-fail2ban
 pf_sshguard_packages:
   - security/sshguard
+pf_relayd_packages:
+  - net/relayd
+
+pf_packages_install: |
+  {% filter flatten %}
+  {% filter from_yaml %}
+  [{% if pf_fail2ban_enable %}
+  {{ pf_fail2ban_packages }},
+  {% endif %}
+  {% if pf_relayd_enable %}
+  {{ pf_relayd_packages }},
+  {% endif %}
+  {% if pf_sshguard_enable %}
+  {{ pf_sshguard_packages }}
+  {% endif %}]
+  {% endfilter %}
+  {% endfilter %}
 
 # EOF

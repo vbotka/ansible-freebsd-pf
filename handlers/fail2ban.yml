@@ -1,8 +1,6 @@
 ---
 # handlers for freebsd_pf
 
-# fail2ban
-
 - name: enable and start fail2ban
   ansible.builtin.service:
     name: fail2ban

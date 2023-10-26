@@ -1,7 +1,6 @@
 ---
-# handlers for freebsd-pf
+# handlers for freebsd_pf
 
-# pflog --------------------------------------------------------------
 - name: enable and start pflog
   ansible.builtin.service:
     name: pflog

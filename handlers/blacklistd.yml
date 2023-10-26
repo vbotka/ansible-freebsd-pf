@@ -1,8 +1,6 @@
 ---
 # handlers for freebsd_pf
 
-# blacklistd
-
 - name: enable and start blacklistd
   ansible.builtin.service:
     name: blacklistd

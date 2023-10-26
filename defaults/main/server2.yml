@@ -1,5 +1,5 @@
 ---
-# variables in the template server2-pf.conf.j2
+# variables for the template server2-pf.conf.j2
 
 srv2_scrub: 'scrub in on $ext_if all fragment reassemble'
 srv2_skiplo0: 'set skip on lo0'

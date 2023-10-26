@@ -17,9 +17,10 @@ galaxy_info:
     - freebsd
     - firewall
     - pf
-    - sshguard
     - blacklistd
     - fail2ban
+    - relayd
+    - sshguard
 dependencies: []
 collections:
   - community.general
