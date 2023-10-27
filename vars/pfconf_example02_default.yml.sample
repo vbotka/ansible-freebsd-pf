@@ -1,0 +1,78 @@
+---
+
+pf_install: true
+pf_enable: true
+pf_debug: false
+pf_log_enable: true
+pf_backup_conf: true
+
+pf_blacklistd_enable: true
+pf_fail2ban_enable: true
+pf_sshguard_enable: true
+
+pf_conf_only: false
+pf_conf_validate: true
+
+# blacklistd
+pf_blacklistd_flags: "-r"
+pf_blacklistd_conf_remote: []
+pf_blacklistd_conf_local:
+  - {adr: ssh, type: stream, proto: "*", owner: "*", name: "*", nfail: "3", disable: 24h}
+  - {adr: ftp, type: stream, proto: "*", owner: "*", name: "*", nfail: "3", disable: 24h}
+  - {adr: smtp, type: stream, proto: "*", owner: "*", name: "*", nfail: "3", disable: 24h}
+  - {adr: smtps, type: stream, proto: "*", owner: "*", name: "*", nfail: "3", disable: 24h}
+  - {adr: submission, type: stream, proto: "*", owner: "*", name: "*", nfail: "3", disable: 24h}
+  - {adr: "*", type: "*", proto: "*", owner: "*", name: "*", nfail: "3", disable: "60"}
+pf_blacklistd_rcconf:
+  - {regexp: blacklistd_flags, line: "{{ pf_blacklistd_flags }}"}
+
+# /etc/pf.conf
+pf_type: default
+
+pf_ext_if: wlan0
+pf_jails_net: 10.1.0.0/24
+pf_logall_blocked: log
+pf_pass_icmp_types: [echoreq, unreach]
+pf_pass_icmp6_types: [echoreq, unreach]
+pf_ext_tcp_ports: [ssh, http, https]
+
+pf_macros:
+  ext_if: "{{ pf_ext_if }}"
+  jails_net: "{{ pf_jails_net }}"
+  logall: "{{ pf_logall_blocked }}"
+  icmp_types: "{{ pf_pass_icmp_types }}"
+  icmp6_types: "{{ pf_pass_icmp6_types }}"
+  ext_tcp_ports: "{{ pf_ext_tcp_ports }}"
+  syn_state: flags S/SA synproxy state
+  sto_ext_ports: (max-src-conn-rate 500/10, overload <blocked_hosts> flush global)
+  keep_state: flags S/SA keep state
+  sto_ssh: (max-src-conn 10, max-src-conn-rate 3/5, overload <sshabuse> flush)
+
+pf_options:
+  - set skip on lo0
+  - set block-policy return
+  - set loginterface $ext_if
+
+pf_tables:
+  - table <sshabuse> persist
+
+pf_normalization:
+  - scrub in on $ext_if all fragment reassemble
+
+pf_translation:
+  - nat on $ext_if inet from ! ($ext_if) to any -> ($ext_if)
+
+pf_filtering:
+  - "{{ pf_rules_rdr }}"
+  - antispoof for $ext_if
+  - "{{ pf_anchors }}"
+  - block in quick from <sshabuse>
+  - pass in quick on $ext_if proto tcp to $jails_net port ssh $keep_state $sto_ssh
+  - block $logall all
+  - pass inet proto icmp all icmp-type $icmp_types
+  - pass inet6 proto icmp6 all icmp6-type $icmp6_types
+  - pass in on $ext_if proto tcp to $jails_net port $ext_tcp_ports $syn_state $sto_ext_ports
+  - pass from { self, $jails_net } to any keep state
+
+# EOF
+...
