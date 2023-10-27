@@ -16,13 +16,15 @@ pf_conf_validate: true
 
 # /etc/pf.conf - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 pf_type: default
+pf_ext_if: ue0
+pf_int_if: re0
 pf_logall_blocked: log
 pf_pass_icmp_types: [echoreq, unreach]
 pf_pass_icmp6_types: [echoreq, unreach]
 
 pf_macros:
-  ext_if: ue0
-  int_if: re0
+  ext_if: "{{ pf_ext_if }}"
+  int_if: "{{ pf_int_if }}"
   localnet: '$int_if:network'
   logall: "{{ pf_logall_blocked }}"
   icmp_types: "{{ pf_pass_icmp_types }}"
