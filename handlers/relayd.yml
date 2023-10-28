@@ -9,6 +9,7 @@
   when:
     - pf_relayd_enable|bool
     - pf_relayd_service.stat.exists
+    - not pf_relayd_conf_only|bool
 
 - name: disable and stop relayd
   ansible.builtin.service:
@@ -26,6 +27,7 @@
   when:
     - pf_relayd_enable|bool
     - pf_relayd_service.stat.exists
+    - not pf_relayd_conf_only|bool
 
 - name: reload relayd
   ansible.builtin.service:
@@ -34,6 +36,7 @@
   when:
     - pf_relayd_enable|bool
     - pf_relayd_service.stat.exists
+    - not pf_relayd_conf_only|bool
 
 # EOF
 ...

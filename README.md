@@ -70,14 +70,14 @@ Review the defaults and examples in vars.
 
 1) Change shell to /bin/sh
 
-```shell
+```bash
 shell> ansible srv.example.com -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod freebsd -s /bin/sh'
 ```
 
 
 2) Install the role and collections
 
-```shell
+```bash
 shell> ansible-galaxy role install vbotka.freebsd_pf
 shell> ansible-galaxy collection install community.general
 ```
@@ -109,7 +109,7 @@ shell> cat freebsd-pf.yml
 
 6) Install packages
 
-```shell
+```bash
 shell> ansible-playbook -t pf_packages  -e pf_install=true freebsd-pf.yml
 ```
 
@@ -122,7 +122,7 @@ the handlers for details. As a consequence, both handlers starting and
 reloading don't work properly and the ssh connection will
 stale. Therefore, let us first configure the rules
 
-```shell
+```bash
 shell> ansible-playbook -e pf_enable=false freebsd-pf.yml
 ```
 
@@ -138,7 +138,7 @@ disable the firewall in 2 minutes. You might want to run these
 commands always when you experiment with the firewall. Now enable the
 firewall
 
-```shell
+```bash
 shell> ansible-playbook -e pf_enable=true freebsd-pf.yml
 ```
 
@@ -148,18 +148,20 @@ shell> ansible-playbook -e pf_enable=true freebsd-pf.yml
 Open ssh connection to the host for the case that something goes
 wrong. Update and validate the configuration. Do not reload the rules
 
-```shell
+```bash
 shell> ansible-playbook -e pf_conf_only=true -e pf_conf_validate=true freebsd-pf.yml
 ```
 
 Reload the rules after the configuration has been updated and validated
 
-```shell
+```bash
 shell> ansible srv.example.com -m service -a "name=pf state=reloaded"
 ```
 
 
 ## Troubleshooting
+
+### pf.conf
 
 As a first step enable backup of the configuration files
 
@@ -167,10 +169,10 @@ As a first step enable backup of the configuration files
 pf_backup_conf: true
 ```
 
-In case the configuration does not pass the validation the play stops
+In case the configuration /etc/pf.conf does not pass the validation the play fails
 
 ```yaml
-TASK [vbotka.freebsd_pf : template] **********************************************
+TASK [vbotka.freebsd_pf : pfconf: Configure rules] **********************************************
 fatal: [srv.example.com]: FAILED! => changed=false
   checksum: 765302b1f0de9f200b2cab396e0271fc04e6adcc
   exit_status: 1
@@ -186,20 +188,39 @@ review.
 
 Enable *pf_conf_only=true* and disable validation *pf_conf_validate=false* to find the problem
 
-```shell
+```bash
 shell> ansible-playbook -e pf_conf_only=true -e pf_conf_validate=false freebsd-pf.yml
 ```
 
 Locate the syntax error in the configuration file /etc/pf.conf
 
-```shell
+```bash
 shell> pfctl -n -f /etc/pf.conf
 ```
 
 Update, validate, and reload the rules after the configuration was fixed
 
-```shell
+```bash
 shell> ansible srv.example.com -m service -a "name=pf state=reloaded"
+```
+
+### relayd.conf
+
+The same way it is possible to troubleshoot /usr/local/etc/relayd.conf
+
+```bash
+shell> ansible-playbook -t pf_relayd -e pf_debug=true -e pf_relayd_conf_validate=false -e pf_relayd_conf_only=true freebsd-pf.yml
+```
+Locate the syntax error in the configuration file /usr/local/etc/relayd.conf
+
+```bash
+shell> relayd -n -f /usr/local/etc/relayd.conf
+```
+
+Update, validate, and reload the rules after the configuration was fixed
+
+```bash
+shell> ansible srv.example.com -m service -a "name=relayd state=reloaded"
 ```
 
 
@@ -214,6 +235,8 @@ shell> ansible-playbook -e pf_conf_only=false -e pf_conf_validate=false freebsd-
 fatal: [srv.example.com]: FAILED! => changed=false
   msg: Validation can be turned off if pf_conf_only=True. End of play.
 ```
+
+The role fails the same way in case `-e pf_relayd_conf_only=false -e pf_relayd_conf_validate=false`
 
 
 ## References
