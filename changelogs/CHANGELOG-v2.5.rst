@@ -18,12 +18,14 @@ template default-pf.conf.j2.
 Major Changes
 -------------
 - Add support for net/relayd
-- Add template default-pf.conf.j2
+- Add templates: default-pf.conf.j2, default-relayd.conf.j2, default-ini.j2
+- Add dictionaries: pf_relayd_macros, pf_relayd_redirections, pf_relayd_protocols, pf_relayd_relays
+- Add lists: pf_relayd_tables, pf_relayd_options
+- Add variables: pf_relayd_conf_only, pf_relayd_conf_validate and pf_relayd_conf_validate_command
 - Add dictionary pf_macros
-- Add lists pf_tables, pf_options, pf_normalization, pf_queuing,
+- Add lists: pf_tables, pf_options, pf_normalization, pf_queuing,
   pf_translation, pf_anchors, and pf_filtering
-- Merge all installed packages into a single list. Added var
-  pf_packages_install.
+- Merge all installed packages into a single list. Add var pf_packages_install.
 - Updated README
 
 
