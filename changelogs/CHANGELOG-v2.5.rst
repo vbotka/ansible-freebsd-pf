@@ -21,7 +21,7 @@ Major Changes
 - Add template default-pf.conf.j2
 - Add dictionary pf_macros
 - Add lists pf_tables, pf_options, pf_normalization, pf_queuing,
-  pf_translation, +pf_anchors, and pf_filtering
+  pf_translation, pf_anchors, and pf_filtering
 - Merge all installed packages into a single list. Added var
   pf_packages_install.
 - Updated README
@@ -29,7 +29,7 @@ Major Changes
 
 Minor Changes
 -------------
-- Add variables: pf_blacklistd_template
+- Add variables: pf_blacklistd_template, pf_conf_template
 - Add examples vars/pfconf_example*.yml.sample
 - Backup blacklistd.conf.orig
 - Update output of debug
