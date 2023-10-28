@@ -35,7 +35,7 @@ Minor Changes
 - Unified error tag [ERR]
 - Update output of debug
 - Update pfconf block and task names
-  
+
 
 Breaking Changes / Porting Guide
 --------------------------------
@@ -51,3 +51,8 @@ Breaking Changes / Porting Guide
 - Rename vars/main.yml.sample to vars/pf_examples.yml.sample
 - Updated defaults
 - Configuration of fail2ban not ready for v1.0
+
+
+Bufixes
+-------
+- fail2ban - fix defaults and templates

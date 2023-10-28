@@ -6,7 +6,7 @@ pf_fail2ban_rcconf:
 
 pf_fail2ban_local_template: default-fail2ban.local.j2
 pf_fail2ban_local_conf:
-  - {section: definition, line: 'loglevel = INFO'}
+  - {section: default, line: 'loglevel = INFO'}
 
 pf_fail2ban_jail_local_template: default-jail.local.j2
 pf_fail2ban_jail_local_conf: []
