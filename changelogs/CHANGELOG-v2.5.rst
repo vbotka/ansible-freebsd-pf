@@ -32,8 +32,9 @@ Minor Changes
 - Add variables: pf_blacklistd_template, pf_conf_template
 - Add examples vars/pfconf_example*.yml.sample
 - Backup blacklistd.conf.orig
-- Update output of debug
 - Unified error tag [ERR]
+- Update output of debug
+- Update pfconf block and task names
   
 
 Breaking Changes / Porting Guide

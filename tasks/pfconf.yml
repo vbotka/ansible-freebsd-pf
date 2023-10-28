@@ -13,10 +13,10 @@
     msg: "{{ '{}'.format(msg) }}"
   when: pf_debug|bool
 
-- name: "pfconf: Configure and validate rules using template {{ pf_conf_template }}"
+- name: "pfconf: Configure and validate"
   block:
 
-    - name: "pfconf: Configure rules using template {{ pf_conf_template }}"
+    - name: "pfconf: Configure rules using template {{ pf_conf_template }} and validate"
       ansible.builtin.template:
         dest: /etc/pf.conf
         src: "{{ pf_conf_template }}"
@@ -34,7 +34,7 @@
 
   when: pf_conf_validate|bool
 
-- name: "pfconf: Configure, do not validate rules using template {{ pf_conf_template }}"
+- name: "pfconf: Configure and do not validate"
   block:
 
     - name: "pfconf: Fail when pf_conf_validate=False and pf_conf_only=False"
@@ -42,7 +42,7 @@
         msg: "[ERR] Validation can be turned off if pf_conf_only=True."
       when: not pf_conf_only|bool
 
-    - name: "pfconf: Configure, do not validate rules using template {{ pf_conf_template }}"
+    - name: "pfconf: Configure rules using template {{ pf_conf_template }} and do not validate"
       ansible.builtin.template:
         dest: /etc/pf.conf
         src: "{{ pf_conf_template }}"
