@@ -10,7 +10,7 @@
 
 - name: "fail2ban: Fail if fail2ban is enabled and no service exists"
   ansible.builtin.fail:
-    msg: '[ERROR] fail2ban is enabled, but no service exists.'
+    msg: '[ERR] fail2ban is enabled, but no service exists.'
   when:
     - pf_fail2ban_enable|bool
     - not pf_fail2ban_service.stat.exists

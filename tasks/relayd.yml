@@ -7,7 +7,7 @@
 
 - name: "relayd: Fail if relayd is enabled and no service exists"
   ansible.builtin.fail:
-    msg: '[ERROR] relayd is enabled, but no service exists.'
+    msg: '[ERR] relayd is enabled, but no service exists.'
   when:
     - pf_relayd_enable|bool
     - not pf_relayd_service.stat.exists

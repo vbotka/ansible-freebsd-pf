@@ -7,7 +7,7 @@
 
 - name: "blacklistd: Fail if blacklistd is enabled and no service exists"
   ansible.builtin.fail:
-    msg: '[ERROR] blacklistd is enabled, but no service exists.'
+    msg: '[ERR] blacklistd is enabled, but no service exists.'
   when:
     - pf_blacklistd_enable|bool
     - not pf_blacklistd_service.stat.exists

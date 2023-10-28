@@ -30,7 +30,7 @@
   rescue:
     - name: "pfconf: Validation failed"
       ansible.builtin.fail:
-        msg: "[ERROR] Validation error: {{ ansible_failed_result }}"
+        msg: "[ERR] Validation error: {{ ansible_failed_result }}"
 
   when: pf_conf_validate|bool
 

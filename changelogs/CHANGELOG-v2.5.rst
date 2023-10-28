@@ -33,6 +33,7 @@ Minor Changes
 - Add examples vars/pfconf_example*.yml.sample
 - Backup blacklistd.conf.orig
 - Update output of debug
+- Unified error tag [ERR]
   
 
 Breaking Changes / Porting Guide
