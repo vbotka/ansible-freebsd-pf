@@ -11,9 +11,9 @@ pf_fail2ban_enable: false
 pf_relayd_enable: false
 pf_sshguard_enable: false
 
-# pf.conf template pattern
-# src: "{{ pf_type }}-pf.conf.j2"
+# pf.conf template
 pf_type: default
+pf_conf_template: "{{ pf_type }}-pf.conf.j2"
 
 # Async timeout to start/restart/reload pf. See handlers/pf.yml
 pf_async_timeout: 45
