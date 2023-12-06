@@ -16,10 +16,8 @@
   when:
     - pf_enable|bool
     - not ansible_check_mode
-    - not pfconf_only|bool
-  changed_when:
-    - pf_enable|bool
-    - not pfconf_only|bool
+    - not pf_conf_only|bool
+  changed_when: pf_enable|bool
 
 - name: disable and stop pf
   ansible.builtin.service:
@@ -37,10 +35,8 @@
   when:
     - pf_enable|bool
     - not ansible_check_mode
-    - not pfconf_only|bool
-  changed_when:
-    - pf_enable|bool
-    - not pfconf_only|bool
+    - not pf_conf_only|bool
+  changed_when: pf_enable|bool
 
 - name: reload pf
   # service: name="pf" state="reloaded"
@@ -52,10 +48,8 @@
   when:
     - pf_enable|bool
     - not ansible_check_mode
-    - not pfconf_only|bool
-  changed_when:
-    - pf_enable|bool
-    - not pfconf_only|bool
+    - not pf_conf_only|bool
+  changed_when: pf_enable|bool
 
 # EOF
 ...

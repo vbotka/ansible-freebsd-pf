@@ -1,0 +1,54 @@
+---
+
+pf_install: true
+pf_enable: true
+pf_debug: false
+pf_log_enable: true
+pf_backup_conf: true
+
+pf_blacklistd_enable: true
+pf_fail2ban_enable: false
+pf_relayd_enable: false
+pf_sshguard_enable: false
+
+pf_conf_only: false
+pf_conf_validate: true
+
+# /etc/pf.conf - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+pf_type: default
+pf_ext_if: ue0
+pf_int_if: re0
+pf_logall_blocked: log
+pf_pass_icmp_types: [echoreq, unreach]
+pf_pass_icmp6_types: [echoreq, unreach]
+
+pf_macros:
+  ext_if: "{{ pf_ext_if }}"
+  int_if: "{{ pf_int_if }}"
+  localnet: '$int_if:network'
+  logall: "{{ pf_logall_blocked }}"
+  icmp_types: "{{ pf_pass_icmp_types }}"
+  icmp6_types: "{{ pf_pass_icmp6_types }}"
+
+pf_options:
+  - set skip on lo0
+  - set block-policy return
+  - set loginterface $ext_if
+
+pf_normalization:
+  - scrub in on $ext_if all fragment reassemble
+
+pf_translation:
+  - nat on $ext_if from $localnet to any -> ($ext_if)
+
+pf_filtering:
+  - antispoof for $ext_if
+  - antispoof for $int_if
+  - "{{ pf_anchors }}"
+  - block $logall all
+  - pass inet proto icmp all icmp-type $icmp_types
+  - pass inet6 proto icmp6 all icmp6-type $icmp6_types
+  - pass from { self, $localnet } to any keep state
+
+# EOF
+...

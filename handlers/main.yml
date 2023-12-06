@@ -1,5 +1,10 @@
 ---
-# handlers for freebsd_pf
+
+- name: Import blacklistd.yml
+  ansible.builtin.import_tasks: blacklistd.yml
+
+- name: Import fail2ban.yml
+  ansible.builtin.import_tasks: fail2ban.yml
 
 - name: Import pf.yml
   ansible.builtin.import_tasks: pf.yml
@@ -7,11 +12,8 @@
 - name: Import pflog.yml
   ansible.builtin.import_tasks: pflog.yml
 
-- name: Import blacklistd.yml
-  ansible.builtin.import_tasks: blacklistd.yml
-
 - name: Import fail2ban.yml
-  ansible.builtin.import_tasks: fail2ban.yml
+  ansible.builtin.import_tasks: relayd.yml
 
 - name: Import sshguard.yml
   ansible.builtin.import_tasks: sshguard.yml

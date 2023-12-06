@@ -1,0 +1,70 @@
+#jinja2: lstrip_blocks: True
+# {{ ansible_managed }}. Template: {{ template_path }}
+
+#
+# Macros  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+{% for k, v in pf_relayd_macros.items() %}
+  {% if v is string %}
+    {% if v.0 == '$' %}
+{{ k }}={{ v }}
+    {% else %}
+{{ k }}="{{ v }}"
+    {% endif %}
+  {% else %}
+{{ k }}="{ {{ v|join(', ') }} }"
+  {% endif %}
+{% endfor %}
+
+#
+# Global Options - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+{% for i in pf_relayd_options|flatten %}
+{{ i }}
+{% endfor %}
+
+#
+# Each table will be mapped to a pf table.  - - - - - - - - - - - - - - - - - -
+#
+{% for i in pf_relayd_tables|flatten %}
+{{ i }}
+{% endfor %}
+
+#
+# Services will be mapped to a rdr rule. - - - - - - - - - - - - - - - - - - - -
+#
+{% for key, val in pf_relayd_redirections.items() %}
+redirect "{{ key }}" {
+  {% for i in  val %}
+       {{ i }}
+  {% endfor %}
+}
+{% endfor %}
+
+#
+# Protocols - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+{% for key, val in pf_relayd_protocols.items() %}
+  {% if key|split|length > 1 %}
+{{ key|split|first }} protocol "{{ key|split|last }}" {
+  {% else %}
+protocol "{{ key }}" {
+  {% endif %}
+  {% for i in  val %}
+       {{ i }}
+  {% endfor %}
+}
+{% endfor %}
+
+#
+# Relays - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+#
+{% for key, val in pf_relayd_relays.items() %}
+relay "{{ key }}" {
+  {% for i in  val %}
+       {{ i }}
+  {% endfor %}
+}
+{% endfor %}
+
+# EOF

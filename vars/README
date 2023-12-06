@@ -1,0 +1,18 @@
+
+# Examples
+
+## Template: default-pf.conf.j2
+
+### pfconf_default_ex01.yml.sample
+
+Simple router; ext_if, int_if, blacklistd; nat; block all; pass from { self, $localnet } to any keep state
+
+### pfconf_default_ex02.yml.sample
+
+Simple server with jails; ext_if; blacklistd, fail2ban, sshguard; nat; ext_tcp_ports = "{ ssh, http, https }"; pass from { self, $jails_net } to any keep state
+
+### pfconf_default_ex03.yml.sample
+
+Simple server with jails and redirections; ext_if; blacklistd, fail2ban, sshguard; nat; ext_tcp_ports = "{ ssh, http, https }"; pass from { self, $jails_net } to any keep state
+
+# EOF

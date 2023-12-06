@@ -1,8 +1,8 @@
 # {{ ansible_managed }}
 
-[Definition]
+[DEFAULT]
 {% for item in pf_fail2ban_local_conf %}
-{% if item.section == "definition" %}
+{% if item.section|lower == "default" %}
 {{ item.line }}
 {% endif %}
 {% endfor %}

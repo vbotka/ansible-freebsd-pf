@@ -1,0 +1,8 @@
+---
+
+pf_options:
+  - set skip on lo0
+  - set block-policy drop
+  - set loginterface $ext_if
+
+# EOF

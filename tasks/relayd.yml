@@ -1,0 +1,81 @@
+---
+
+- name: "relayd: Debug"
+  vars:
+    msg: |-
+         pf_relayd_template: {{ pf_relayd_template }}
+         pf_relayd_conf_only: {{ pf_relayd_conf_only }}
+         pf_relayd_conf_validate: {{ pf_relayd_conf_validate }}
+         pf_relayd_conf_validate_command: {{ pf_relayd_conf_validate_command }}
+
+         pf_relayd_macros:
+           {{ pf_relayd_macros|to_nice_yaml(indent=2)|indent(2) }}
+         pf_relayd_options:
+           {{ pf_relayd_options|to_nice_yaml(indent=2)|indent(2) }}
+         pf_relayd_tables:
+           {{ pf_relayd_tables|to_nice_yaml(indent=2)|indent(2) }}
+         pf_relayd_redirections:
+           {{ pf_relayd_redirections|to_nice_yaml(indent=2)|indent(2) }}
+         pf_relayd_protocols:
+           {{ pf_relayd_protocols|to_nice_yaml(indent=2)|indent(2) }}
+         pf_relayd_relays:
+           {{ pf_relayd_relays|to_nice_yaml(indent=2)|indent(2) }}
+  ansible.builtin.debug:
+    msg: "{{ '{}'.format(msg) }}"
+  when: pf_debug|bool
+
+- name: "relayd: Stat /usr/local/etc/rc.d/relayd"
+  ansible.builtin.stat:
+    path: /usr/local/etc/rc.d/relayd
+  register: pf_relayd_service
+
+- name: "relayd: Fail if relayd is enabled and no service exists"
+  ansible.builtin.fail:
+    msg: '[ERR] relayd is enabled, but no service exists.'
+  when:
+    - pf_relayd_enable|bool
+    - not pf_relayd_service.stat.exists
+
+- name: "relayd: Configure and validate"
+  block:
+
+    - name: "relayd: Configure /usr/local/etc/relayd.conf and validate"
+      ansible.builtin.template:
+        dest: /usr/local/etc/relayd.conf
+        src: "{{ pf_relayd_template }}"
+        owner: root
+        group: wheel
+        mode: '0644'
+        backup: "{{ pf_backup_conf }}"
+        validate: "{{ pf_relayd_conf_validate_command }}"
+      notify: reload relayd
+      when: pf_relayd_enable|bool
+
+  rescue:
+    - name: "relayd: Validation failed"
+      ansible.builtin.fail:
+        msg: "[ERR] Validation error: {{ ansible_failed_result }}"
+
+  when: pf_relayd_conf_validate|bool
+
+- name: "relayd: Configure and do not validate"
+  block:
+
+    - name: "relayd: Fail when pf_relayd_conf_validate=False and pf_relayd_conf_only=False"
+      ansible.builtin.fail:
+        msg: "[ERR] Validation can be turned off if pf_relayd_conf_only=True."
+      when: not pf_relayd_conf_only|bool
+
+    - name: "relayd: Configure /usr/local/etc/relayd.conf and do not validate"
+      ansible.builtin.template:
+        dest: /usr/local/etc/relayd.conf
+        src: "{{ pf_relayd_template }}"
+        owner: root
+        group: wheel
+        mode: '0644'
+        backup: "{{ pf_backup_conf }}"
+
+  when: not pf_relayd_conf_validate|bool
+
+# EOF
+...

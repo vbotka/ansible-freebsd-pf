@@ -5,45 +5,53 @@
     msg: |-
          pf_type: {{ pf_type }}
          pf_ext_if: {{ pf_ext_if }}
-         pfconf_validate: {{ pfconf_validate }}
-         pfconf_only: {{ pfconf_only }}
+         pf_conf_template: {{ pf_conf_template }}
+         pf_conf_only: {{ pf_conf_only }}
+         pf_conf_validate: {{ pf_conf_validate }}
+         pf_conf_validate_command: {{ pf_conf_validate_command }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
   when: pf_debug|bool
 
-- name: "pfconf: Configure and validate rules using {{ pf_type }}-pf.conf.j2 template"
+- name: "pfconf: Configure and validate"
   block:
-    - name: "pfconf: Configure rules using {{ pf_type }}-pf.conf.j2 template"
+
+    - name: "pfconf: Configure rules using template {{ pf_conf_template }} and validate"
       ansible.builtin.template:
         dest: /etc/pf.conf
-        src: "{{ pf_type }}-pf.conf.j2"
+        src: "{{ pf_conf_template }}"
         owner: root
         group: wheel
         mode: '0640'
         backup: "{{ pf_backup_conf }}"
-        validate: "{{ pfconf_validate_command }}"
+        validate: "{{ pf_conf_validate_command }}"
       notify: reload pf
+
   rescue:
     - name: "pfconf: Validation failed"
       ansible.builtin.fail:
-        msg: "[ERROR] Validation error: {{ ansible_failed_result }}"
-  when: pfconf_validate|bool
+        msg: "[ERR] Validation error: {{ ansible_failed_result }}"
 
-- name: "pfconf: Configure, do not validate rules using {{ pf_type }}-pf.conf.j2 template"
+  when: pf_conf_validate|bool
+
+- name: "pfconf: Configure and do not validate"
   block:
-    - name: "Fail when pfconf_validate=False and pfconf_only=False"
+
+    - name: "pfconf: Fail when pf_conf_validate=False and pf_conf_only=False"
       ansible.builtin.fail:
-        msg: "[ERROR] Validation can be turned off if pfconf_only=True."
-      when: not pfconf_only|bool
-    - name: "pfconf: Configure, do not validate rules using {{ pf_type }}-pf.conf.j2 template"
+        msg: "[ERR] Validation can be turned off if pf_conf_only=True."
+      when: not pf_conf_only|bool
+
+    - name: "pfconf: Configure rules using template {{ pf_conf_template }} and do not validate"
       ansible.builtin.template:
         dest: /etc/pf.conf
-        src: "{{ pf_type }}-pf.conf.j2"
+        src: "{{ pf_conf_template }}"
         owner: root
         group: wheel
         mode: '0640'
         backup: "{{ pf_backup_conf }}"
-  when: not pfconf_validate|bool
+
+  when: not pf_conf_validate|bool
 
 # EOF
 ...

@@ -1,0 +1,74 @@
+---
+
+pf_relayd_path: /usr/local/sbin/relayd
+
+pf_relayd_flags: ''
+pf_relayd_rcconf:
+  - {regexp: relayd_flags, line: "{{ pf_relayd_flags }}"}
+
+pf_relayd_template: default-relayd.conf.j2
+pf_relayd_conf_only: false  # Do not notify handler to reload
+pf_relayd_conf_validate: true
+pf_relayd_conf_validate_command: "{{ pf_relayd_path }} -n -f %s"
+
+pf_relayd_macros:
+  ext_addr: 192.168.1.1
+  webhost1: 10.0.0.1
+  webhost2: 10.0.0.2
+  sshhost1: 10.0.0.3
+  webproxy1: 10.0.0.4
+  webproxy2: 10.0.0.5
+
+pf_relayd_options:
+  - '# interval 10'
+  - '# timeout 1000'
+  - '# prefork 5'
+
+pf_relayd_tables:
+  - table <webproxy> { $webproxy1 $webproxy2 }
+  - table <webhosts> { $webhost1 $webhost2 }
+  - table <fallback> { 127.0.0.1 }
+
+pf_relayd_redirections:
+  www:
+    - listen on $ext_addr port http interface trunk0
+    - pftag RELAYD
+    - forward to <webhosts> check http "/" code 200
+    - forward to <fallback> check icmp
+
+pf_relayd_protocols:
+  http https:
+    - match request header append "X-Forwarded-For" value "$REMOTE_ADDR"
+    - match request header append "X-Forwarded-By" value "$SERVER_ADDR:$SERVER_PORT"
+    - match request header set "Connection" value "close"
+    - tcp { sack, backlog 128 }
+  sshtcp:
+    - tcp nodelay
+  http httpfilter:
+    - return error
+    - match request label "URL filtered!"
+    - block request quick url "www.example.com/" value "*"
+    - match request label "Please try a <em>different Browser</em>"
+    - block request quick header "User-Agent" value "Mozilla/4.0 (compatible; MSIE *"
+    - match request label "Instant messenger disallowed!"
+    - block response quick header "Content-Type" value "application/x-msn-messenger"
+    - block response quick header "Content-Type" value "app/x-hotbar-xip20"
+    - block response quick header "Content-Type" value "application/x-icq"
+    - block response quick header "Content-Type" value "AIM/HTTP"
+    - block response quick header "Content-Type" value "application/x-comet-log"
+
+pf_relayd_relays:
+  wwwtls:
+    - listen on $ext_addr port 443 tls
+    - protocol https
+    - forward to <webhosts> port http mode loadbalance check http "/" code 200
+  sshgw:
+    - listen on $ext_addr port 2222
+    - protocol sshtcp
+    - forward to $sshhost1 port 22
+  httpproxy:
+    - listen on 127.0.0.1 port 8080
+    - protocol httpfilter
+    - forward to <webproxy> port http mode loadbalance check http "/" code 200
+
+# EOF

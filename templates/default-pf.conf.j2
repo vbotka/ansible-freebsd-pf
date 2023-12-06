@@ -1,0 +1,47 @@
+#jinja2: lstrip_blocks: True
+# {{ ansible_managed }}
+# template: {{ template_path }}
+
+# MACROS  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+{% for k, v in pf_macros.items() %}
+  {% if v is string %}
+    {% if v.0 == '$' %}
+{{ k }} = {{ v }}
+    {% else %}
+{{ k }} = "{{ v }}"
+    {% endif %}
+  {% else %}
+{{ k }} = "{ {{ v|join(', ') }} }"
+  {% endif %}
+{% endfor %}
+
+# TABLES  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+{% for i in pf_tables|flatten %}
+{{ i }}
+{% endfor %}
+# OPTIONS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+{% for i in pf_options|flatten %}
+{{ i }}
+{% endfor %}
+# NORMALIZATION - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+{% for i in pf_normalization|flatten %}
+{{ i }}
+{% endfor %}
+# QUEUING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+{% for i in pf_queuing|flatten %}
+{{ i }}
+{% endfor %}
+# TRANSLATION - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+{% for i in pf_translation|flatten %}
+{{ i }}
+{% endfor %}
+# FILTERING - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+{% for i in pf_filtering|flatten %}
+{{ i }}
+{% endfor %}
+# CUSTOM
+{% for i in pf_rules_custom|flatten %}
+{{ i }}
+{% endfor %}
+
+# EOF

@@ -1,0 +1,14 @@
+pf_macros:
+  martians:
+    - 127.0.0.0/8
+    - 192.168.0.0/16
+    - 172.16.0.0/12
+    - 10.0.0.0/8
+    - 169.254.0.0/16
+    - 192.0.2.0/24
+    - 0.0.0.0/8
+    - 240.0.0.0/4
+
+pf_filtering:
+  - block in quick on $ext_if from $martians to any
+  - block out quick on $ext_if from any to $martians

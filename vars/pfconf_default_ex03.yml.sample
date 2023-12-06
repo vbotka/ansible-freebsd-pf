@@ -1,0 +1,80 @@
+---
+pf_install: true
+pf_enable: true
+pf_debug: false
+pf_log_enable: true
+pf_backup_conf: true
+
+pf_blacklistd_enable: true
+pf_fail2ban_enable: true
+pf_relayd_enable: false
+pf_sshguard_enable: true
+
+pfconf_only: false
+pfconf_validate: true
+
+# blacklistd
+pf_blacklistd_flags: '-r'
+pf_blacklistd_conf_remote: []
+pf_blacklistd_conf_local:
+  - {adr: ssh, type: stream, proto: '*', owner: '*', name: '*', nfail: '3', disable: 24h}
+  - {adr: ftp, type: stream, proto: '*', owner: '*', name: '*', nfail: '3', disable: 24h}
+  - {adr: smtp, type: stream, proto: '*', owner: '*', name: '*', nfail: '3', disable: 24h}
+  - {adr: smtps, type: stream, proto: '*', owner: '*', name: '*', nfail: '3', disable: 24h}
+  - {adr: submission, type: stream, proto: '*', owner: '*', name: '*', nfail: '3', disable: 24h}
+  - {adr: '*', type: '*', proto: '*', owner: '*', name: '*', nfail: '3', disable: '60'}
+pf_blacklistd_rcconf:
+  - {regexp: blacklistd_flags, line: "{{ pf_blacklistd_flags }}"}
+
+# /etc/pf.conf
+
+pf_type: default
+
+pf_ext_if: em0
+pf_logall_blocked: log
+pf_pass_icmp_types: [echoreq, unreach]
+pf_pass_icmp6_types: [echoreq, unreach]
+pf_jails_net: 10.1.0.0/24
+pf_rules_rdr:
+  - rdr pass on $ext_if proto tcp from any to 10.1.0.51 port { 80 443 8080 8081 } -> 127.0.2.1  # test_01
+  - rdr pass on $ext_if proto tcp from any to 10.1.0.52 port { 80 443 } -> 127.0.2.2            # test_02
+  - rdr pass on $ext_if proto tcp from any to 10.1.0.53 port { 80 443 } -> 127.0.2.3            # test_03
+  - rdr pass on $ext_if proto tcp from any to 10.1.0.54 port { 80 443 } -> 127.0.2.4            # test_04
+  - rdr pass on $ext_if proto tcp from any to 10.1.0.55 port { 80 443 } -> 127.0.2.5            # test_05
+  - rdr pass on $ext_if proto tcp from any to 10.1.0.56 port { 80 443 } -> 127.0.2.6            # test_06
+  - rdr pass on $ext_if proto tcp from any to 10.1.0.57 port { 80 443 } -> 127.0.2.7            # test_07
+  - rdr pass on $ext_if proto tcp from any to 10.1.0.58 port { 80 443 } -> 127.0.2.8            # test_08
+  - rdr pass on $ext_if proto tcp from any to 10.1.0.59 port { 80 443 } -> 127.0.2.9            # test_09
+  - rdr pass on $ext_if proto tcp from any to 10.1.0.60 port { 80 443 } -> 127.0.2.10           # test_10
+
+pf_macros:
+  ext_if: "{{ pf_ext_if }}"
+  localnet: "{{ pf_jails_net }}"
+  logall: "{{ pf_logall_blocked }}"
+  icmp_types: "{{ pf_pass_icmp_types }}"
+  icmp6_types: "{{ pf_pass_icmp6_types }}"
+
+pf_options:
+  - set skip on lo0
+  - set block-policy return
+  - set loginterface $ext_if
+
+pf_tables:
+  - table <sshabuse> persist
+
+pf_normalization:
+  - scrub in on $ext_if all fragment reassemble
+
+pf_translation:
+  - "{{ pf_rules_rdr }}"
+  - nat on $ext_if from $localnet to any -> ($ext_if)
+
+pf_filtering:
+  - antispoof for $ext_if
+  - "{{ pf_anchors }}"
+  - block $logall all
+  - pass inet proto icmp all icmp-type $icmp_types
+  - pass inet6 proto icmp6 all icmp6-type $icmp6_types
+  - pass from { self, $localnet } to any keep state
+# EOF
+...

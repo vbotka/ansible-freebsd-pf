@@ -1,7 +1,10 @@
 ---
-# blacklistd
 
 pf_blacklistd_flags: '-r'
+pf_blacklistd_rcconf:
+  - {regexp: blacklistd_flags, line: "{{ pf_blacklistd_flags }}"}
+
+pf_blacklistd_template: default-blacklistd.conf.j2
 pf_blacklistd_conf_remote: []
 pf_blacklistd_conf_local:
   - {adr: ssh, type: stream, proto: '*', owner: '*', name: '*', nfail: '3', disable: '24h'}
@@ -10,7 +13,5 @@ pf_blacklistd_conf_local:
   - {adr: smtps, type: stream, proto: '*', owner: '*', name: '*', nfail: '3', disable: '24h'}
   - {adr: submission, type: stream, proto: '*', owner: '*', name: '*', nfail: '3', disable: '24h'}
   - {adr: '*', type: '*', proto: '*', owner: '*', name: '*', nfail: '3', disable: '60'}
-pf_blacklistd_rcconf:
-  - {regexp: blacklistd_flags, line: "{{ pf_blacklistd_flags }}"}
 
 # EOF

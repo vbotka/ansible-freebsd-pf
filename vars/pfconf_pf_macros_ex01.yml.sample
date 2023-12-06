@@ -1,0 +1,14 @@
+---
+
+pf_macros:
+  ext_if: ue0
+  int_if: re0
+  localnet: '$int_if:network'
+  pubserv: [ssh, http, https]
+  lanserv: [ssh, domain, pop3, auth, https, pop3s]
+  logall: log
+  logopt: log
+  icmp_types: [echoreq, unreach]
+  icmp6_types: [echoreq, unreach]
+
+# EOF

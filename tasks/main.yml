@@ -1,5 +1,4 @@
 ---
-# tasks for freebsd_pf
 
 - name: Import debug.yml
   ansible.builtin.import_tasks: debug.yml
@@ -10,6 +9,10 @@
   ansible.builtin.import_tasks: packages.yml
   when: pf_install|bool
   tags: pf_packages
+
+- name: Import relayd.yml
+  ansible.builtin.import_tasks: relayd.yml
+  tags: pf_relayd
 
 - name: Import sshguard.yml
   ansible.builtin.import_tasks: sshguard.yml
@@ -38,6 +41,10 @@
 - name: Import rcconf-fail2ban.yml
   ansible.builtin.import_tasks: rcconf-fail2ban.yml
   tags: pf_rcconf_fail2ban
+
+- name: Import rcconf-relayd.yml
+  ansible.builtin.import_tasks: rcconf-relayd.yml
+  tags: pf_rcconf_relayd
 
 - name: Import rcconf-pf.yml
   ansible.builtin.import_tasks: rcconf-pf.yml

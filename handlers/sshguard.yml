@@ -1,7 +1,6 @@
 ---
-# handlers for freebsd-pf
+# handlers for freebsd_pf
 
-# sshguard -----------------------------------------------------------
 - name: enable and start sshguard
   ansible.builtin.service:
     name: sshguard
