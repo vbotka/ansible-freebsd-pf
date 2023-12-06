@@ -11,8 +11,8 @@ vbotka.freebsd_pf 2.5 Release Notes
 
 Release Summary
 ---------------
-Added support for relayd. Unified namespace pf_*. Added universal
-template default-pf.conf.j2.
+Ansible 2.15 update. Added support for relayd. Unified namespace
+pf_*. Added universal template default-pf.conf.j2.
 
 
 Major Changes
