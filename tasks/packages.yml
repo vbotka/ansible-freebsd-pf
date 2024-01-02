@@ -1,5 +1,10 @@
 ---
 
+- name: "packages: Debug"
+  ansible.builtin.debug:
+    var: pf_packages_install
+  when: pf_debug|bool
+
 - name: "packages: Install packages"
   community.general.pkgng:
     name: "{{ item }}"
