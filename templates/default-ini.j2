@@ -1,6 +1,6 @@
 # {{ ansible_managed }}. Template: {{ template_path }}
 
-{% for section, conf in ini|groupby('section', case_sensitive=ini_cs|d(False)) %}
+{% for section, conf in ini|groupby('section') %}
 [{{ section }}]
 {% for i in conf %}
 {{ i.line }}

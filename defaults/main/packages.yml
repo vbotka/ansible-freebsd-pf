@@ -13,19 +13,17 @@ pf_sshguard_packages:
 pf_relayd_packages:
   - net/relayd
 
-pf_packages_install: |
-  {% filter flatten %}
-  {% filter from_yaml %}
-  [{% if pf_fail2ban_enable %}
-  {{ pf_fail2ban_packages }},
-  {% endif %}
-  {% if pf_relayd_enable %}
-  {{ pf_relayd_packages }},
-  {% endif %}
-  {% if pf_sshguard_enable %}
-  {{ pf_sshguard_packages }}
-  {% endif %}]
-  {% endfilter %}
-  {% endfilter %}
+pf_packages:
+  - enable: "{{ pf_fail2ban_enable }}"
+    packages: "{{ pf_fail2ban_packages }}"
+  - enable: "{{ pf_relayd_enable }}"
+    packages: "{{ pf_relayd_packages }}"
+  - enable: "{{ pf_sshguard_enable }}"
+    packages: "{{ pf_sshguard_packages }}"
+
+pf_packages_install: "{{ pf_packages|
+                         selectattr('enable')|
+                         map(attribute='packages')|
+                         flatten|unique }}"
 
 # EOF
