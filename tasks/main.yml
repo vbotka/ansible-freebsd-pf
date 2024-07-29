@@ -1,13 +1,12 @@
 ---
-
 - name: Import debug.yml
   ansible.builtin.import_tasks: debug.yml
-  when: pf_debug|bool
+  when: pf_debug | bool
   tags: pf_debug
 
 - name: Import packages.yml
   ansible.builtin.import_tasks: packages.yml
-  when: pf_install|bool
+  when: pf_install | bool
   tags: pf_packages
 
 - name: Import relayd.yml
@@ -55,4 +54,3 @@
   tags: pf_rcconf_pflog
 
 # EOF
-...

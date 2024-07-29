@@ -1,13 +1,13 @@
 ---
 # variables for the template server2-pf.conf.j2
 
-srv2_scrub: 'scrub in on $ext_if all fragment reassemble'
-srv2_skiplo0: 'set skip on lo0'
-srv2_antispoof: 'antispoof for $ext_if inet'
-srv2_no_back_route: 'block in from no-route to any'
-srv2_no_reverse_path: 'block in from urpf-failed to any'
-srv2_drop_broadcast: 'block in quick on $ext_if from any to 255.255.255.255'
-srv2_block_internal: 'block in log quick on $ext_if from $reserved_internal_net to any'
+srv2_scrub: scrub in on $ext_if all fragment reassemble
+srv2_skiplo0: set skip on lo0
+srv2_antispoof: antispoof for $ext_if inet
+srv2_no_back_route: block in from no-route to any
+srv2_no_reverse_path: block in from urpf-failed to any
+srv2_drop_broadcast: block in quick on $ext_if from any to 255.255.255.255
+srv2_block_internal: block in log quick on $ext_if from $reserved_internal_net to any
 srv2_block_probes: |-
   block in quick on $ext_if proto tcp flags FUP/WEUAPRSF
   block in quick on $ext_if proto tcp flags WEUAPRSF/WEUAPRSF
@@ -15,8 +15,8 @@ srv2_block_probes: |-
   block in quick on $ext_if proto tcp flags /WEUAPRSF
   block in quick on $ext_if proto tcp flags SR/SR
   block in quick on $ext_if proto tcp flags SF/SF
-srv2_keep_outbound: 'pass out on $ext_if proto { tcp, udp, icmp } from any to any modulate state'
-srv2_pss_ssh: 'pass in quick on $ext_if proto tcp from any to any port ssh flags S/SA keep state'
+srv2_keep_outbound: pass out on $ext_if proto { tcp, udp, icmp } from any to any modulate state
+srv2_pss_ssh: pass in quick on $ext_if proto tcp from any to any port ssh flags S/SA keep state
 srv2_sshabuse: |-
   table <sshabuse> persist
   block in quick from <sshabuse>

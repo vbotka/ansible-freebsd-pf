@@ -1,25 +1,23 @@
 ---
-
-- name: "sshguard: Stat /usr/local/etc/rc.d/sshguard"
+- name: "Sshguard: Stat /usr/local/etc/rc.d/sshguard"
   ansible.builtin.stat:
     path: /usr/local/etc/rc.d/sshguard
   register: pf_sshguard_service
 
-- name: "sshguard: Fail if sshguard is enabled and no service exists"
+- name: "Sshguard: Fail if sshguard is enabled and no service exists"
   ansible.builtin.fail:
     msg: Failed. sshguard is enabled, but no service exists.
   when:
-    - pf_sshguard_enable|bool
+    - pf_sshguard_enable | bool
     - not pf_sshguard_service.stat.exists
 
-- name: "sshguard: Configure pf whitelist sshguard"
+- name: "Sshguard: Configure pf whitelist sshguard"
   ansible.builtin.lineinfile:
     dest: /usr/local/etc/sshguard.whitelist
     line: "{{ item }}"
     backup: "{{ pf_backup_conf }}"
   loop: "{{ pf_ssh_whitelist }}"
   notify: restart sshguard
-  when: pf_sshguard_enable|bool
+  when: pf_sshguard_enable | bool
 
 # EOF
-...

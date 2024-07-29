@@ -7,7 +7,6 @@ pf_normalization: []
 pf_queuing: []
 pf_translation: []
 pf_filtering: []
-
 pf_anchors: |
   {% filter from_yaml %}
   [{% if pf_blacklistd_enable %}anchor "blacklistd/*" in on $ext_if,
@@ -22,11 +21,10 @@ pf_rules_nat: []
 pf_rules_rdr: []
 pf_rules_services: []
 pf_rules_custom: []
-
 # >>> EXAMPLES OF TEMPLATE VARIABLES - - - - - - - - - - - - - - - - - - - - - -
 
 # Interfaces
-# pf_ext_if: "{{ ansible_default_ipv4.device|default(ansible_interfaces.0) }}"
+# pf_ext_if: "{{ ansible_default_ipv4.device | default(ansible_interfaces.0) }}"
 pf_ext_if: ue0
 pf_int_if: re0
 pf_wifi_if: ath0
@@ -38,7 +36,6 @@ pf_lanserv: [ssh, domain, pop3, auth, https, pop3s]
 pf_samba_tcp_ports: [netbios-ns, netbios-dgm, netbios-ssn, microsoft-ds, swat]
 pf_samba_udp_ports: [netbios-ns, netbios-dgm, netbios-ssn]
 pf_nfs_ports: [sunrpc, nfsd-status, nfsd-keepalive, nfsd, lockd, 874]
-
 # Log options
 pf_log_all_blocked: log
 pf_log_opt_blocked: log
@@ -46,7 +43,6 @@ pf_log_opt_blocked: log
 # icmp options
 pf_pass_icmp_types: [echoreq, unreach]
 pf_pass_icmp6_types: [echoreq, unreach]
-
 # Networks options
 pf_lan_net: [10.1.0.0/24, 10.1.1.0/24]
 pf_smb_net: [10.1.0.0/27, 10.1.1.0/27, 10.1.0.90, 10.1.1.90]

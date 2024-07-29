@@ -2,12 +2,12 @@
 
 pf_relayd_path: /usr/local/sbin/relayd
 
-pf_relayd_flags: ''
+pf_relayd_flags: ""
 pf_relayd_rcconf:
-  - {regexp: relayd_flags, line: "{{ pf_relayd_flags }}"}
+  - { regexp: relayd_flags, line: "{{ pf_relayd_flags }}" }
 
 pf_relayd_template: default-relayd.conf.j2
-pf_relayd_conf_only: false  # Do not notify handler to reload
+pf_relayd_conf_only: false # Do not notify handler to reload
 pf_relayd_conf_validate: true
 pf_relayd_conf_validate_command: "{{ pf_relayd_path }} -n -f %s"
 
@@ -20,9 +20,9 @@ pf_relayd_macros:
   webproxy2: 10.0.0.5
 
 pf_relayd_options:
-  - '# interval 10'
-  - '# timeout 1000'
-  - '# prefork 5'
+  - "# interval 10"
+  - "# timeout 1000"
+  - "# prefork 5"
 
 pf_relayd_tables:
   - table <webproxy> { $webproxy1 $webproxy2 }
