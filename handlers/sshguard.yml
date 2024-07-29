@@ -1,25 +1,28 @@
 ---
 # handlers for freebsd_pf
 
-- name: enable and start sshguard
+- name: Enable and start sshguard
+  listen: enable and start sshguard
   ansible.builtin.service:
     name: sshguard
     state: started
     enabled: true
-  when: pf_sshguard_enable|bool
+  when: pf_sshguard_enable | bool
 
-- name: disable and stop sshguard
+- name: Disable and stop sshguard
+  listen: disable and stop sshguard
   ansible.builtin.service:
     name: sshguard
     state: stopped
     enabled: false
-  when: not pf_sshguard_enable|bool
+  when: not pf_sshguard_enable | bool
 
-- name: restart sshguard
+- name: Restart sshguard
+  listen: restart sshguard
   ansible.builtin.service:
     name: sshguard
     state: restarted
-  when: pf_sshguard_enable|bool
+  when: pf_sshguard_enable | bool
 
 #  /usr/local/etc/rc.d/sshguard: unknown directive 'reload'.
 # - name: reload sshguard
@@ -28,4 +31,3 @@
 #     state: reloaded
 
 # EOF
-...

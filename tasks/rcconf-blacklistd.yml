@@ -1,35 +1,33 @@
 ---
-
-- name: "rcconf-blacklistd: Enable and start blacklistd"
+- name: "Rcconf-blacklistd: Enable and start blacklistd"
   ansible.builtin.lineinfile:
     dest: /etc/rc.conf
-    regexp: '^\s*blacklistd_enable\s*=\s*(.*)$'
-    line: 'blacklistd_enable="YES"'
+    regexp: ^\s*blacklistd_enable\s*=\s*(.*)$
+    line: blacklistd_enable="YES"
     backup: "{{ pf_backup_conf }}"
   notify:
     - enable and start blacklistd
     - reload pf
-  when: pf_blacklistd_enable|bool
+  when: pf_blacklistd_enable | bool
 
-- name: "rcconf-blacklistd: Disable and stop blacklistd"
+- name: "Rcconf-blacklistd: Disable and stop blacklistd"
   ansible.builtin.lineinfile:
     dest: /etc/rc.conf
-    regexp: '^\s*blacklistd_enable\s*=\s*(.*)$'
-    line: 'blacklistd_enable="NO"'
+    regexp: ^\s*blacklistd_enable\s*=\s*(.*)$
+    line: blacklistd_enable="NO"
     backup: "{{ pf_backup_conf }}"
   notify:
     - disable and stop blacklistd
     - reload pf
-  when: not pf_blacklistd_enable|bool
+  when: not pf_blacklistd_enable | bool
 
-- name: "rcconf-blacklistd: Configure blacklistd"
+- name: "Rcconf-blacklistd: Configure blacklistd"
   ansible.builtin.lineinfile:
     dest: /etc/rc.conf
-    regexp: '^\s*{{ item.regexp }}\s*=\s*(.*)$'
+    regexp: ^\s*{{ item.regexp }}\s*=\s*(.*)$
     line: '{{ item.regexp }}="{{ item.line }}"'
     backup: "{{ pf_backup_conf }}"
   loop: "{{ pf_blacklistd_rcconf }}"
   notify: restart blacklistd
 
 # EOF
-...

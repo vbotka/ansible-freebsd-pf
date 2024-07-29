@@ -21,9 +21,6 @@ pf_packages:
   - enable: "{{ pf_sshguard_enable }}"
     packages: "{{ pf_sshguard_packages }}"
 
-pf_packages_install: "{{ pf_packages|
-                         selectattr('enable')|
-                         map(attribute='packages')|
-                         flatten|unique }}"
+pf_packages_install: "{{ pf_packages | selectattr('enable') | map(attribute='packages') | flatten | unique }}"
 
 # EOF

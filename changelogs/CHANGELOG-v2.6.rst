@@ -5,14 +5,32 @@ vbotka.freebsd_pf 2.6 Release Notes
 .. contents:: Topics
 
 
-2.6.0
+2.6.1
 =====
 
+Release Summary
+---------------
+Ansible 2.17 update.
+
+Major Changes
+-------------
+* Supported 13.3, 14.0, and 14.1
+
+Minor Changes
+-------------
+* Update README.
+* Update conf and fix lint.
+* Update debug.
+* Update handlers. Listen to lowercase names.
+* Add var pf_role_version
+
+
+2.6.0
+=====
 
 Release Summary
 ---------------
 Ansible 2.16 update.
-
 
 Major Changes
 -------------

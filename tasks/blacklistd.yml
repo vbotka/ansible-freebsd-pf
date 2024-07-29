@@ -1,33 +1,31 @@
 ---
-
-- name: "blacklistd: Stat /etc/rc.d/blacklistd"
+- name: "Blacklistd: Stat /etc/rc.d/blacklistd"
   ansible.builtin.stat:
     path: /etc/rc.d/blacklistd
   register: pf_blacklistd_service
 
-- name: "blacklistd: Fail if blacklistd is enabled and no service exists"
+- name: "Blacklistd: Fail if blacklistd is enabled and no service exists"
   ansible.builtin.fail:
-    msg: '[ERR] blacklistd is enabled, but no service exists.'
+    msg: "[ERR] blacklistd is enabled, but no service exists."
   when:
-    - pf_blacklistd_enable|bool
+    - pf_blacklistd_enable | bool
     - not pf_blacklistd_service.stat.exists
 
-- name: "blacklistd: Backup /etc/blacklistd.conf.orig"
+- name: "Blacklistd: Backup /etc/blacklistd.conf.orig"
   ansible.builtin.command:
     cmd: cp /etc/blacklistd.conf /etc/blacklistd.conf.orig
     creates: /etc/blacklistd.conf.orig
   changed_when: false
 
-- name: "blacklistd: Configure /etc/blacklistd.conf"
+- name: "Blacklistd: Configure /etc/blacklistd.conf"
   ansible.builtin.template:
     dest: /etc/blacklistd.conf
     src: "{{ pf_blacklistd_template }}"
     owner: root
     group: wheel
-    mode: '0644'
+    mode: "0644"
     backup: "{{ pf_backup_conf }}"
   notify: restart blacklistd
-  when: pf_blacklistd_enable|bool
+  when: pf_blacklistd_enable | bool
 
 # EOF
-...

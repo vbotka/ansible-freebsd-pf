@@ -7,13 +7,13 @@ galaxy_info:
   company: https://botka.info
   github_branch: master
   license: BSD
-  min_ansible_version: "2.16"
+  min_ansible_version: "2.17"
   platforms:
     - name: FreeBSD
       versions:
-        - 12.4
-        - 13.2
+        - 13.3
         - 14.0
+        - 14.1
   galaxy_tags:
     - freebsd
     - firewall
@@ -25,4 +25,3 @@ galaxy_info:
 dependencies: []
 collections:
   - community.general
-...

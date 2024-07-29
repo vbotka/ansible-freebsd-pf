@@ -1,31 +1,34 @@
 ---
 # handlers for freebsd_pf
 
-- name: enable and start pflog
+- name: Enable and start pflog
+  listen: enable and start pflog
   ansible.builtin.service:
     name: pflog
     state: started
     enabled: true
-  when: pf_log_enable|bool
+  when: pf_log_enable | bool
 
-- name: disable and stop pflog
+- name: Disable and stop pflog
+  listen: disable and stop pflog
   ansible.builtin.service:
     name: pflog
     state: stopped
     enabled: false
-  when: not pf_log_enable|bool
+  when: not pf_log_enable | bool
 
-- name: restart pflog
+- name: Restart pflog
+  listen: restart pflog
   ansible.builtin.service:
     name: pflog
     state: restarted
-  when: pf_log_enable|bool
+  when: pf_log_enable | bool
 
-- name: reload pflog
+- name: Reload pflog
+  listen: reload pflog
   ansible.builtin.service:
     name: pflog
     state: reloaded
-  when: pf_log_enable|bool
+  when: pf_log_enable | bool
 
 # EOF
-...

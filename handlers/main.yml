@@ -1,5 +1,4 @@
 ---
-
 - name: Import blacklistd.yml
   ansible.builtin.import_tasks: blacklistd.yml
 
@@ -19,4 +18,3 @@
   ansible.builtin.import_tasks: sshguard.yml
 
 # EOF
-...

@@ -1,12 +1,12 @@
 ---
 
-pf_fail2ban_flags: ''
+pf_fail2ban_flags: ""
 pf_fail2ban_rcconf:
-  - {regexp: fail2ban_flags, line: "{{ pf_fail2ban_flags }}"}
+  - { regexp: fail2ban_flags, line: "{{ pf_fail2ban_flags }}" }
 
 pf_fail2ban_local_template: default-ini.j2
 pf_fail2ban_local_conf:
-  - {section: default, line: 'loglevel = INFO'}
+  - { section: default, line: loglevel = INFO }
 
 pf_fail2ban_jail_local_template: default-ini.j2
 pf_fail2ban_jail_local_conf: []

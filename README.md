@@ -1,6 +1,8 @@
 # freebsd_pf
 
-[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_pf)[![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-pf.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-pf)
+[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_pf)
+[![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-pf.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-pf)
+[![GitHub tag](https://img.shields.io/github/v/tag/vbotka/ansible-freebsd-pf)](https://github.com/vbotka/ansible-freebsd-pf/tags)
 
 [Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_pf/) FreeBSD. Configure PF firewall.
 
@@ -68,17 +70,21 @@ Review the defaults and examples in vars.
 
 ## Workflow
 
-1) Change shell to /bin/sh
+1) Change shell to /bin/sh if necessary
 
 ```bash
 shell> ansible srv.example.com -e 'ansible_shell_type=csh ansible_shell_executable=/bin/csh' -a 'sudo pw usermod freebsd -s /bin/sh'
 ```
 
-
 2) Install the role and collections
 
 ```bash
 shell> ansible-galaxy role install vbotka.freebsd_pf
+```
+
+Install the collection if necessary
+
+```bash
 shell> ansible-galaxy collection install community.general
 ```
 
@@ -105,12 +111,12 @@ shell> cat freebsd-pf.yml
     - vbotka.freebsd_pf
 ```
 
-5) Review handlers to see how start/restart/reload of pf is implemented
+5) Review handlers to see how start/restart/reload of pf is implemented.
 
 6) Install packages
 
 ```bash
-shell> ansible-playbook -t pf_packages  -e pf_install=true freebsd-pf.yml
+shell> ansible-playbook -t pf_packages -e pf_install=true freebsd-pf.yml
 ```
 
 Then, disable the installation to speed up the execution of the playbook.
@@ -135,7 +141,7 @@ shell> sleep 120; pfctl -d
 
 If you lock yourself out of the remote host the above commands will
 disable the firewall in 2 minutes. You might want to run these
-commands always when you experiment with the firewall. Now enable the
+commands always when you experiment with the firewall. Now, enable the
 firewall
 
 ```bash
@@ -237,6 +243,17 @@ fatal: [srv.example.com]: FAILED! => changed=false
 ```
 
 The role fails the same way in case `-e pf_relayd_conf_only=false -e pf_relayd_conf_validate=false`
+
+
+### Ansible lint
+
+Use the configuration file *.ansible-lint.local* when running
+*ansible-lint*. Some rules might be disabled and some warnings might
+be ignored. See the notes in the configuration file.
+
+```bash
+shell> ansible-lint -c .ansible-lint.local
+```
 
 
 ## References
