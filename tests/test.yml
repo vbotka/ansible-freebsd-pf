@@ -1,6 +1,6 @@
 ---
 - name: Test
   hosts: localhost
-  remote_user: root
+  connection: local
   roles:
     - ansible-freebsd-pf

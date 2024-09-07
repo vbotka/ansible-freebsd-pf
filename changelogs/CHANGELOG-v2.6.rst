@@ -17,6 +17,7 @@ Major Changes
 
 Minor Changes
 -------------
+* Update tests/test.yml playbook
 
 
 2.6.1
