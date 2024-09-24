@@ -3,6 +3,25 @@ vbotka.freebsd_pf 2.6 Release Notes
 ===================================
 
 .. contents:: Topics
+# BEGIN Commits 2.6.2
+- Rename changelogs to changelog.
+- Update tests/test.yml playbook
+- Start devel 2.6.2
+# END Commits 2.6.2
+# BEGIN Release notes 2.6.2
+2.6.2
+=====
+Release Summary
+---------------
+Major Changes
+-------------
+Minor Changes
+-------------
+Bugfixes
+--------
+Breaking Changes / Porting Guide
+--------------------------------
+# END Release notes 2.6.2
 
 
 2.6.2
