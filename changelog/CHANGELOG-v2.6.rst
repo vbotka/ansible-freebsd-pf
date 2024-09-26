@@ -3,31 +3,6 @@ vbotka.freebsd_pf 2.6 Release Notes
 ===================================
 
 .. contents:: Topics
-# BEGIN Commits 2.6.2
-- Update python 3.11 in .travis.yml
-- Rename changelogs to changelog.
-- Update tests/test.yml playbook
-- Start devel 2.6.2
-# END Commits 2.6.2
-# BEGIN Release notes 2.6.2
-2.6.2
-=====
-Release Summary
----------------
-Major Changes
--------------
-Minor Changes
--------------
-- Update python 3.11 in .travis.yml
-- Rename changelogs to changelog.
-- Update tests/test.yml playbook
-- Start devel 2.6.2
-
-Bugfixes
---------
-Breaking Changes / Porting Guide
---------------------------------
-# END Release notes 2.6.2
 
 
 2.6.2
@@ -42,7 +17,9 @@ Major Changes
 
 Minor Changes
 -------------
-* Update tests/test.yml playbook
+- Update python 3.11 in .travis.yml
+- Rename changelogs to changelog.
+- Update tests/test.yml playbook
 
 
 2.6.1
