@@ -11,36 +11,36 @@
 {{ k }} = "{{ v }}"
     {% endif %}
   {% else %}
-{{ k }} = "{ {{ v|join(', ') }} }"
+{{ k }} = "{ {{ v | join(', ') }} }"
   {% endif %}
 {% endfor %}
 
 # TABLES  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-{% for i in pf_tables|flatten %}
+{% for i in pf_tables | flatten %}
 {{ i }}
 {% endfor %}
 # OPTIONS - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-{% for i in pf_options|flatten %}
+{% for i in pf_options | flatten %}
 {{ i }}
 {% endfor %}
 # NORMALIZATION - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-{% for i in pf_normalization|flatten %}
+{% for i in pf_normalization | flatten %}
 {{ i }}
 {% endfor %}
 # QUEUING  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-{% for i in pf_queuing|flatten %}
+{% for i in pf_queuing | flatten %}
 {{ i }}
 {% endfor %}
 # TRANSLATION - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-{% for i in pf_translation|flatten %}
+{% for i in pf_translation | flatten %}
 {{ i }}
 {% endfor %}
 # FILTERING - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-{% for i in pf_filtering|flatten %}
+{% for i in pf_filtering | flatten %}
 {{ i }}
 {% endfor %}
 # CUSTOM
-{% for i in pf_rules_custom|flatten %}
+{% for i in pf_rules_custom | flatten %}
 {{ i }}
 {% endfor %}
 

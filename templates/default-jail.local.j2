@@ -2,7 +2,7 @@
 
 [DEFAULT]
 {% for item in pf_fail2ban_jail_local_conf %}
-{% if item.section|lower == "default" %}
+{% if item.section | lower == "default" %}
 {{ item.line }}
 {% endif %}
 {% endfor %}

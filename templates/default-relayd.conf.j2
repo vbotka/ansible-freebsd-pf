@@ -12,21 +12,21 @@
 {{ k }}="{{ v }}"
     {% endif %}
   {% else %}
-{{ k }}="{ {{ v|join(', ') }} }"
+{{ k }}="{ {{ v | join(', ') }} }"
   {% endif %}
 {% endfor %}
 
 #
 # Global Options - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
-{% for i in pf_relayd_options|flatten %}
+{% for i in pf_relayd_options | flatten %}
 {{ i }}
 {% endfor %}
 
 #
 # Each table will be mapped to a pf table.  - - - - - - - - - - - - - - - - - -
 #
-{% for i in pf_relayd_tables|flatten %}
+{% for i in pf_relayd_tables | flatten %}
 {{ i }}
 {% endfor %}
 
@@ -45,8 +45,8 @@ redirect "{{ key }}" {
 # Protocols - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 #
 {% for key, val in pf_relayd_protocols.items() %}
-  {% if key|split|length > 1 %}
-{{ key|split|first }} protocol "{{ key|split|last }}" {
+  {% if key | split | length > 1 %}
+{{ key | split | first }} protocol "{{ key | split | last }}" {
   {% else %}
 protocol "{{ key }}" {
   {% endif %}
