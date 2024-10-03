@@ -1,6 +1,5 @@
 ---
 
-pf_role_version: 2.6.2
 pf_install: true
 pf_enable: false
 pf_debug: false
