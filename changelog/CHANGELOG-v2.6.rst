@@ -10,14 +10,17 @@ vbotka.freebsd_pf 2.6 Release Notes
 
 Release Summary
 ---------------
-Maintenance update. Enable /etc/rc.conf.d/
+Enable /etc/rc.conf.d/ in rcconf-pflog and rcconf-pf.
 
 Major Changes
 -------------
 
 Minor Changes
 -------------
+* Add variable pf_use_rc_conf_d (default=false).
 * Enable /etc/rc.conf.d/ in rcconf-pflog and rcconf-pf.
+* Put the configuration rcconf-pflog and rcconf-pf into the blocks.
+* Remove default state=present from community.general.sysrc
 
 
 2.6.3

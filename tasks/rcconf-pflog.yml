@@ -1,57 +1,61 @@
 ---
-- name: "Rcconf-pflog: Enable and start pflog"
-  ansible.builtin.lineinfile:
-    dest: /etc/rc.conf
-    regexp: ^\s*pflog_enable\s*=\s*(.*)$
-    line: pflog_enable="YES"
-    backup: "{{ pf_backup_conf }}"
-  notify: enable and start pflog
-  when: pf_log_enable | bool and not pf_use_rc_conf_d | bool
-
-- name: "Rcconf-pflog: Enable and start pflog - /etc/rc.conf.d/"
-  sysrc:
-    path: /etc/rc.conf.d/pflog
-    name: pflog_enable
-    state: present
-    value: "YES"
-  notify: enable and start pflog
-  when: pf_log_enable | bool and pf_use_rc_conf_d | bool
-
-- name: "Rcconf-pflog: Disable and stop pflog"
-  ansible.builtin.lineinfile:
-    dest: /etc/rc.conf
-    regexp: ^\s*pflog_enable\s*=\s*(.*)$
-    line: pflog_enable="NO"
-    backup: "{{ pf_backup_conf }}"
-  notify: disable and stop pflog
-  when: not pf_log_enable | bool and not pf_use_rc_conf_d | bool
-
-- name: "Rcconf-pflog: Disable and stop pflog - /etc/rc.conf.d/"
-  sysrc:
-    path: /etc/rc.conf.d/pflog
-    name: pflog_enable
-    state: present
-    value: "NO"
-  notify: disable and stop pflog
-  when: not pf_log_enable | bool and pf_use_rc_conf_d | bool
-
-- name: "Rcconf-pflog: Configure pflog"
-  ansible.builtin.lineinfile:
-    dest: /etc/rc.conf
-    regexp: ^\s*{{ item.regexp }}\s*=\s*(.*)$
-    line: '{{ item.regexp }}="{{ item.line }}"'
-    backup: "{{ pf_backup_conf }}"
-  loop: "{{ pf_log_rcconf }}"
-  notify: reload pflog
+- name: Configure /etc/rc.conf
   when: not pf_use_rc_conf_d | bool
+  block:
 
-- name: "Rcconf-pflog: Configure pflog - /etc/rc.conf.d/"
-  sysrc:
-    path: /etc/rc.conf.d/pflog
-    name: "{{ item.regexp }}"
-    value: "{{ item.line }}"
-  loop: "{{ pf_log_rcconf }}"
-  notify: reload pf
+    - name: "Rcconf-pflog: Enable and start pflog"
+      ansible.builtin.lineinfile:
+        dest: /etc/rc.conf
+        regexp: ^\s*pflog_enable\s*=\s*(.*)$
+        line: pflog_enable="YES"
+        backup: "{{ pf_backup_conf }}"
+      notify: enable and start pflog
+      when: pf_log_enable | bool
+
+    - name: "Rcconf-pflog: Disable and stop pflog"
+      ansible.builtin.lineinfile:
+        dest: /etc/rc.conf
+        regexp: ^\s*pflog_enable\s*=\s*(.*)$
+        line: pflog_enable="NO"
+        backup: "{{ pf_backup_conf }}"
+      notify: disable and stop pflog
+      when: not pf_log_enable | bool
+
+    - name: "Rcconf-pflog: Configure pflog"
+      ansible.builtin.lineinfile:
+        dest: /etc/rc.conf
+        regexp: ^\s*{{ item.regexp }}\s*=\s*(.*)$
+        line: '{{ item.regexp }}="{{ item.line }}"'
+        backup: "{{ pf_backup_conf }}"
+      loop: "{{ pf_log_rcconf }}"
+      notify: reload pflog
+
+- name: Configure /etc/rc.conf.d
   when: pf_use_rc_conf_d | bool
+  block:
+
+    - name: "Rcconf-pflog: Enable and start pflog - /etc/rc.conf.d/"
+      community.general.sysrc:
+        path: /etc/rc.conf.d/pflog
+        name: pflog_enable
+        value: "YES"
+      notify: enable and start pflog
+      when: pf_log_enable | bool
+
+    - name: "Rcconf-pflog: Disable and stop pflog - /etc/rc.conf.d/"
+      community.general.sysrc:
+        path: /etc/rc.conf.d/pflog
+        name: pflog_enable
+        value: "NO"
+      notify: disable and stop pflog
+      when: not pf_log_enable | bool
+
+    - name: "Rcconf-pflog: Configure pflog - /etc/rc.conf.d/"
+      community.general.sysrc:
+        path: /etc/rc.conf.d/pflog
+        name: "{{ item.regexp }}"
+        value: "{{ item.line }}"
+      loop: "{{ pf_log_rcconf }}"
+      notify: reload pf
 
 # EOF
