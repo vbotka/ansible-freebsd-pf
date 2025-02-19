@@ -12,7 +12,7 @@
     - not pf_blacklistd_service.stat.exists
 
 - name: "Blacklistd: Backup /etc/blacklistd.conf.orig"
-  ansible.builtin.command:
+  ansible.builtin.command:  # noqa: no-changed-when
     cmd: cp /etc/blacklistd.conf /etc/blacklistd.conf.orig
     creates: /etc/blacklistd.conf.orig
   when: pf_blacklistd_enable | bool
