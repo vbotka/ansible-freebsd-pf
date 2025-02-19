@@ -1,3 +1,3 @@
 ---
 # default vars for freebsd_pf
-pf_role_version: 2.6.3
+pf_role_version: 2.6.4
