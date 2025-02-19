@@ -10,8 +10,8 @@
 
 - name: "Rcconf-pflog: Enable and start pflog - /etc/rc.conf.d/"
   sysrc:
-    path:  /etc/rc.conf.d/pflog
-    name:  pflog_enable
+    path: /etc/rc.conf.d/pflog
+    name: pflog_enable
     state: present
     value: "YES"
   notify: enable and start pflog
@@ -28,8 +28,8 @@
 
 - name: "Rcconf-pflog: Disable and stop pflog - /etc/rc.conf.d/"
   sysrc:
-    path:  /etc/rc.conf.d/pflog
-    name:  pflog_enable
+    path: /etc/rc.conf.d/pflog
+    name: pflog_enable
     state: present
     value: "NO"
   notify: disable and stop pflog
@@ -47,8 +47,8 @@
 
 - name: "Rcconf-pflog: Configure pflog - /etc/rc.conf.d/"
   sysrc:
-    path:  /etc/rc.conf.d/pflog
-    name:  "{{ item.regexp }}"
+    path: /etc/rc.conf.d/pflog
+    name: "{{ item.regexp }}"
     value: "{{ item.line }}"
   loop: "{{ pf_log_rcconf }}"
   notify: reload pf

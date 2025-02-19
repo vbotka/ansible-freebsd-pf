@@ -5,6 +5,21 @@ vbotka.freebsd_pf 2.6 Release Notes
 .. contents:: Topics
 
 
+2.6.4
+=====
+
+Release Summary
+---------------
+Maintenance update. Enable /etc/rc.conf.d/
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+* Enable /etc/rc.conf.d/ in rcconf-pflog and rcconf-pf.
+
+
 2.6.3
 =====
 

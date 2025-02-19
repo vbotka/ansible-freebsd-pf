@@ -1,4 +1,3 @@
-
 ---
 - name: "Rcconf-pf: Enable and start pf"
   ansible.builtin.lineinfile:
@@ -10,9 +9,9 @@
   when: pf_enable | bool and not pf_use_rc_conf_d | bool
 
 - name: "Rcconf-pf: Enable and start pf - /etc/rc.conf.d/"
-  sysrc:
-    path:  /etc/rc.conf.d/pf
-    name:  pf_enable
+  community.general.sysrc:
+    path: /etc/rc.conf.d/pf
+    name: pf_enable
     state: present
     value: "YES"
   notify: start pf
@@ -28,9 +27,9 @@
   when: not pf_enable | bool and not pf_use_rc_conf_d | bool
 
 - name: "Rcconf-pf: Disable and stop pf - /etc/rc.conf.d/"
-  sysrc:
-    path:  /etc/rc.conf.d/pf
-    name:  pf_enable
+  community.general.sysrc:
+    path: /etc/rc.conf.d/pf
+    name: pf_enable
     state: present
     value: "NO"
   notify: disable and stop pf
@@ -47,9 +46,9 @@
   when: not pf_use_rc_conf_d | bool
 
 - name: "Rcconf-pf: Configure pf - /etc/rc.conf.d/"
-  sysrc:
-    path:   /etc/rc.conf.d/pf
-    name:  "{{ item.regexp }}"
+  community.general.sysrc:
+    path: /etc/rc.conf.d/pf
+    name: "{{ item.regexp }}"
     value: "{{ item.line }}"
   loop: "{{ pf_rcconf }}"
   notify: reload pf
