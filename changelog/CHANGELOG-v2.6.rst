@@ -5,6 +5,20 @@ vbotka.freebsd_pf 2.6 Release Notes
 .. contents:: Topics
 
 
+2.6.5
+=====
+
+Release Summary
+---------------
+Enable /etc/rc.conf.d/
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+
+
 2.6.4
 =====
 
