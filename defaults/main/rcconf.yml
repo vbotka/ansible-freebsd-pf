@@ -1,5 +1,9 @@
 ---
 
+# instead of /etc/rc.conf, use /etc/rc.conf.d/
+#
+pf_use_rc_conf_d: false
+
 # pf_rules: /etc/pf.conf
 # pf_flags: ''
 pf_rcconf: []
