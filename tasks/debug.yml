@@ -26,7 +26,7 @@
       pf_install: {{ pf_install | bool }}
 
       * /etc/rc.conf - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-      pf_use_rc_conf_d: {{ pf_use_rc_conf_d | bool }}
+      pf_rcconfd: {{ pf_rcconfd | bool }}
       pf_enable: {{ pf_enable | bool }}
       pf_rules: {{ pf_rules | d('"/etc/pf.conf"') }}
       pf_flags: {{ pf_flags | d('""') }}

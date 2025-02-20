@@ -1,61 +1,31 @@
 ---
-- name: Configure /etc/rc.conf
-  when: not pf_use_rc_conf_d | bool
+- name: Configure /etc/rc.conf or etc/rc.conf.d/pf
+  vars:
+    _path: "{{ (pf_rcconfd | bool) | ternary('/etc/rc.conf.d/pf', '/etc/rc.conf') }}"
   block:
 
-    - name: "Rcconf-pf: Enable and start pf"
-      ansible.builtin.lineinfile:
-        dest: /etc/rc.conf
-        regexp: ^\s*pf_enable\s*=\s*(.*)$
-        line: pf_enable="YES"
-        backup: "{{ pf_backup_conf }}"
-      notify: start pf
+    - name: "Rcconf-pf: Enable and start pf."
       when: pf_enable | bool
-
-    - name: "Rcconf-pf: Disable and stop pf"
-      ansible.builtin.lineinfile:
-        dest: /etc/rc.conf
-        regexp: ^\s*pf_enable\s*=\s*(.*)$
-        line: pf_enable="NO"
-        backup: "{{ pf_backup_conf }}"
-      notify: disable and stop pf
-      when: not pf_enable | bool
-
-    - name: "Rcconf-pf: Configure pf"
-      ansible.builtin.lineinfile:
-        dest: /etc/rc.conf
-        regexp: ^\s*{{ item.regexp }}\s*=\s*(.*)$
-        line: '{{ item.regexp }}="{{ item.line }}"'
-        backup: "{{ pf_backup_conf }}"
-      loop: "{{ pf_rcconf }}"
-      notify: reload pf
-
-- name: Configure /etc/rc.conf.d
-  when: pf_use_rc_conf_d | bool
-  block:
-
-    - name: "Rcconf-pf: Enable and start pf - /etc/rc.conf.d/"
+      notify: start pf
       community.general.sysrc:
-        path: /etc/rc.conf.d/pf
+        path: "{{ _path }}"
         name: pf_enable
         value: "YES"
-      notify: start pf
-      when: pf_enable | bool
 
-    - name: "Rcconf-pf: Disable and stop pf - /etc/rc.conf.d/"
+    - name: "Rcconf-pf: Disable and stop pf."
+      when: not pf_enable | bool
+      notify: disable and stop pf
       community.general.sysrc:
-        path: /etc/rc.conf.d/pf
+        path: "{{ _path }}"
         name: pf_enable
         value: "NO"
-      notify: disable and stop pf
-      when: not pf_enable | bool
 
-    - name: "Rcconf-pf: Configure pf - /etc/rc.conf.d/"
-      community.general.sysrc:
-        path: /etc/rc.conf.d/pf
-        name: "{{ item.regexp }}"
-        value: "{{ item.line }}"
-      loop: "{{ pf_rcconf }}"
+    - name: "Rcconf-pf: Configure pf."
       notify: reload pf
+      community.general.sysrc:
+        path: "{{ _path }}"
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+      loop: "{{ pf_rcconf }}"
 
 # EOF

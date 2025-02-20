@@ -5,6 +5,28 @@ vbotka.freebsd_pf 2.6 Release Notes
 .. contents:: Topics
 
 
+2.6.5
+=====
+
+Release Summary
+---------------
+Enable /etc/rc.conf.d/
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+* Enable /etc/rc.conf.d/ in all tasks/rcconf-\*.yml
+
+Breaking Changes / Porting Guide
+--------------------------------
+* The variable pf_use_rc_conf_d renamed to pf_rcconfd
+* Lists \*_rcconf changed atributes names.
+  * The attribute regexp renamed to name
+  * The attribute line renamed to value
+
+
 2.6.4
 =====
 
