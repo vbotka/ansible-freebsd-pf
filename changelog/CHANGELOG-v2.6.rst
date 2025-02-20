@@ -21,6 +21,7 @@ Minor Changes
 
 Breaking Changes / Porting Guide
 --------------------------------
+* The variable pf_use_rc_conf_d renamed to pf_rcconfd
 * Lists \*_rcconf changed atributes names.
   * The attribute regexp renamed to name
   * The attribute line renamed to value
