@@ -17,6 +17,7 @@ Major Changes
 
 Minor Changes
 -------------
+* Enable /etc/rc.conf.d/ in all tasks/rcconf-\*.yml
 
 
 2.6.4
