@@ -28,8 +28,8 @@
       notify: restart blacklistd
       community.general.sysrc:
         path: "{{ _path }}"
-        name: "{{ item.regexp }}"
-        value: "{{ item.line }}"
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
       loop: "{{ pf_blacklistd_rcconf }}"
 
 # EOF

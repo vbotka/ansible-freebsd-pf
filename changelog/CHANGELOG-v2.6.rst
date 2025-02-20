@@ -19,6 +19,12 @@ Minor Changes
 -------------
 * Enable /etc/rc.conf.d/ in all tasks/rcconf-\*.yml
 
+Breaking Changes / Porting Guide
+--------------------------------
+* Lists \*_rcconf changed atributes names
+  * The attribute regexp renamed to name
+  * The attribute line renamed to value
+
 
 2.6.4
 =====

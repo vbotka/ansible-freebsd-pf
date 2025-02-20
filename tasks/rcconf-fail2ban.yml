@@ -37,8 +37,8 @@
       notify: restart fail2ban
       community.general.sysrc:
         path: "{{ _path }}"
-        name: "{{ item.regexp }}"
-        value: "{{ item.line }}"
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
       loop: "{{ pf_fail2ban_rcconf }}"
 
 # EOF
