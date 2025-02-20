@@ -4,7 +4,7 @@ pf_relayd_path: /usr/local/sbin/relayd
 
 pf_relayd_flags: ""
 pf_relayd_rcconf:
-  - { regexp: relayd_flags, line: "{{ pf_relayd_flags }}" }
+  - { name: relayd_flags, value: "{{ pf_relayd_flags }}" }
 
 pf_relayd_template: default-relayd.conf.j2
 pf_relayd_conf_only: false # Do not notify handler to reload

@@ -2,7 +2,7 @@
 
 pf_fail2ban_flags: ""
 pf_fail2ban_rcconf:
-  - { regexp: fail2ban_flags, line: "{{ pf_fail2ban_flags }}" }
+  - { name: fail2ban_flags, value: "{{ pf_fail2ban_flags }}" }
 
 pf_fail2ban_local_template: default-ini.j2
 pf_fail2ban_local_conf:

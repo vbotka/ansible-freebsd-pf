@@ -21,7 +21,7 @@ Minor Changes
 
 Breaking Changes / Porting Guide
 --------------------------------
-* Lists \*_rcconf changed atributes names
+* Lists \*_rcconf changed atributes names.
   * The attribute regexp renamed to name
   * The attribute line renamed to value
 

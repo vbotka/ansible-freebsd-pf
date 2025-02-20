@@ -7,14 +7,14 @@ pf_use_rc_conf_d: false
 # pf_rules: /etc/pf.conf
 # pf_flags: ''
 pf_rcconf: []
-#  - {regexp: pf_rules, line: "{{ pf_rules }}"}
-#  - {regexp: pf_flags, line: "{{ pf_flags }}"}
+#  - {name: pf_rules, value: "{{ pf_rules }}"}
+#  - {name: pf_flags, value: "{{ pf_flags }}"}
 
 # pf_log_logfile: /var/log/pflog
 # pf_log_flags: ''
 pf_log_rcconf: []
-#  - {regexp: pflog_logfile, line: "{{ pf_log_logfile }}"}
-#  - {regexp: pflog_flags, line: "{{ pf_log_flags }}"}
+#  - {name: pflog_logfile, value: "{{ pf_log_logfile }}"}
+#  - {name: pflog_flags, value: "{{ pf_log_flags }}"}
 
 # Defaults
 #
