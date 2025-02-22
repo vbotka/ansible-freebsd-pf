@@ -20,7 +20,7 @@ case "$daily_pf_droplasso_enable" in
         : ${daily_pf_droplasso_v6_filename:={{ daily_pf_droplasso_v6_filename }}}
 
         TMPO="/tmp/drop.lasso.$$"
-        DROPURL='https://team-cymru.org/Services/Bogons/fullbogons-ipv'
+        DROPURL='{{ pf_drop_lasso_dropurl }}'
         FETCH="/usr/bin/fetch -q"
         RM="/bin/rm"
         PF="/sbin/pfctl -Tl -f /etc/pf.conf"

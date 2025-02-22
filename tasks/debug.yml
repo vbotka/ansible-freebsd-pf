@@ -128,6 +128,7 @@
       pf_drop_lasso_periodic_conf:
         {{ pf_drop_lasso_periodic_conf | to_yaml(indent=2) | indent(2) }}
       pf_drop_lasso_template: {{ pf_drop_lasso_template }}
+      pf_drop_lasso_dropurl: {{ pf_drop_lasso_dropurl }}
       pf_drop_lasso_net_pf_request_maxcount: {{ pf_drop_lasso_net_pf_request_maxcount }}
       pf_drop_lasso_periodic_conf_local: {{ pf_drop_lasso_periodic_conf_local }}
       pf_drop_lasso_periodic_file: {{ pf_drop_lasso_periodic_file }}

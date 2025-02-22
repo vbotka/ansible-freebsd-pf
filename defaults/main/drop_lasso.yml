@@ -1,15 +1,7 @@
 ---
 
 pf_drop_lasso_template: default-drop-lasso.j2
-
-# this is IP4 and IPv6 respectively
-# see https://www.spamhaus.org/drop/
-#
-pf_drop_lasso_v4: true
-pf_drop_lasso_v6: true
-
-daily_pf_droplasso_v4_filename: "{{ pf_drop_lasso_v4_filename | default('/etc/pf.drop_v4.txt') }}"
-daily_pf_droplasso_v6_filename: "{{ pf_drop_lasso_v6_filename | default('/etc/pf.drop_v6.txt') }}"
+pf_drop_lasso_dropurl: https://team-cymru.org/Services/Bogons/fullbogons-ipv
 
 # Please experiment with the right value for you.
 # on a 32GB memory system, I had 29GB free with this setting.
@@ -17,6 +9,15 @@ daily_pf_droplasso_v6_filename: "{{ pf_drop_lasso_v6_filename | default('/etc/pf
 # Consider increasing net.pf.request_maxcount./etc/pf.conf:152: cannot define table bogons_v6: too many elements.
 #
 pf_drop_lasso_net_pf_request_maxcount: 350000
+
+# this is IPv4 and IPv6 respectively
+# see https://www.spamhaus.org/drop/
+#
+pf_drop_lasso_v4: true
+pf_drop_lasso_v6: true
+
+daily_pf_droplasso_v4_filename: "{{ pf_drop_lasso_v4_filename | default('/etc/pf.drop_v4.txt') }}"
+daily_pf_droplasso_v6_filename: "{{ pf_drop_lasso_v6_filename | default('/etc/pf.drop_v6.txt') }}"
 
 pf_drop_lasso_periodic_conf:
   - { name: daily_pf_droplasso_enable, value: "{{ pf_drop_lasso_enable | bool | ternary('YES', 'NO') }}" }
