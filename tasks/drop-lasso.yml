@@ -24,10 +24,4 @@
     value: "{{ pf_drop_lasso_net_pf_request_maxcount }}"
     sysctl_set: true
 
-- name: "Drop-lasso: List some debug information."
-  ansible.builtin.debug:
-    msg:
-      - "pf_drop_lasso_periodic_file: {{ pf_drop_lasso_periodic_file }}"
-  tags: debug
-
 # EOF
