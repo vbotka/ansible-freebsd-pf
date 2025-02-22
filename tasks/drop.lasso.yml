@@ -14,20 +14,42 @@
   community.general.sysrc:
     name:  daily_pf_droplasso_enable
     value: "{{ pf_drop_lasso_enable | bool | ternary('YES', 'NO') }}"
-    path:  /etc/periodic.conf
+    path:  "{{ pf_drop_lasso_periodic_file }}"
 
 - name: "drop.lasso: Enable v4"
   community.general.sysrc:
     name:  daily_pf_droplasso_v4
     value: "{{ pf_drop_lasso_v4 | bool | ternary('YES', 'NO') }}"
-    path:  /etc/periodic.conf
+    path:  "{{ pf_drop_lasso_periodic_file }}"
   when: pf_drop_lasso_enable | bool
 
 - name: "drop.lasso: Enable v6"
   community.general.sysrc:
     name:  daily_pf_droplasso_v6
     value: "{{ pf_drop_lasso_v6 | bool | ternary('YES', 'NO') }}"
-    path:  /etc/periodic.conf
+    path:  "{{ pf_drop_lasso_periodic_file }}"
   when: pf_drop_lasso_enable | bool
+
+- name: "drop.lasso: v4 file"
+  community.general.sysrc:
+    name: daily_pf_droplasso_v4_filename
+    # this variable is also set in templates/default-drop-lasso.j2
+    value: "{{ pf_drop_lasso_drop_v4_filename | default('/etc/pf.drop_v4.txt') }}"
+    path:  "{{ pf_drop_lasso_periodic_file }}"
+  when: pf_drop_lasso_drop_v4_filename is defined
+
+- name: "drop.lasso: v6 file"
+  community.general.sysrc:
+    name: daily_pf_droplasso_v6_filename
+    # this variable is also set in templates/default-drop-lasso.j2
+    value: "{{ pf_drop_lasso_drop_v6_filename | default('/etc/pf.drop_v6.txt') }}"
+    path:  "{{ pf_drop_lasso_periodic_file }}"
+  when: pf_drop_lasso_drop_v6_filename is defined
+
+- name: "drop.lasso: List some debug information"
+  ansible.builtin.debug:
+    msg:
+    - "pf_drop_lasso_periodic_file: {{ pf_drop_lasso_periodic_file }}"
+  tags: debug
 
 # EOF

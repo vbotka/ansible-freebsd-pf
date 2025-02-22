@@ -9,4 +9,17 @@ pf_drop_lasso_template: default-drop-lasso.j2
 pf_drop_lasso_v4: true
 pf_drop_lasso_v6: true
 
+# Set to true if you want drop.lasso configuration in /etc/periodic.conf.local
+pf_drop_lasso_periodic_conf_local: false
+
+# you can override this, but you should use pf_drop_lasso_periodic_conf_local instead
+pf_drop_lasso_periodic_file: "{{ pf_drop_lasso_periodic_conf_local | bool | ternary('/etc/periodic.conf.local', '/etc/periodic.conf') }}"
+
+# where should the downloaded files be placed?
+# define these variables to override the defaults shown
+# we leave them undefined so they appear in the config only if non-default
+#pf_drop_lasso_drop_v4_filename: /etc/pf.drop_v4.txt
+#pf_drop_lasso_drop_v6_filename: /etc/pf.drop_v6.txt
+
+
 # EOF

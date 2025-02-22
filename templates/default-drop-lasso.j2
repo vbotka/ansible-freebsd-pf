@@ -15,7 +15,10 @@ fi
 case "$daily_pf_droplasso_enable" in
     [Yy][Ee][Ss])
 
-        FILE="/etc/pf.drop.lasso.conf"
+        # these variables are also set in tasks/drop.lasso.yml
+        : ${daily_pf_droplasso_v6_filename:=/etc/pf.drop_v6.txt}
+        : ${daily_pf_droplasso_v4_filename:=/etc/pf.drop_v4.txt}
+
         TMPO="/tmp/drop.lasso.$$"
         DROPURL='https://www.spamhaus.org/drop/drop_'
         JQ="/usr/local/bin/jq"
@@ -28,7 +31,7 @@ case "$daily_pf_droplasso_enable" in
             [Yy][Ee][Ss])
     	    >$TMPO
             $FETCH -o $TMPO "${DROPURL}v4.json"
-            $JQ -r 'select(.type == null) | (.cidr)' $TMPO >> /etc/drop_v4.txt
+            $JQ -r 'select(.type == null) | (.cidr)' $TMPO >> $daily_pf_droplasso_v4_filename
     	    $RM $TMPO
             ;;
         esac
@@ -37,7 +40,7 @@ case "$daily_pf_droplasso_enable" in
             [Yy][Ee][Ss])
     	    >$TMPO
             $FETCH -o $TMPO "${DROPURL}v6.json"
-            $JQ -r 'select(.type == null) | (.cidr)' $TMPO >> /etc/drop_v6.txt
+            $JQ -r 'select(.type == null) | (.cidr)' $TMPO >> $daily_pf_droplasso_v6_filename
     	    $RM $TMPO
            ;;
         esac
