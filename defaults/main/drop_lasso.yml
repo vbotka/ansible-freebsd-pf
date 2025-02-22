@@ -1,6 +1,5 @@
 ---
 
-
 pf_drop_lasso_template: default-drop-lasso.j2
 
 # this is IP4 and IPv6 respectively
@@ -8,13 +7,19 @@ pf_drop_lasso_template: default-drop-lasso.j2
 #
 pf_drop_lasso_v4: true
 pf_drop_lasso_v6: true
+
+daily_pf_droplasso_v4_filename: "{{ pf_drop_lasso_v4_filename | default('/etc/pf.drop_v4.txt') }}"
+daily_pf_droplasso_v6_filename: "{{ pf_drop_lasso_v6_filename | default('/etc/pf.drop_v6.txt') }}"
+
+
 pf_drop_lasso_rcconf:
-  - { name: daily_pf_droplasso_enable, value: "{{ pf_drop_lasso_enable }}" }
-  - { name: daily_pf_droplasso_v4, value: "{{ pf_drop_lasso_v4 | bool | ternary('YES', 'NO') }}" }
-  - { name: daily_pf_droplasso_v6, value: "{{ pf_drop_lasso_v6 | bool | ternary('YES', 'NO') }}" }
+  - { name: daily_pf_droplasso_enable, value: "{{ pf_drop_lasso_enable | bool | ternary('YES', 'NO') }}" }
+  - { name: daily_pf_droplasso_v4,     value: "{{ pf_drop_lasso_v4     | bool | ternary('YES', 'NO') }}" }
+  - { name: daily_pf_droplasso_v6,     value: "{{ pf_drop_lasso_v6     | bool | ternary('YES', 'NO') }}" }
     # these variables are also set in templates/default-drop-lasso.j2
-  - { name: daily_pf_droplasso_v4_filename, value: "{{ pf_drop_lasso_v4_filename | default('/etc/pf.drop_v4.txt')  }}" }
-  - { name: daily_pf_droplasso_v6_filename, value: "{{ pf_drop_lasso_v6_filename | default('/etc/pf.drop_v6.txt')  }}" }
+  - { name: daily_pf_droplasso_v4_filename, value: "{{ daily_pf_droplasso_v4_filename }}" }
+  - { name: daily_pf_droplasso_v6_filename, value: "{{ daily_pf_droplasso_v6_filename }}" }
+
 # Set to true if you want drop.lasso configuration in /etc/periodic.conf.local
 pf_drop_lasso_periodic_conf_local: false
 
