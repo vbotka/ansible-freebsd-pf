@@ -18,7 +18,7 @@ daily_pf_droplasso_v6_filename: "{{ pf_drop_lasso_v6_filename | default('/etc/pf
 #
 pf_drop_lasso_net_pf_request_maxcount: 350000
 
-pf_drop_lasso_rcconf:
+pf_drop_lasso_periodic_conf:
   - { name: daily_pf_droplasso_enable, value: "{{ pf_drop_lasso_enable | bool | ternary('YES', 'NO') }}" }
   - { name: daily_pf_droplasso_v4, value: "{{ pf_drop_lasso_v4 | bool | ternary('YES', 'NO') }}" }
   - { name: daily_pf_droplasso_v6, value: "{{ pf_drop_lasso_v6 | bool | ternary('YES', 'NO') }}" }

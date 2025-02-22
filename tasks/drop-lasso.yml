@@ -15,7 +15,7 @@
     path: "{{ pf_drop_lasso_periodic_file }}"
     name: "{{ item.name }}"
     value: "{{ item.value }}"
-  loop: "{{ pf_drop_lasso_rcconf }}"
+  loop: "{{ pf_drop_lasso_periodic_conf }}"
 
 - name: "Drop-lasso: set pf sysctl so you can load everything."
   ansible.posix.sysctl:
