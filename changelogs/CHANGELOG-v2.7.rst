@@ -10,14 +10,21 @@ vbotka.freebsd_pf 2.7 Release Notes
 
 Release Summary
 ---------------
-Maintenace update.
+Add DROP (Don't Route Or Peer Lists). By default disabled
+(pf_drop_lasso_enable=false).
 
 Major Changes
 -------------
 
 Minor Changes
 -------------
-* changelog moved to changelogs
+* Add tasks/drop-lasso.yml
+* Add defaults/main/drop_lasso.yml
+* Add templates/default-drop-lasso.j2
+  Script to update Spamhaus Lasso Spam Database for PF Firewall.
+* Update tasks/debug.yml
+* Update README references.
+* changelog moved to changelogs.
 
 
 2.7.0
@@ -25,7 +32,7 @@ Minor Changes
 
 Release Summary
 ---------------
-Maintenace update. Enable /etc/rc.conf.d/
+Maintenance update. Enable /etc/rc.conf.d/
 
 Major Changes
 -------------
@@ -39,6 +46,6 @@ Minor Changes
 Breaking Changes / Porting Guide
 --------------------------------
 * The variable pf_use_rc_conf_d renamed to pf_rcconfd
-* Lists \*_rcconf changed atributes names.
+* Lists \*_rcconf changed attributes names.
   * The attribute regexp renamed to name
   * The attribute line renamed to value

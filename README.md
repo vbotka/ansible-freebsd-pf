@@ -269,6 +269,8 @@ shell> ansible-lint -c .ansible-lint.local
 - [Enforcing Fail2ban bans with PF](https://dbdemon.com/pf_and_fail2ban/)
 - [Fail2Ban with PF](http://www.purplehat.org/?page_id=566)
 - [Fail2Ban pf.conf: fix multiport syntax](https://github.com/fail2ban/fail2ban/pull/1925)
+- [DROP - Don't Route Or Peer Lists](https://www.spamhaus.org/blocklists/do-not-route-or-peer/)
+- [Script To Update Spamhaus Lasso Spam Database for PF Firewall](https://bash.cyberciti.biz/firewall/bsd-spamhaus-lasso-spam-database-update-pf-firewall/)
 
 
 ## License
