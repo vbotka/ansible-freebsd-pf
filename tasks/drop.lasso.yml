@@ -1,0 +1,34 @@
+---
+- name: "drop.lasso: Install periodic script"
+  ansible.builtin.template:
+    dest: /usr/local/etc/periodic/daily/900.drop-lasso
+    src: "{{ pf_drop_lasso_template }}"
+    owner: root
+    group: wheel
+    mode: "0755"
+    # keeping a backup will result in the script being run multiple times
+    backup: no
+  when: pf_drop_lasso_enable | bool
+  
+- name: "drop.lasso: Configure periodic."
+  community.general.sysrc:
+    path: "{{ pf_drop_lasso_periodic_file }}"
+    name: "{{ item.name }}"
+    value: "{{ item.value }}"
+  loop: "{{ pf_drop_lasso_rcconf }}"
+
+- name: "drop.lasso: set pf sysctl so you can load everything"
+  ansible.posix.sysctl:
+    name:        net.pf.request_maxcount
+    sysctl_file: "{{ pf_drop_lasso_sysctl_file
+     }}"
+    value:       "{{ pf_drop_lasso_net_pf_request_maxcount }}"
+    sysctl_set:  true
+
+- name: "drop.lasso: List some debug information"
+  ansible.builtin.debug:
+    msg:
+    - "pf_drop_lasso_periodic_file: {{ pf_drop_lasso_periodic_file }}"
+  tags: debug
+
+# EOF
