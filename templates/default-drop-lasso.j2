@@ -1,0 +1,53 @@
+#!/bin/sh
+#
+# {{ ansible_managed }}. Template: {{ template_path }}
+#
+# If there is a global system configuration file, suck it in.
+#
+# This script is based upon https://bash.cyberciti.biz/firewall/bsd-spamhaus-lasso-spam-database-update-pf-firewall/#comment-463
+#
+if [ -r /etc/defaults/periodic.conf ]
+then
+    . /etc/defaults/periodic.conf
+    source_periodic_confs
+fi
+
+case "$daily_pf_droplasso_enable" in
+    [Yy][Ee][Ss])
+
+        FILE="/etc/pf.drop.lasso.conf"
+        TMPO="/tmp/drop.lasso.$$"
+        DROPURL='https://www.spamhaus.org/drop/drop_'
+        JQ="/usr/local/bin/jq"
+        SED="/usr/bin/sed"
+        FETCH="/usr/bin/fetch -q"
+        RM="/bin/rm"
+        PF="/sbin/pfctl -Tl -f /etc/pf.conf"
+	 
+        case "$daily_pf_droplasso_v4" in
+            [Yy][Ee][Ss])
+    	    >$TMPO
+            $FETCH -o $TMPO "${DROPURL}v4.json"
+            $JQ -r 'select(.type == null) | (.cidr)' $TMPO >> /etc/drop_v4.txt
+    	    $RM $TMPO
+            ;;
+        esac
+
+        case "$daily_pf_droplasso_v6" in
+            [Yy][Ee][Ss])
+    	    >$TMPO
+            $FETCH -o $TMPO "${DROPURL}v6.json"
+            $JQ -r 'select(.type == null) | (.cidr)' $TMPO >> /etc/drop_v6.txt
+    	    $RM $TMPO
+           ;;
+        esac
+	    
+	    $PF && rc=1 || rc=3
+	    ;;
+	    
+    *)
+        rc=0
+        ;;
+esac
+
+exit $rc

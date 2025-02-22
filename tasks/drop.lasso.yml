@@ -1,0 +1,37 @@
+---
+- name: "drop.lasso: Install periodic script"
+  ansible.builtin.template:
+    dest: /usr/local/etc/periodic/daily/900.drop-lasso
+    src: "{{ pf_drop_lasso_template }}"
+    owner: root
+    group: wheel
+    mode: "0755"
+    # keeping a backup will result in the script being run multiple times
+    backup: no
+  when: pf_drop_lasso_enable | bool
+  
+- name: "drop.lasso: Enable periodic script"
+  sysrc:
+    name:  daily_pf_droplasso_enable
+    state: present
+    value: "{{ pf_drop_lasso_enable | bool | ternary('YES', 'NO') }}"
+    path:  /etc/periodic.conf
+
+- name: "drop.lasso: Enable v4"
+  sysrc:
+    name:  daily_pf_droplasso_v4
+    state: present
+    value: "{{ pf_drop_lasso_v4 | bool | ternary('YES', 'NO') }}"
+    path:  /etc/periodic.conf
+  when: pf_drop_lasso_enable | bool
+
+- name: "drop.lasso: Enable v6"
+  sysrc:
+    name:  daily_pf_droplasso_v6
+    state: present
+    value: "{{ pf_drop_lasso_v6 | bool | ternary('YES', 'NO') }}"
+    path:  /etc/periodic.conf
+  when: pf_drop_lasso_enable | bool
+  tags: periodic
+
+# EOF

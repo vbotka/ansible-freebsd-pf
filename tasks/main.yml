@@ -21,6 +21,10 @@
   ansible.builtin.import_tasks: blacklistd.yml
   tags: pf_blacklistd
 
+- name: Import drop.lasso.yml
+  ansible.builtin.import_tasks: drop.lasso.yml
+  tags: pf_drop_lasso
+
 - name: Import fail2ban.yml
   ansible.builtin.import_tasks: fail2ban.yml
   tags: pf_fail2ban

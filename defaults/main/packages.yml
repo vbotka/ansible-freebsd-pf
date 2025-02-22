@@ -6,6 +6,8 @@ freebsd_use_packages: true
 freebsd_install_retries: 10
 freebsd_install_delay: 5
 
+pf_drop_lasson_packages:
+  - textproc/jq
 pf_fail2ban_packages:
   - security/py-fail2ban
 pf_sshguard_packages:
@@ -14,6 +16,8 @@ pf_relayd_packages:
   - net/relayd
 
 pf_packages:
+  - enable: "{{ pf_drop_lasso_enable }}"
+    packages: "{{ pf_drop_lasson_packages }}"
   - enable: "{{ pf_fail2ban_enable }}"
     packages: "{{ pf_fail2ban_packages }}"
   - enable: "{{ pf_relayd_enable }}"
