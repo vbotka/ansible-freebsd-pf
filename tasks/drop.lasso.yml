@@ -11,27 +11,23 @@
   when: pf_drop_lasso_enable | bool
   
 - name: "drop.lasso: Enable periodic script"
-  sysrc:
+  community.general.sysrc:
     name:  daily_pf_droplasso_enable
-    state: present
     value: "{{ pf_drop_lasso_enable | bool | ternary('YES', 'NO') }}"
     path:  /etc/periodic.conf
 
 - name: "drop.lasso: Enable v4"
-  sysrc:
+  community.general.sysrc:
     name:  daily_pf_droplasso_v4
-    state: present
     value: "{{ pf_drop_lasso_v4 | bool | ternary('YES', 'NO') }}"
     path:  /etc/periodic.conf
   when: pf_drop_lasso_enable | bool
 
 - name: "drop.lasso: Enable v6"
-  sysrc:
+  community.general.sysrc:
     name:  daily_pf_droplasso_v6
-    state: present
     value: "{{ pf_drop_lasso_v6 | bool | ternary('YES', 'NO') }}"
     path:  /etc/periodic.conf
   when: pf_drop_lasso_enable | bool
-  tags: periodic
 
 # EOF

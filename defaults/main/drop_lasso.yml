@@ -6,8 +6,7 @@ pf_drop_lasso_template: default-drop-lasso.j2
 # this is IP4 and IPv6 respectively
 # see https://www.spamhaus.org/drop/
 #
-pf_drop_lasso_v4: True
-pf_drop_lasso_v6: True
-  
+pf_drop_lasso_v4: true
+pf_drop_lasso_v6: true
 
 # EOF
