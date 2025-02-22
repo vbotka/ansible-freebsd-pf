@@ -18,8 +18,10 @@
         name: "{{ item.name }}"
         value: "{{ item.value }}"
       loop: "{{ pf_drop_lasso_periodic_conf }}"
+      loop_control:
+        label: '{{ item.name }}="{{ item.value }}"'
 
-    - name: "Drop-lasso: set pf sysctl so you can load everything."
+    - name: "Drop-lasso: Set pf sysctl so you can load everything."
       ansible.posix.sysctl:
         sysctl_file: "{{ pf_drop_lasso_sysctl_file }}"
         name: net.pf.request_maxcount
