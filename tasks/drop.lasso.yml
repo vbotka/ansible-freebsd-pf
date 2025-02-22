@@ -17,6 +17,14 @@
     value: "{{ item.value }}"
   loop: "{{ pf_drop_lasso_rcconf }}"
 
+- name: "drop.lasso: set pf sysctl so you can load everything"
+  ansible.posix.sysctl:
+    name:        net.pf.request_maxcount
+    sysctl_file: "{{ pf_drop_lasso_sysctl_file
+     }}"
+    value:       "{{ pf_drop_lasso_net_pf_request_maxcount }}"
+    sysctl_set:  true
+
 - name: "drop.lasso: List some debug information"
   ansible.builtin.debug:
     msg:

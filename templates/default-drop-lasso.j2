@@ -20,34 +20,39 @@ case "$daily_pf_droplasso_enable" in
         : ${daily_pf_droplasso_v6_filename:={{ daily_pf_droplasso_v6_filename }}}
 
         TMPO="/tmp/drop.lasso.$$"
-        DROPURL='https://www.spamhaus.org/drop/drop_'
-        JQ="/usr/local/bin/jq"
-        SED="/usr/bin/sed"
+        DROPURL='https://team-cymru.org/Services/Bogons/fullbogons-ipv'
         FETCH="/usr/bin/fetch -q"
         RM="/bin/rm"
         PF="/sbin/pfctl -Tl -f /etc/pf.conf"
-	 
+
         case "$daily_pf_droplasso_v4" in
             [Yy][Ee][Ss])
-    	    >$TMPO
-            $FETCH -o $TMPO "${DROPURL}v4.json"
-            $JQ -r 'select(.type == null) | (.cidr)' $TMPO >> $daily_pf_droplasso_v4_filename
-    	    $RM $TMPO
+            >$TMPO
+            $FETCH -o $TMPO "${DROPURL}4.txt"
+            if [ $? -eq 0 ]; then
+                mv $TMPO $daily_pf_droplasso_v4_filename
+            else
+                $RM $TMPO
+            fi
             ;;
         esac
 
         case "$daily_pf_droplasso_v6" in
             [Yy][Ee][Ss])
-    	    >$TMPO
-            $FETCH -o $TMPO "${DROPURL}v6.json"
-            $JQ -r 'select(.type == null) | (.cidr)' $TMPO >> $daily_pf_droplasso_v6_filename
-    	    $RM $TMPO
+            >$TMPO
+            $FETCH -o $TMPO "${DROPURL}6.txt"
+            if [ $? -eq 0 ]; then
+                mv $TMPO $daily_pf_droplasso_v6_filename
+            else
+                $RM $TMPO
+            fi
            ;;
         esac
-	    
-	    $PF && rc=1 || rc=3
-	    ;;
-	    
+
+        # reload the pf tables
+        $PF && rc=1 || rc=3
+        ;;
+
     *)
         rc=0
         ;;
