@@ -34,6 +34,7 @@
         value: "NO"
 
     - name: "Rcconf-fail2ban: Configure fail2ban."
+      when: pf_fail2ban_enable | bool
       notify: restart fail2ban
       community.general.sysrc:
         path: "{{ _path }}"
