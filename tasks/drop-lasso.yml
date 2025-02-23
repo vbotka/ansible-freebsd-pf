@@ -14,7 +14,8 @@
   community.general.sysrc:
     path: "{{ pf_drop_lasso_periodic_file }}"
     name: "{{ item.name }}"
-    value: "{{ item.value }}"
+    value: "{{ item.value | d(omit) }}"
+    state: "{{ item.state | d(omit) }}"
   loop: "{{ pf_drop_lasso_periodic_conf }}"
   loop_control:
     label: '{{ item.name }}="{{ item.value }}"'

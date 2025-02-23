@@ -29,7 +29,8 @@
       community.general.sysrc:
         path: "{{ _path }}"
         name: "{{ item.name }}"
-        value: "{{ item.value }}"
+        value: "{{ item.value | d(omit) }}"
+        state: "{{ item.state | d(omit) }}"
       loop: "{{ pf_relayd_rcconf }}"
 
 # EOF
