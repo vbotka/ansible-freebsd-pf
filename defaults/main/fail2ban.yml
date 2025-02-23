@@ -1,4 +1,7 @@
 ---
+# Execute tasks fail2ban.yml and rcconf-fail2ban.yml. By default, skip them.
+pf_fail2ban: false
+
 pf_fail2ban_flags: ""
 pf_fail2ban_rcconf:
   - { name: fail2ban_flags, value: "{{ pf_fail2ban_flags }}" }

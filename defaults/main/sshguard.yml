@@ -3,6 +3,9 @@
 # Make sure '/usr/local/etc/rc.d/sshguard start' works
 # See https://mail-index.netbsd.org/netbsd-users/2018/05/21/msg020789.html
 
+# Execute tasks sshguard.yml and rcconf-sshguard.yml. By default, skip them.
+pf_sshguard: false
+
 pf_ssh_whitelist: []
 
 # EOF

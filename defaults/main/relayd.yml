@@ -1,4 +1,7 @@
 ---
+# Execute tasks relayd.yml and rcconf-relayd.yml. By default, skip them.
+pf_relayd: false
+
 pf_relayd_path: /usr/local/sbin/relayd
 
 pf_relayd_flags: ""
