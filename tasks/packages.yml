@@ -1,10 +1,11 @@
 ---
-- name: "Packages: Debug"
+- name: "Packages: Debug pf_debug={{ pf_debug }}"
+  when: pf_debug | bool
   ansible.builtin.debug:
     var: pf_packages_install
-  when: pf_debug | bool
 
-- name: "Packages: Install packages"
+- name: "Packages: Install packages."
+  when: freebsd_install_method | lower == 'packages'
   community.general.pkgng:
     name: "{{ item }}"
   loop: "{{ pf_packages_install }}"
@@ -12,9 +13,9 @@
   until: result is succeeded
   retries: "{{ freebsd_install_retries }}"
   delay: "{{ freebsd_install_delay }}"
-  when: freebsd_install_method | lower == 'packages'
 
-- name: "Packages: Install ports"
+- name: "Packages: Install ports."
+  when: freebsd_install_method | lower == 'ports'
   community.general.portinstall:
     name: "{{ item }}"
     use_packages: "{{ freebsd_use_packages }}"
@@ -23,6 +24,5 @@
   until: result is succeeded
   retries: "{{ freebsd_install_retries }}"
   delay: "{{ freebsd_install_delay }}"
-  when: freebsd_install_method | lower == 'ports'
 
 # EOF

@@ -1,7 +1,7 @@
 ---
 - name: Configure /etc/rc.conf or etc/rc.conf.d/pf
   vars:
-    _path: "{{ (pf_rcconfd | bool) | ternary('/etc/rc.conf.d/pf', '/etc/rc.conf') }}"
+    _path: "{{ pf_rcconfd | bool | ternary('/etc/rc.conf.d/pf', '/etc/rc.conf') }}"
   block:
 
     - name: "Rcconf-pf: Enable and start pf."
