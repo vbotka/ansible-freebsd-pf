@@ -21,7 +21,7 @@
   ansible.builtin.import_tasks: blacklistd.yml
   tags: pf_blacklistd
 
-- name: Import drop.lasso.yml
+- name: Import drop-lasso.yml
   ansible.builtin.import_tasks: drop-lasso.yml
   when: pf_drop_lasso | bool
   tags: pf_drop_lasso

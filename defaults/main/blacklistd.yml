@@ -1,5 +1,4 @@
 ---
-
 pf_blacklistd_flags: -r
 pf_blacklistd_rcconf:
   - { name: blacklistd_flags, value: "{{ pf_blacklistd_flags }}" }

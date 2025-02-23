@@ -1,5 +1,4 @@
 ---
-
 pf_fail2ban_flags: ""
 pf_fail2ban_rcconf:
   - { name: fail2ban_flags, value: "{{ pf_fail2ban_flags }}" }

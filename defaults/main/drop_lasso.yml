@@ -1,5 +1,4 @@
 ---
-
 # Execute tasks/drop-lasso.yml. By default, skip all tasks.
 pf_drop_lasso: false
 # Create periodic script
