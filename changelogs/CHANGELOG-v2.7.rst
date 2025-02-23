@@ -10,8 +10,8 @@ vbotka.freebsd_pf 2.7 Release Notes
 
 Release Summary
 ---------------
-Add DROP (Don't Route Or Peer Lists). By default disabled
-(pf_drop_lasso_enable=false).
+Add DROP (Don't Route Or Peer Lists).
+By default, all disabled (pf_drop_lasso=false).
 
 Major Changes
 -------------

@@ -120,6 +120,10 @@
       pf_relayd_template: {{ pf_relayd_template }}
 
       * drop lasso - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      pf_drop_lasso: {{ pf_drop_lasso }}
+      pf_drop_lasso_script: {{ pf_drop_lasso_script }}
+      pf_drop_lasso_periodic: {{ pf_drop_lasso_periodic }}
+      pf_drop_lasso_sysctl: {{ pf_drop_lasso_sysctl }}
       pf_drop_lasso_enable: {{ pf_drop_lasso_enable }}
       pf_drop_lasso_v4: {{ pf_drop_lasso_v4 }}
       pf_drop_lasso_v6: {{ pf_drop_lasso_v6 }}

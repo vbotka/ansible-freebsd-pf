@@ -1,5 +1,14 @@
 ---
 
+# Execute tasks/drop-lasso.yml. By default, skip all tasks.
+pf_drop_lasso: false
+# Create periodic script
+pf_drop_lasso_script: true
+# Configure periodic
+pf_drop_lasso_periodic: true
+# Configure sysctl
+pf_drop_lasso_sysctl: true
+
 pf_drop_lasso_template: default-drop-lasso.j2
 pf_drop_lasso_dropurl: https://team-cymru.org/Services/Bogons/fullbogons-ipv
 
