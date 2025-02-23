@@ -10,11 +10,13 @@ vbotka.freebsd_pf 2.7 Release Notes
 
 Release Summary
 ---------------
-Add DROP (Don't Route Or Peer Lists).
-By default, all disabled (pf_drop_lasso=false).
+Add DROP (Don't Route Or Peer Lists) pf_drop_lasso (default=false).
+BACKWARD NOT COMPATIBLE: By default, all services are disabled:
+pf_blacklistd, pf_fail2ban, pf_relayd, pf_sshguard (default=false).
 
 Major Changes
 -------------
+* Add vars: pf_blacklistd, pf_fail2ban, pf_relayd, pf_sshguard (default=false)
 
 Minor Changes
 -------------
@@ -22,9 +24,20 @@ Minor Changes
 * Add defaults/main/drop_lasso.yml
 * Add templates/default-drop-lasso.j2
   Script to update Spamhaus Lasso Spam Database for PF Firewall.
+* Add option state to sysrc.
 * Update tasks/debug.yml
 * Update README references.
 * changelog moved to changelogs.
+
+Breaking Changes / Porting Guide
+--------------------------------
+Add vars: pf_blacklistd, pf_fail2ban, pf_relayd, pf_sshguard (default=false)
+
+* By default, the related tasks will be skipped.
+* By enabling these "main switches" fit the defaults to your needs. For example,
+  review the lists pf_*_rcconf
+* These defaults are not backward compatible. Enable these "main switches" if
+  you want to configure the services.
 
 
 2.7.0
