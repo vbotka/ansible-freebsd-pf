@@ -1,5 +1,4 @@
 ---
-
 freebsd_install_method: packages
 # freebsd_install_method: ports
 freebsd_use_packages: true

@@ -1,5 +1,4 @@
 ---
-
 pf_install: true
 pf_enable: false
 pf_debug: false
@@ -7,6 +6,7 @@ pf_log_enable: false
 pf_backup_conf: false
 
 pf_blacklistd_enable: false
+pf_drop_lasso_enable: false
 pf_fail2ban_enable: false
 pf_relayd_enable: false
 pf_sshguard_enable: false

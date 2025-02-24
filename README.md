@@ -30,6 +30,7 @@ This will disable pf after 2 minutes and let you to open new session to this rem
 
 ### Collections
 
+* ansible.posix
 * community.general
 
 ### Optional dependencies
@@ -41,31 +42,58 @@ This will disable pf after 2 minutes and let you to open new session to this rem
 
 ## Role Variables
 
-By default the firewall is disabled
+* By default, this role:
+
+  * installs enabled packages ``pf_install=true`` (see tasks/packages.yml)
+  * configures and validates */etc/pf.conf* (see tasks/pfconf.yml)
+  * configures *pf_\** in */etc/rc.conf* (see tasks/rcconf-pf.yml)
+  * configures *pf_log_\** in */etc/rc.conf* (see tasks/rcconf-pflog.yml)
+
+* By default, the firewall and logging are disabled
 
 ```yaml
-pf_enable: False
+pf_enable: false
+pf_log_all_blocked: false
 ```
 
-By default [sshguard](https://www.sshguard.net/),
-[blacklistd](https://www.freebsd.org/cgi/man.cgi?query=blacklistd),
-[fail2ban](https://www.fail2ban.org/), and
-[relayd](https://www.freshports.org/net/relayd/) are disabled
+* By default [blacklistd](https://www.freebsd.org/cgi/man.cgi?query=blacklistd),
+[drop](https://bash.cyberciti.biz/firewall/bsd-spamhaus-lasso-spam-database-update-pf-firewall/),
+[fail2ban](https://www.fail2ban.org/),
+[relayd](https://www.freshports.org/net/relayd/), and
+[sshguard](https://www.sshguard.net/) are also disabled
 
 ```yaml
-pf_blacklistd_enable: False
-pf_fail2ban_enable: False
-pf_relayd_enable: False
-pf_sshguard_enable: False
+pf_blacklistd_enable: false
+pf_drop_lasso_enable: false
+pf_fail2ban_enable: false
+pf_relayd_enable: false
+pf_sshguard_enable: false
 ```
+(see defaults/main/pf.yml)
 
-By default blocked packages are not logged
+* Since the version 2.7.1 the configuration of the above services is completely
+  disabled by default
 
 ```yaml
-pf_log_all_blocked: False
+pf_blacklistd: false
+pf_drop_lasso: false
+pf_fail2ban: false
+pf_relayd: false
+pf_sshguard: false
 ```
+(see the corresponding files in defaults/main/)
 
-Review the defaults and examples in vars.
+For example, if you want to configure and enable *blacklistd* and *relayd* you have to set
+
+```yaml
+pf_blacklistd: true
+pf_blacklistd_enable: true
+pf_relayd: true
+pf_relayd_enable: true
+```
+See the corresponding files defaults/main/*.yml and fit the variables to your needs.
+
+* Review the defaults and examples in vars.
 
 
 ## Workflow
@@ -82,19 +110,19 @@ shell> ansible srv.example.com -e 'ansible_shell_type=csh ansible_shell_executab
 shell> ansible-galaxy role install vbotka.freebsd_pf
 ```
 
-Install the collection if necessary
+Install the collections if necessary
 
 ```bash
+shell> ansible-galaxy collection install ansible.posix
 shell> ansible-galaxy collection install community.general
 ```
 
 3) Create firewall
 
-There are couple of templates *-pf.conf.j2 available. Pick a template
-that fits your purpose (router, server, balancer, ...) and review the
-examples of the variables *.yml.sample in vars. The template
-default-pf.conf.j2 and the variables
-pfconf_example*_default.yml.sample are tested. Other templates and
+There are couple of templates *-pf.conf.j2 available. Pick a template that fits
+your purpose (router, server, balancer, ...) and review the examples of the
+variables *.yml.sample in vars. The template default-pf.conf.j2 and the
+variables pfconf_example*_default.yml.sample are tested. Other templates and
 samples will need more attention and testing.
 
 Note: You can create nested lists (tables, options, normalization,
@@ -123,26 +151,25 @@ Then, disable the installation to speed up the execution of the playbook.
 
 7) Configure the firewall
 
-Starting and restarting of the firewall breaks the ssh connections. See
-the handlers for details. As a consequence, both handlers starting and
-reloading don't work properly and the ssh connection will
-stale. Therefore, let us first configure the rules
+Starting and restarting of the firewall breaks the ssh connections. See the
+handlers for details. As a consequence, both handlers starting and reloading
+don't work properly and the ssh connection will stale. Therefore, let us first
+configure the rules
 
 ```bash
 shell> ansible-playbook -e pf_enable=false freebsd-pf.yml
 ```
 
-Before you enable the firewall open a ssh session to the remote host
-and run the below commands
+Before you enable the firewall open a ssh session to the remote host and run the
+below commands
 
 ```bash
 shell> sleep 120; pfctl -d
 ```
 
-If you lock yourself out of the remote host the above commands will
-disable the firewall in 2 minutes. You might want to run these
-commands always when you experiment with the firewall. Now, enable the
-firewall
+If you lock yourself out of the remote host the above commands will disable the
+firewall in 2 minutes. You might want to run these commands always when you
+experiment with the firewall. Now, enable the firewall
 
 ```bash
 shell> ansible-playbook -e pf_enable=true freebsd-pf.yml
@@ -151,8 +178,8 @@ shell> ansible-playbook -e pf_enable=true freebsd-pf.yml
 
 ## Update the firewall
 
-Open ssh connection to the host for the case that something goes
-wrong. Update and validate the configuration. Do not reload the rules
+Open ssh connection to the host for the case that something goes wrong. Update
+and validate the configuration. Do not reload the rules
 
 ```bash
 shell> ansible-playbook -e pf_conf_only=true -e pf_conf_validate=true freebsd-pf.yml
@@ -187,12 +214,12 @@ fatal: [srv.example.com]: FAILED! => changed=false
     /home/freebsd/.ansible/tmp/ansible-tmp-1554558267.39-44232067735996/source:119: syntax error
 ```
 
-The message above shows the location of the syntax error (source:119)
-in the temporary file created by the template module. It's difficult
-to find the error if this temporary file is not available for a
-review.
+The message above shows the location of the syntax error (source:119) in the
+temporary file created by the template module. It's difficult to find the error
+if this temporary file is not available for a review.
 
-Enable *pf_conf_only=true* and disable validation *pf_conf_validate=false* to find the problem
+Enable ``pf_conf_only=true`` and disable validation ``pf_conf_validate=false``
+to find the problem
 
 ```bash
 shell> ansible-playbook -e pf_conf_only=true -e pf_conf_validate=false freebsd-pf.yml
@@ -212,7 +239,7 @@ shell> ansible srv.example.com -m service -a "name=pf state=reloaded"
 
 ### relayd.conf
 
-The same way it is possible to troubleshoot /usr/local/etc/relayd.conf
+The same way, it is possible to troubleshoot /usr/local/etc/relayd.conf
 
 ```bash
 shell> ansible-playbook -t pf_relayd -e pf_debug=true -e pf_relayd_conf_validate=false -e pf_relayd_conf_only=true freebsd-pf.yml
@@ -233,8 +260,8 @@ shell> ansible srv.example.com -m service -a "name=relayd state=reloaded"
 ## Security
 
 To prevent not-validated configuration to be reloaded by the handler
-configuration file /etc/pf.conf won't be created and the play will be
-terminated if both *pf_conf_only=false* and *pf_conf_validate=false*
+configuration file /etc/pf.conf won't be created and the play will be terminated
+if both ``pf_conf_only=false`` and ``pf_conf_validate=false``
 
 ```shell
 shell> ansible-playbook -e pf_conf_only=false -e pf_conf_validate=false freebsd-pf.yml
@@ -242,14 +269,15 @@ fatal: [srv.example.com]: FAILED! => changed=false
   msg: Validation can be turned off if pf_conf_only=True. End of play.
 ```
 
-The role fails the same way in case `-e pf_relayd_conf_only=false -e pf_relayd_conf_validate=false`
+The role fails the same way in case ``-e pf_relayd_conf_only=false -e pf_relayd_conf_validate=false``
 
 
 ### Ansible lint
 
-Use the configuration file *.ansible-lint.local* when running
-*ansible-lint*. Some rules might be disabled and some warnings might
-be ignored. See the notes in the configuration file.
+When you extend this role run *ansible-lint* and validate the syntax. Use the
+configuration file *.ansible-lint.local* when running *ansible-lint*. Some rules
+might be disabled and some warnings might be ignored. See the notes in the
+configuration file.
 
 ```bash
 shell> ansible-lint -c .ansible-lint.local
@@ -269,6 +297,8 @@ shell> ansible-lint -c .ansible-lint.local
 - [Enforcing Fail2ban bans with PF](https://dbdemon.com/pf_and_fail2ban/)
 - [Fail2Ban with PF](http://www.purplehat.org/?page_id=566)
 - [Fail2Ban pf.conf: fix multiport syntax](https://github.com/fail2ban/fail2ban/pull/1925)
+- [DROP - Don't Route Or Peer Lists](https://www.spamhaus.org/blocklists/do-not-route-or-peer/)
+- [Script To Update Spamhaus Lasso Spam Database for PF Firewall](https://bash.cyberciti.biz/firewall/bsd-spamhaus-lasso-spam-database-update-pf-firewall/)
 
 
 ## License

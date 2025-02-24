@@ -1,0 +1,58 @@
+---
+# Execute tasks drop-lasso.yml. By default, skip them.
+pf_drop_lasso: false
+# Create periodic script
+pf_drop_lasso_script: true
+# Configure periodic
+pf_drop_lasso_periodic: true
+# Configure sysctl
+pf_drop_lasso_sysctl: true
+
+pf_drop_lasso_template: default-drop-lasso.j2
+pf_drop_lasso_dropurl: https://team-cymru.org/Services/Bogons/fullbogons-ipv
+
+# periodic.conf
+#
+# this is IPv4 and IPv6 respectively
+# see https://www.spamhaus.org/drop/
+#
+pf_drop_lasso_v4: true
+pf_drop_lasso_v6: true
+#
+# where should the downloaded files be placed?
+# these variables are also set in templates/default-drop-lasso.j2
+daily_pf_droplasso_v4_filename: /etc/pf.drop_v4.txt
+daily_pf_droplasso_v6_filename: /etc/pf.drop_v6.txt
+#
+pf_drop_lasso_periodic_conf:
+  - { name: daily_pf_droplasso_enable, value: "{{ pf_drop_lasso_enable | bool | ternary('YES', 'NO') }}" }
+  - { name: daily_pf_droplasso_v4, value: "{{ pf_drop_lasso_v4 | bool | ternary('YES', 'NO') }}" }
+  - { name: daily_pf_droplasso_v6, value: "{{ pf_drop_lasso_v6 | bool | ternary('YES', 'NO') }}" }
+  - { name: daily_pf_droplasso_v4_filename, value: "{{ daily_pf_droplasso_v4_filename }}" }
+  - { name: daily_pf_droplasso_v6_filename, value: "{{ daily_pf_droplasso_v6_filename }}" }
+
+# Set to true if you want drop.lasso periodic configuration in /etc/periodic.conf.local
+pf_drop_lasso_periodic_conf_local: false
+# you can override this, but you should use pf_drop_lasso_periodic_conf_local instead
+pf_drop_lasso_periodic_file: "{{ pf_drop_lasso_periodic_conf_local | bool |
+                                 ternary('/etc/periodic.conf.local', '/etc/periodic.conf') }}"
+
+# sysctl.conf
+#
+# Please experiment with the right value for you.
+# On a 32GB memory system, I had 29GB free with this setting.
+# This avoid this error: cannot define inactive set table bogons_v6: too many elements.
+# Consider increasing net.pf.request_maxcount./etc/pf.conf:152: cannot define table bogons_v6: too many elements.
+#
+pf_drop_lasso_net_pf_request_maxcount: 350000
+#
+pf_drop_lasso_sysctl_conf:
+  - { name: net.pf.request_maxcount, value: "{{ pf_drop_lasso_net_pf_request_maxcount }}", set: true }
+
+# Set to true if you want drop.lasso sysctl configuration in /etc/sysctl.conf.local
+pf_drop_lasso_sysctl_conf_local: false
+# you can override this, but you should use pf_drop_lasso_sysctl_conf_local instead
+pf_drop_lasso_sysctl_file: "{{ pf_drop_lasso_sysctl_conf_local | bool |
+                               ternary('/etc/sysctl.conf.local', '/etc/sysctl.conf') }}"
+
+# EOF

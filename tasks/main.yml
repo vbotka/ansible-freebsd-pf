@@ -11,18 +11,27 @@
 
 - name: Import relayd.yml
   ansible.builtin.import_tasks: relayd.yml
+  when: pf_relayd | bool
   tags: pf_relayd
 
 - name: Import sshguard.yml
   ansible.builtin.import_tasks: sshguard.yml
+  when: pf_sshguard | bool
   tags: pf_sshguard
 
 - name: Import blacklistd.yml
   ansible.builtin.import_tasks: blacklistd.yml
+  when: pf_blacklistd | bool
   tags: pf_blacklistd
+
+- name: Import drop-lasso.yml
+  ansible.builtin.import_tasks: drop-lasso.yml
+  when: pf_drop_lasso | bool
+  tags: pf_drop_lasso
 
 - name: Import fail2ban.yml
   ansible.builtin.import_tasks: fail2ban.yml
+  when: pf_fail2ban | bool
   tags: pf_fail2ban
 
 - name: Import pfconf.yml
@@ -31,18 +40,22 @@
 
 - name: Import rcconf-sshguard.yml
   ansible.builtin.import_tasks: rcconf-sshguard.yml
+  when: pf_sshguard | bool
   tags: pf_rcconf_sshguard
 
 - name: Import rcconf-blacklistd.yml
   ansible.builtin.import_tasks: rcconf-blacklistd.yml
+  when: pf_blacklistd | bool
   tags: pf_rcconf_blacklistd
 
 - name: Import rcconf-fail2ban.yml
   ansible.builtin.import_tasks: rcconf-fail2ban.yml
+  when: pf_fail2ban | bool
   tags: pf_rcconf_fail2ban
 
 - name: Import rcconf-relayd.yml
   ansible.builtin.import_tasks: rcconf-relayd.yml
+  when: pf_relayd | bool
   tags: pf_rcconf_relayd
 
 - name: Import rcconf-pf.yml

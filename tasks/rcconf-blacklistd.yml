@@ -1,7 +1,7 @@
 ---
 - name: Configure /etc/rc.conf or etc/rc.conf.d/blacklistd
   vars:
-    _path: "{{ (pf_rcconfd | bool) | ternary('/etc/rc.conf.d/blacklistd', '/etc/rc.conf') }}"
+    _path: "{{ pf_rcconfd | bool | ternary('/etc/rc.conf.d/blacklistd', '/etc/rc.conf') }}"
   block:
 
     - name: "Rcconf-blacklistd: Enable and start blacklistd."
@@ -29,7 +29,8 @@
       community.general.sysrc:
         path: "{{ _path }}"
         name: "{{ item.name }}"
-        value: "{{ item.value }}"
+        value: "{{ item.value | d(omit) }}"
+        state: "{{ item.state | d(omit) }}"
       loop: "{{ pf_blacklistd_rcconf }}"
 
 # EOF

@@ -1,0 +1,6 @@
+---
+# Execute tasks/drop-lasso.yml
+pf_drop_lasso: true
+
+# Enable daily_pf_droplasso_enable in pf_drop_lasso_periodic_file
+pf_drop_lasso_enable: true

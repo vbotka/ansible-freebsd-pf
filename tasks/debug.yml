@@ -37,18 +37,22 @@
       pf_log_flags: {{ pf_log_flags | d('""') }}
       pf_log_rcconf:
         {{ pf_log_rcconf | to_yaml(indent=2) | indent(2) }}
+      pf_blacklistd: {{ pf_blacklistd | bool }}
       pf_blacklistd_enable: {{ pf_blacklistd_enable | bool }}
       pf_blacklistd_flags: {{ pf_blacklistd_flags }}
       pf_blacklistd_rcconf:
         {{ pf_blacklistd_rcconf | to_yaml(indent=2) | indent(2) }}
+      pf_fail2ban: {{ pf_fail2ban | bool }}
       pf_fail2ban_enable: {{ pf_fail2ban_enable | bool }}
       pf_fail2ban_flags: {{ pf_fail2ban_flags }}
       pf_fail2ban_rcconf:
         {{ pf_fail2ban_rcconf | to_yaml(indent=2) | indent(2) }}
+      pf_relayd: {{ pf_relayd | bool }}
       pf_relayd_enable: {{ pf_relayd_enable | bool }}
       pf_relayd_flags: {{ pf_relayd_flags }}
       pf_relayd_rcconf:
         {{ pf_relayd_rcconf | to_yaml(indent=2) | indent(2) }}
+      pf_sshguard: {{ pf_sshguard | bool }}
       pf_sshguard_enable: {{ pf_sshguard_enable | bool }}
 
       * /etc/pf.conf - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -118,6 +122,30 @@
         {{ pf_fail2ban_jail_local_conf | to_yaml(indent=2) | indent(2) }}
       * /usr/local/etc/relayd.conf - - - - - - - - - - - - - - - - - - - - - -
       pf_relayd_template: {{ pf_relayd_template }}
+
+      * drop lasso - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+      pf_drop_lasso: {{ pf_drop_lasso }}
+      pf_drop_lasso_enable: {{ pf_drop_lasso_enable }}
+
+      pf_drop_lasso_script: {{ pf_drop_lasso_script }}
+      pf_drop_lasso_template: {{ pf_drop_lasso_template }}
+      pf_drop_lasso_dropurl: {{ pf_drop_lasso_dropurl }}
+
+      pf_drop_lasso_periodic: {{ pf_drop_lasso_periodic }}
+      pf_drop_lasso_periodic_conf_local: {{ pf_drop_lasso_periodic_conf_local }}
+      pf_drop_lasso_periodic_file: {{ pf_drop_lasso_periodic_file }}
+      pf_drop_lasso_v4: {{ pf_drop_lasso_v4 }}
+      pf_drop_lasso_v6: {{ pf_drop_lasso_v6 }}
+      daily_pf_droplasso_v4_filename: {{ daily_pf_droplasso_v4_filename }}
+      daily_pf_droplasso_v6_filename: {{ daily_pf_droplasso_v6_filename }}
+      pf_drop_lasso_periodic_conf:
+        {{ pf_drop_lasso_periodic_conf | to_yaml(indent=2) | indent(2) }}
+      pf_drop_lasso_sysctl: {{ pf_drop_lasso_sysctl }}
+      pf_drop_lasso_sysctl_conf_local: {{ pf_drop_lasso_sysctl_conf_local }}
+      pf_drop_lasso_sysctl_file: {{ pf_drop_lasso_sysctl_file }}
+      pf_drop_lasso_net_pf_request_maxcount: {{ pf_drop_lasso_net_pf_request_maxcount }}
+      pf_drop_lasso_sysctl_conf:
+        {{ pf_drop_lasso_sysctl_conf | to_yaml(indent=2) | indent(2) }}
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
 

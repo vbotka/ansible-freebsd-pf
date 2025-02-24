@@ -1,4 +1,6 @@
 ---
+# Execute tasks blacklistd.yml and rcconf-blacklistd.yml. By default, skip them.
+pf_blacklistd: false
 
 pf_blacklistd_flags: -r
 pf_blacklistd_rcconf:

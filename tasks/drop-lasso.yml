@@ -1,0 +1,31 @@
+---
+- name: "Drop-lasso: Install periodic script."
+  when: pf_drop_lasso_script | bool
+  ansible.builtin.template:
+    dest: /usr/local/etc/periodic/daily/900.drop-lasso
+    src: "{{ pf_drop_lasso_template }}"
+    owner: root
+    group: wheel
+    mode: "0755"
+    backup: false # keeping a backup will result in the script being run multiple times
+
+- name: "Drop-lasso: Configure periodic."
+  when: pf_drop_lasso_periodic | bool
+  community.general.sysrc:
+    path: "{{ pf_drop_lasso_periodic_file }}"
+    name: "{{ item.name }}"
+    value: "{{ item.value | d(omit) }}"
+    state: "{{ item.state | d(omit) }}"
+  loop: "{{ pf_drop_lasso_periodic_conf }}"
+
+- name: "Drop-lasso: Set pf sysctl so you can load everything."
+  when: pf_drop_lasso_sysctl | bool
+  ansible.posix.sysctl:
+    sysctl_file: "{{ pf_drop_lasso_sysctl_file }}"
+    name: "{{ item.name }}"
+    value: "{{ item.value | d(omit) }}"
+    state: "{{ item.state | d(omit) }}"
+    sysctl_set: "{{ item.set | d(omit) }}"
+  loop: "{{ pf_drop_lasso_sysctl_conf }}"
+
+# EOF
