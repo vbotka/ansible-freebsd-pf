@@ -83,6 +83,16 @@ pf_sshguard: false
 ```
 (see the corresponding files in defaults/main/)
 
+If you want to configure and enable *blacklistd* and *relayd* you have to set
+
+```yaml
+pf_blacklistd: true
+pf_blacklistd_enable: true
+pf_relayd: true
+pf_relayd_enable: true
+```
+See the corresponding files defaults/main/*.yml and fit the variables to your needs.
+
 * Review the defaults and examples in vars.
 
 

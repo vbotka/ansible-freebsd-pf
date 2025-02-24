@@ -24,10 +24,10 @@ Minor Changes
 * Add defaults/main/drop_lasso.yml
 * Add templates/default-drop-lasso.j2
   Script to update Spamhaus Lasso Spam Database for PF Firewall.
-* Add option state to sysrc.
+* Add option state to module sysrc
 * Update tasks/debug.yml
-* Update README references.
-* changelog moved to changelogs.
+* Update README
+* changelog moved to changelogs
 
 Breaking Changes / Porting Guide
 --------------------------------
@@ -36,8 +36,9 @@ Add vars: pf_blacklistd, pf_fail2ban, pf_relayd, pf_sshguard (default=false)
 * By default, the related tasks will be skipped.
 * By enabling these "main switches" fit the defaults to your needs. For example,
   review the lists pf_*_rcconf
-* These defaults are not backward compatible. Enable these "main switches" if
-  you want to configure the services.
+* These defaults are not backward compatible. Enable these "main switches" if you want to configure
+  the services. For example, if you already enabled ``pf_blacklistd_enable=true`` add
+  ``pf_blacklistd=true``.
 
 
 2.7.0
