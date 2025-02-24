@@ -83,7 +83,7 @@ pf_sshguard: false
 ```
 (see the corresponding files in defaults/main/)
 
-If you want to configure and enable *blacklistd* and *relayd* you have to set
+For example, if you want to configure and enable *blacklistd* and *relayd* you have to set
 
 ```yaml
 pf_blacklistd: true
@@ -110,7 +110,7 @@ shell> ansible srv.example.com -e 'ansible_shell_type=csh ansible_shell_executab
 shell> ansible-galaxy role install vbotka.freebsd_pf
 ```
 
-Install the collection if necessary
+Install the collections if necessary
 
 ```bash
 shell> ansible-galaxy collection install ansible.posix
