@@ -11,13 +11,8 @@ pf_drop_lasso_sysctl: true
 pf_drop_lasso_template: default-drop-lasso.j2
 pf_drop_lasso_dropurl: https://team-cymru.org/Services/Bogons/fullbogons-ipv
 
-# Please experiment with the right value for you.
-# on a 32GB memory system, I had 29GB free with this setting.
-# This avoid this error: cannot define inactive set table bogons_v6: too many elements.
-# Consider increasing net.pf.request_maxcount./etc/pf.conf:152: cannot define table bogons_v6: too many elements.
+# periodic.conf
 #
-pf_drop_lasso_net_pf_request_maxcount: 350000
-
 # this is IPv4 and IPv6 respectively
 # see https://www.spamhaus.org/drop/
 #
@@ -41,6 +36,18 @@ pf_drop_lasso_periodic_conf_local: false
 # you can override this, but you should use pf_drop_lasso_periodic_conf_local instead
 pf_drop_lasso_periodic_file: "{{ pf_drop_lasso_periodic_conf_local | bool |
                                  ternary('/etc/periodic.conf.local', '/etc/periodic.conf') }}"
+
+# sysctl.conf
+#
+# Please experiment with the right value for you.
+# On a 32GB memory system, I had 29GB free with this setting.
+# This avoid this error: cannot define inactive set table bogons_v6: too many elements.
+# Consider increasing net.pf.request_maxcount./etc/pf.conf:152: cannot define table bogons_v6: too many elements.
+#
+pf_drop_lasso_net_pf_request_maxcount: 350000
+#
+pf_drop_lasso_sysctl_conf:
+  - { name: net.pf.request_maxcount, value: "{{ pf_drop_lasso_net_pf_request_maxcount }}", set: true }
 
 # Set to true if you want drop.lasso sysctl configuration in /etc/sysctl.conf.local
 pf_drop_lasso_sysctl_conf_local: false

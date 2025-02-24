@@ -22,8 +22,10 @@
   when: pf_drop_lasso_sysctl | bool
   ansible.posix.sysctl:
     sysctl_file: "{{ pf_drop_lasso_sysctl_file }}"
-    name: net.pf.request_maxcount
-    value: "{{ pf_drop_lasso_net_pf_request_maxcount }}"
-    sysctl_set: true
+    name: "{{ item.name }}"
+    value: "{{ item.value | d(omit) }}"
+    state: "{{ item.state | d(omit) }}"
+    sysctl_set: "{{ item.set | d(omit) }}"
+  loop: "{{ pf_drop_lasso_sysctl_conf }}"
 
 # EOF
