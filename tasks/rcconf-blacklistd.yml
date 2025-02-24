@@ -25,6 +25,7 @@
         value: "NO"
 
     - name: "Rcconf-blacklistd: Configure blacklistd."
+      when: pf_blacklistd_enable | bool
       notify: restart blacklistd
       community.general.sysrc:
         path: "{{ _path }}"

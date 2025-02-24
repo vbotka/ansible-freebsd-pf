@@ -25,6 +25,7 @@
         value: "NO"
 
     - name: "Rcconf-relayd: Configure relayd."
+      when: pf_relayd_enable | bool
       notify: restart relayd
       community.general.sysrc:
         path: "{{ _path }}"
