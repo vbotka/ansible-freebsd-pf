@@ -53,7 +53,7 @@ This will disable pf after 2 minutes and let you to open new session to this rem
 
 ```yaml
 pf_enable: false
-pf_log_all_blocked: false
+pf_log_enable: false
 ```
 
 * By default [blacklistd](https://www.freebsd.org/cgi/man.cgi?query=blacklistd),

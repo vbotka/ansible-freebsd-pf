@@ -16,6 +16,7 @@ Major Changes
 
 Minor Changes
 -------------
+* Update README
 
 
 2.7.1
