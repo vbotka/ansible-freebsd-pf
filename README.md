@@ -71,8 +71,8 @@ pf_sshguard_enable: false
 ```
 (see defaults/main/pf.yml)
 
-* Since the version 2.7.1 the configuration of the above services is completely
-  disabled by default
+* By default, since the version 2.7.1, the configuration of the above services is completely
+  disabled
 
 ```yaml
 pf_blacklistd: false
