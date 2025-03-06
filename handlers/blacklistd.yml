@@ -1,39 +1,23 @@
 ---
 # handlers for freebsd_pf
 
-- name: Enable and start blacklistd
-  listen: enable and start blacklistd
+- name: Start blacklistd
+  listen: start blacklistd
   ansible.builtin.service:
     name: blacklistd
     state: started
-    enabled: true
-  when:
-    - pf_blacklistd_enable
-    - pf_blacklistd_service.stat.exists
 
-- name: Disable and stop blacklistd
-  listen: disable and stop blacklistd
+- name: Stop blacklistd
+  listen: stop blacklistd
   ansible.builtin.service:
     name: blacklistd
     state: stopped
-    enabled: false
-  when:
-    - not pf_blacklistd_enable
-    - pf_blacklistd_service.stat.exists
 
 - name: Restart blacklistd
   listen: restart blacklistd
+  when: pf_blacklistd_enable | bool
   ansible.builtin.service:
     name: blacklistd
     state: restarted
-  when:
-    - pf_blacklistd_enable
-    - pf_blacklistd_service.stat.exists
-
-# /etc/rc.d/blacklistd: unknown directive 'reload'.
-#  - name: reload blacklistd
-#    ansible.builtin.service:
-#      name: "blacklistd"
-#      state: reloaded
 
 # EOF
