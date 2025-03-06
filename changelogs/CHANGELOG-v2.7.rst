@@ -16,6 +16,17 @@ Major Changes
 
 Minor Changes
 -------------
+* Tasks blacklistd.yml, fail2ban.yml, relayd.yml, sshguard.yml
+  Test service exists in a block.
+  Create configuration without pf_*_enable condition
+
+Breaking Changes / Porting Guide
+--------------------------------
+Tasks blacklistd.yml, fail2ban.yml, relayd.yml, sshguard.yml
+
+* Create configuration without pf_*_enable condition.
+* Since 2.7.1 these tasks are disabled completely. See variables
+  pf_blacklistd, pf_fail2ban, pf_relayd, pf_sshguard (default=false)
 
 
 2.7.2

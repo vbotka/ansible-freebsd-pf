@@ -23,24 +23,27 @@
   ansible.builtin.debug:
     msg: "{{ '{}'.format(msg) }}"
 
-- name: "Relayd: Stat /usr/local/etc/rc.d/relayd"
-  register: pf_relayd_service
-  ansible.builtin.stat:
-    path: /usr/local/etc/rc.d/relayd
+- name: Fail if relayd is enabled and no service exists.
+  when: pf_relayd_enable | bool
+  block:
 
-- name: "Relayd: Fail if relayd is enabled and no service exists."
-  when:
-    - pf_relayd_enable | bool
-    - not pf_relayd_service.stat.exists
-  ansible.builtin.fail:
-    msg: "[ERR] relayd is enabled, but no service exists."
+    - name: "Relayd: Stat /usr/local/etc/rc.d/relayd"
+      register: pf_relayd_service
+      ansible.builtin.stat:
+        path: /usr/local/etc/rc.d/relayd
+
+    - name: "Relayd: Fail if relayd is enabled and no service exists."
+      when: not pf_relayd_service.stat.exists
+      ansible.builtin.fail:
+        msg: "[ERR] relayd is enabled, but no service exists."
 
 - name: Configure and validate /usr/local/etc/relayd.conf
-  when: pf_relayd_conf_validate | bool
+  when:
+    - pf_relayd_enable | bool
+    - pf_relayd_conf_validate | bool
   block:
 
     - name: "Relayd: Configure and validate /usr/local/etc/relayd.conf"
-      when: pf_relayd_enable | bool
       notify: reload relayd
       ansible.builtin.template:
         dest: /usr/local/etc/relayd.conf
