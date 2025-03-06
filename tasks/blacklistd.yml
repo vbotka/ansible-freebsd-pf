@@ -4,12 +4,12 @@
   block:
 
     - name: "Blacklistd: Stat /etc/rc.d/blacklistd"
-      register: pf_blacklistd_service
+      register: pf_blacklistd_stat
       ansible.builtin.stat:
         path: /etc/rc.d/blacklistd
 
     - name: "Blacklistd: Fail if blacklistd is enabled and no service exists."
-      when: not pf_blacklistd_service.stat.exists
+      when: not pf_blacklistd_stat.stat.exists
       ansible.builtin.fail:
         msg: "[ERR] blacklistd is enabled, but no service exists."
 

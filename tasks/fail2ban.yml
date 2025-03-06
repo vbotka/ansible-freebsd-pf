@@ -1,18 +1,15 @@
 ---
-# TODO: Update to version 1.0
-# https://dbdemon.com/pf_and_fail2ban/
-
 - name: Fail if fail2ban is enabled and no service exists.
   when: pf_fail2ban_enable | bool
   block:
 
     - name: "Fail2ban: Stat /usr/local/etc/rc.d/fail2ban"
-      register: pf_fail2ban_service
+      register: pf_fail2ban_stat
       ansible.builtin.stat:
         path: /usr/local/etc/rc.d/fail2ban
 
     - name: "Fail2ban: Fail if fail2ban is enabled and no service exists."
-      when: not pf_fail2ban_service.stat.exists
+      when: not pf_fail2ban_stat.stat.exists
       ansible.builtin.fail:
         msg: "[ERR] fail2ban is enabled, but no service exists."
 

@@ -1,20 +1,29 @@
 ---
+- name: Fail if fail2ban is enabled and no service exists.
+  when:
+    - pf_fail2ban_enable | bool
+    - pf_fail2ban_stat is undefined
+  block:
+
+    - name: "Rcconf-fail2ban: Stat /usr/local/etc/rc.d/fail2ban"
+      register: pf_fail2ban_stat
+      ansible.builtin.stat:
+        path: /usr/local/etc/rc.d/fail2ban
+
+    - name: "Rcconf-fail2ban: Fail if fail2ban is enabled and no service exists."
+      when: not pf_fail2ban_stat.stat.exists
+      ansible.builtin.fail:
+        msg: "[ERR] fail2ban is enabled, but no service exists."
+
 - name: Configure /etc/rc.conf or etc/rc.conf.d/fail2ban
   vars:
     _path: "{{ pf_rcconfd | bool | ternary('/etc/rc.conf.d/fail2ban', '/etc/rc.conf') }}"
   block:
 
-    - name: "Rcconf-fail2ban: Check if fail2ban is installed."
-      register: service_status
-      ansible.builtin.stat:
-        path: /usr/local/etc/rc.d/fail2ban
-
     - name: "Rcconf-fail2ban: Enable and start fail2ban."
-      when:
-        - pf_fail2ban_enable | bool
-        - service_status.stat.exists
+      when: pf_fail2ban_enable | bool
       notify:
-        - enable and start fail2ban
+        - start fail2ban
         - reload pf
       community.general.sysrc:
         path: "{{ _path }}"
@@ -22,11 +31,9 @@
         value: "YES"
 
     - name: "Rcconf-fail2ban: Disable and stop fail2ban."
-      when:
-        - not pf_fail2ban_enable | bool
-        - service_status.stat.exists
+      when: not pf_fail2ban_enable | bool
       notify:
-        - disable and stop fail2ban
+        - stop fail2ban
         - reload pf
       community.general.sysrc:
         path: "{{ _path }}"

@@ -1,45 +1,35 @@
 ---
 # handlers for freebsd_pf
 
-- name: Enable and start relayd
-  listen: enable and start relayd
+- name: Start relayd
+  listen: start relayd
+  when: not pf_relayd_conf_only | bool
   ansible.builtin.service:
     name: relayd
     state: started
-    enabled: true
-  when:
-    - pf_relayd_enable | bool
-    - pf_relayd_service.stat.exists
-    - not pf_relayd_conf_only | bool
 
-- name: Disable and stop relayd
-  listen: disable and stop relayd
+- name: Stop relayd
+  listen: stop relayd
   ansible.builtin.service:
     name: relayd
     state: stopped
-    enabled: false
-  when:
-    - not pf_relayd_enable | bool
-    - pf_relayd_service.stat.exists
 
 - name: Restart relayd
   listen: restart relayd
+  when:
+    - pf_relayd_enable | bool
+    - not pf_relayd_conf_only | bool
   ansible.builtin.service:
     name: relayd
     state: restarted
-  when:
-    - pf_relayd_enable | bool
-    - pf_relayd_service.stat.exists
-    - not pf_relayd_conf_only | bool
 
 - name: Reload relayd
   listen: reload relayd
+  when:
+    - pf_relayd_enable | bool
+    - not pf_relayd_conf_only | bool
   ansible.builtin.service:
     name: relayd
     state: reloaded
-  when:
-    - pf_relayd_enable | bool
-    - pf_relayd_service.stat.exists
-    - not pf_relayd_conf_only | bool
 
 # EOF

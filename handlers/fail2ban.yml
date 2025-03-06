@@ -1,42 +1,30 @@
 ---
 # handlers for freebsd_pf
 
-- name: Enable and start fail2ban
-  listen: enable and start fail2ban
+- name: Start fail2ban
+  listen: start fail2ban
   ansible.builtin.service:
     name: fail2ban
     state: started
-    enabled: true
-  when:
-    - pf_fail2ban_enable | bool
-    - pf_fail2ban_service.stat.exists
 
-- name: Disable and stop fail2ban
-  listen: disable and stop fail2ban
+- name: Stop fail2ban
+  listen: stop fail2ban
   ansible.builtin.service:
     name: fail2ban
     state: stopped
-    enabled: false
-  when:
-    - not pf_fail2ban_enable | bool
-    - pf_fail2ban_service.stat.exists
 
 - name: Restart fail2ban
   listen: restart fail2ban
+  when: pf_fail2ban_enable | bool
   ansible.builtin.service:
     name: fail2ban
     state: restarted
-  when:
-    - pf_fail2ban_enable | bool
-    - pf_fail2ban_service.stat.exists
 
 - name: Reload fail2ban
   listen: reload fail2ban
+  when: pf_fail2ban_enable | bool
   ansible.builtin.service:
     name: fail2ban
     state: reloaded
-  when:
-    - pf_fail2ban_enable | bool
-    - pf_fail2ban_service.stat.exists
 
 # EOF

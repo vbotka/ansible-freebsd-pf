@@ -1,4 +1,20 @@
 ---
+- name: Fail if relayd is enabled and no service exists.
+  when:
+    - pf_relayd_enable | bool
+    - pf_relayd_stat is undefined
+  block:
+
+    - name: "Rcconf-relayd: Stat /usr/local/etc/rc.d/relayd"
+      register: pf_relayd_stat
+      ansible.builtin.stat:
+        path: /usr/local/etc/rc.d/relayd
+
+    - name: "Rcconf-relayd: Fail if relayd is enabled and no service exists."
+      when: not pf_relayd_stat.stat.exists
+      ansible.builtin.fail:
+        msg: "[ERR] relayd is enabled, but no service exists."
+
 - name: Configure /etc/rc.conf or etc/rc.conf.d/relayd
   vars:
     _path: "{{ pf_rcconfd | bool | ternary('/etc/rc.conf.d/relayd', '/etc/rc.conf') }}"
@@ -7,7 +23,7 @@
     - name: "Rcconf-relayd: Enable and start relayd."
       when: pf_relayd_enable | bool
       notify:
-        - enable and start relayd
+        - start relayd
         - reload pf
       community.general.sysrc:
         path: "{{ _path }}"
@@ -17,7 +33,7 @@
     - name: "Rcconf-relayd: Disable and stop relayd."
       when: not pf_relayd_enable | bool
       notify:
-        - disable and stop relayd
+        - stop relayd
         - reload pf
       community.general.sysrc:
         path: "{{ _path }}"

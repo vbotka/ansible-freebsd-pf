@@ -19,13 +19,21 @@ Minor Changes
 * Tasks blacklistd.yml, fail2ban.yml, relayd.yml, sshguard.yml
   Test service exists in a block.
   Create configuration without pf_*_enable condition
+  Update handlers notifications
+* Tasks rcconf-blacklistd.yml, rcconf-fail2ban.yml, rcconf-relayd.yml, rcconf-sshguard.yml
+  Get and test pf_*_stat if undefined
+  Update handlers notifications
+* Handlers blacklistd.yml, fail2ban.yml, relayd.yml, sshguard.yml
+  Renamed from 'Enable and start \*' to 'Start \*'
+  Removed redundant option 'enabled: true/false'.
+  Removed redundant conditions.
 
 Breaking Changes / Porting Guide
 --------------------------------
 Tasks blacklistd.yml, fail2ban.yml, relayd.yml, sshguard.yml
 
 * Create configuration without pf_*_enable condition.
-* Since 2.7.1 these tasks are disabled completely. See variables
+* Since 2.7.1 these tasks are by default disabled completely. See variables
   pf_blacklistd, pf_fail2ban, pf_relayd, pf_sshguard (default=false)
 
 
