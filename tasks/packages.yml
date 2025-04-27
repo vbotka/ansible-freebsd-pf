@@ -1,28 +1,79 @@
 ---
 - name: "Packages: Debug pf_debug={{ pf_debug }}"
   when: pf_debug | bool
+  vars:
+    msg: |-
+      pf_pkgng_name:
+        {{ pf_pkgng_name | to_nice_yaml(indent=2) | indent(2) }}
+      annotation: {{ pf_pkgng_annotation | d('UNDEFINED') }}
+      autoremove: {{ pf_pkgng_autoremove | d('UNDEFINED') }}
+      cached: {{ pf_pkgng_cached | d('UNDEFINED') }}
+      chroot: {{ pf_pkgng_chroot | d('UNDEFINED') }}
+      ignore_osver: {{ pf_pkgng_ignore_osver | d('UNDEFINED') }}
+      pkgsite: {{ pf_pkgng_pkgsite | d('UNDEFINED') }}
+      rootdir: {{ pf_pkgng_rootdir | d('UNDEFINED') }}
+      state: {{ pf_pkgng_state | d('UNDEFINED') }}
+      use_globs: {{ pf_pkgng_use_globs | d('UNDEFINED') }}
+
   ansible.builtin.debug:
-    var: pf_packages_install
+    msg: "{{ '{}'.format(msg) }}"
 
-- name: "Packages: Install packages."
+- name: Install packages.
   when: freebsd_install_method | lower == 'packages'
-  community.general.pkgng:
-    name: "{{ item }}"
-  loop: "{{ pf_packages_install }}"
-  register: result
-  until: result is succeeded
-  retries: "{{ freebsd_install_retries }}"
-  delay: "{{ freebsd_install_delay }}"
+  block:
 
-- name: "Packages: Install ports."
+    - name: "Packages: Install packages."
+      delegate_to: "{{ pf_pkgng_delegate | d(omit) }}"
+      community.general.pkgng:
+        name: "{{ pf_pkgng_name }}"
+        annotation: "{{ pf_pkgng_annotation | d(omit) }}"
+        autoremove: "{{ pf_pkgng_autoremove | d(omit) | bool }}"
+        cached: "{{ pf_pkgng_cached | d(omit) | bool }}"
+        chroot: "{{ pf_pkgng_chroot | d(omit) }}"
+        ignore_osver: "{{ pf_pkgng_ignore_osver | d(omit) | bool }}"
+        jail: "{{ pf_pkgng_jail | d(omit) }}"
+        pkgsite: "{{ pf_pkgng_pkgsite | d(omit) }}"
+        rootdir: "{{ pf_pkgng_rootdir | d(omit) }}"
+        state: "{{ pf_pkgng_state | d(omit) }}"
+        use_globs: "{{ pf_pkgng_use_globs | d(omit) | bool }}"
+      register: result
+      until: result is succeeded
+      retries: "{{ freebsd_install_retries }}"
+      delay: "{{ freebsd_install_delay }}"
+
+  rescue:
+
+    - name: "Packages: Install packages failed."
+      ansible.builtin.debug:
+        msg: |
+          {{ ansible_failed_result }}
+
+    - name: "Packages: End of host."
+      ansible.builtin.meta: end_host
+
+- name: Install ports.
   when: freebsd_install_method | lower == 'ports'
-  community.general.portinstall:
-    name: "{{ item }}"
-    use_packages: "{{ freebsd_use_packages }}"
-  loop: "{{ pf_packages_install }}"
-  register: result
-  until: result is succeeded
-  retries: "{{ freebsd_install_retries }}"
-  delay: "{{ freebsd_install_delay }}"
+  block:
+
+    - name: "Packages: Install ports."
+      when: freebsd_install_method | lower == 'ports'
+      community.general.portinstall:
+        name: "{{ item }}"
+        use_packages: "{{ freebsd_use_packages }}"
+      loop: "{{ pf_packages_install }}"
+      register: result
+      until: result is succeeded
+      retries: "{{ freebsd_install_retries }}"
+      delay: "{{ freebsd_install_delay }}"
+
+  rescue:
+
+    - name: "Packages: Install ports failed."
+      ansible.builtin.debug:
+        msg: |
+          {{ ansible_failed_result }}
+
+    - name: "Packages: End of host."
+      ansible.builtin.meta: end_host
 
 # EOF

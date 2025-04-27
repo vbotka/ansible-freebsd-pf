@@ -17,6 +17,7 @@ Major Changes
 
 Minor Changes
 -------------
+* Add all options to module pkgng in tasks/packages.yml
 
 
 2.7.3
