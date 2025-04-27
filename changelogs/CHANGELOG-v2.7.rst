@@ -18,7 +18,8 @@ Major Changes
 Minor Changes
 -------------
 * Add all options to module pkgng in tasks/packages.yml
-
+* Update tasks fail2ban.yml, relayd.yml, and sshguard.yml. Put service
+  test into separate files.
 
 2.7.3
 =====

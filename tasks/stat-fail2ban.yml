@@ -1,0 +1,16 @@
+---
+- name: Fail if fail2ban is enabled and no service exists.
+  when:
+    - pf_fail2ban_enable | bool
+    - pf_fail2ban_stat is undefined
+  block:
+
+    - name: "Rcconf-fail2ban: Stat /usr/local/etc/rc.d/fail2ban"
+      register: pf_fail2ban_stat
+      ansible.builtin.stat:
+        path: /usr/local/etc/rc.d/fail2ban
+
+    - name: "Rcconf-fail2ban: Fail if fail2ban is enabled and no service exists."
+      when: not pf_fail2ban_stat.stat.exists
+      ansible.builtin.fail:
+        msg: "[ERR] fail2ban is enabled, but no service exists."

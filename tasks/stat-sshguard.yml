@@ -1,0 +1,16 @@
+---
+- name: Fail if sshguard is enabled and no service exists.
+  when:
+    - pf_sshguard_enable | bool
+    - pf_sshguard_stat is undefined
+  block:
+
+    - name: "Rcconf-sshguard: Stat /usr/local/etc/rc.d/sshguard"
+      register: pf_sshguard_stat
+      ansible.builtin.stat:
+        path: /usr/local/etc/rc.d/sshguard
+
+    - name: "Rcconf-sshguard: Fail if sshguard is enabled and no service exists."
+      when: not pf_sshguard_stat.stat.exists
+      ansible.builtin.fail:
+        msg: "[ERR] sshguard is enabled, but no service exists."

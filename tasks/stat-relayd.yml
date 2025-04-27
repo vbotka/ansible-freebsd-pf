@@ -1,0 +1,16 @@
+---
+- name: Fail if relayd is enabled and no service exists.
+  when:
+    - pf_relayd_enable | bool
+    - pf_relayd_stat is undefined
+  block:
+
+    - name: "Rcconf-relayd: Stat /usr/local/etc/rc.d/relayd"
+      register: pf_relayd_stat
+      ansible.builtin.stat:
+        path: /usr/local/etc/rc.d/relayd
+
+    - name: "Rcconf-relayd: Fail if relayd is enabled and no service exists."
+      when: not pf_relayd_stat.stat.exists
+      ansible.builtin.fail:
+        msg: "[ERR] relayd is enabled, but no service exists."
