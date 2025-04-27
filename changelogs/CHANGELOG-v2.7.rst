@@ -5,6 +5,20 @@ vbotka.freebsd_pf 2.7 Release Notes
 .. contents:: Topics
 
 
+2.7.4
+=====
+
+Release Summary
+---------------
+Maintenance update.
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+
+
 2.7.3
 =====
 

@@ -1,5 +1,5 @@
 ---
 # default vars for freebsd_pf
-pf_role_version: 2.7.3
+pf_role_version: 2.7.4
 
 # EOF
