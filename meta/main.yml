@@ -25,4 +25,5 @@ galaxy_info:
     - drop
 dependencies: []
 collections:
+  - ansible.posix
   - community.general
