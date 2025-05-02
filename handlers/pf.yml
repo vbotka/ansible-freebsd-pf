@@ -8,17 +8,17 @@
 
 - name: Start pf
   listen: start pf
-  # service: name="pf" state="started" enabled="yes"
-  ansible.builtin.shell:
-    cmd: >
-      (( sleep 5; nohup service pf start 1>/dev/null 2>&1 ) & )
-  async: "{{ pf_async_timeout }}"
-  poll: 0
   when:
     - pf_enable | bool
     - not ansible_check_mode
     - not pf_conf_only | bool
   changed_when: pf_enable | bool
+  async: "{{ pf_async_timeout }}"
+  poll: 0
+  # service: name="pf" state="started" enabled="yes"
+  ansible.builtin.shell:
+    cmd: >
+      (( sleep 5; nohup service pf start 1>/dev/null 2>&1 ) & )
 
 - name: Disable and stop pf
   listen: disable and stop pf
@@ -29,30 +29,30 @@
 
 - name: Restart pf
   listen: restart pf
+  when:
+    - pf_enable | bool
+    - not ansible_check_mode
+    - not pf_conf_only | bool
+  changed_when: pf_enable | bool
+  async: "{{ pf_async_timeout }}"
+  poll: 0
   # service: name="pf" state="restarted"
   ansible.builtin.shell:
     cmd: >
       (( sleep 5; nohup service pf restart 1>/dev/null 2>&1 ) & )
-  async: "{{ pf_async_timeout }}"
-  poll: 0
+
+- name: Reload pf
+  listen: reload pf
   when:
     - pf_enable | bool
     - not ansible_check_mode
     - not pf_conf_only | bool
   changed_when: pf_enable | bool
-
-- name: Reload pf
-  listen: reload pf
+  async: "{{ pf_async_timeout }}"
+  poll: 0
   # service: name="pf" state="reloaded"
   ansible.builtin.shell:
     cmd: >
       (( sleep 5; nohup service pf reload 1>/dev/null 2>&1 ) & )
-  async: "{{ pf_async_timeout }}"
-  poll: 0
-  when:
-    - pf_enable | bool
-    - not ansible_check_mode
-    - not pf_conf_only | bool
-  changed_when: pf_enable | bool
 
 # EOF

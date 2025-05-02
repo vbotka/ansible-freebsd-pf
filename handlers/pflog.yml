@@ -3,32 +3,32 @@
 
 - name: Enable and start pflog
   listen: enable and start pflog
+  when: pf_log_enable | bool
   ansible.builtin.service:
     name: pflog
     state: started
     enabled: true
-  when: pf_log_enable | bool
 
 - name: Disable and stop pflog
   listen: disable and stop pflog
+  when: not pf_log_enable | bool
   ansible.builtin.service:
     name: pflog
     state: stopped
     enabled: false
-  when: not pf_log_enable | bool
 
 - name: Restart pflog
   listen: restart pflog
+  when: pf_log_enable | bool
   ansible.builtin.service:
     name: pflog
     state: restarted
-  when: pf_log_enable | bool
 
 - name: Reload pflog
   listen: reload pflog
+  when: pf_log_enable | bool
   ansible.builtin.service:
     name: pflog
     state: reloaded
-  when: pf_log_enable | bool
 
 # EOF

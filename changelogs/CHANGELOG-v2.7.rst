@@ -17,6 +17,7 @@ Major Changes
 
 Minor Changes
 -------------
+* Update handlers formatting.
 * Add all options to module pkgng in tasks/packages.yml
 * Update tasks fail2ban.yml, relayd.yml, and sshguard.yml. Put service
   test into separate files.
