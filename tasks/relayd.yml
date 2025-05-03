@@ -24,18 +24,7 @@
     msg: "{{ '{}'.format(msg) }}"
 
 - name: Fail if relayd is enabled and no service exists.
-  when: pf_relayd_enable | bool
-  block:
-
-    - name: "Relayd: Stat /usr/local/etc/rc.d/relayd"
-      register: pf_relayd_stat
-      ansible.builtin.stat:
-        path: /usr/local/etc/rc.d/relayd
-
-    - name: "Relayd: Fail if relayd is enabled and no service exists."
-      when: not pf_relayd_stat.stat.exists
-      ansible.builtin.fail:
-        msg: "[ERR] relayd is enabled, but no service exists."
+  ansible.builtin.import_tasks: stat-relayd.yml
 
 - name: Configure and validate /usr/local/etc/relayd.conf
   when: pf_relayd_conf_validate | bool

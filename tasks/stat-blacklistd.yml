@@ -1,0 +1,16 @@
+---
+- name: Fail if blacklistd is enabled and no service exists.
+  when:
+    - pf_blacklistd_enable | bool
+    - pf_blacklistd_stat is undefined
+  block:
+
+    - name: "Rcconf-blacklistd: Stat /etc/rc.d/blacklistd"
+      register: pf_blacklistd_stat
+      ansible.builtin.stat:
+        path: /etc/rc.d/blacklistd
+
+    - name: "Rcconf-blacklistd: Fail if blacklistd is enabled and no service exists."
+      when: not pf_blacklistd_stat.stat.exists
+      ansible.builtin.fail:
+        msg: "[ERR] blacklistd is enabled, but no service exists."

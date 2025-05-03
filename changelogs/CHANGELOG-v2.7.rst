@@ -5,6 +5,26 @@ vbotka.freebsd_pf 2.7 Release Notes
 .. contents:: Topics
 
 
+2.7.4
+=====
+
+Release Summary
+---------------
+Maintenance update.
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+* New template default2-pf.conf.j2
+* New variable pf_blocks lists block used in the template default2-pf.conf.j2
+* Variable pf_packages_install used for pkgng and portinstall.
+* Update handlers formatting.
+* Add all options to module pkgng in tasks/packages.yml
+* Update tasks fail2ban.yml, relayd.yml, and sshguard.yml. Put service
+  test into separate files.
+
 2.7.3
 =====
 
