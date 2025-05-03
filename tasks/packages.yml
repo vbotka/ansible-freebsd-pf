@@ -25,7 +25,7 @@
     - name: "Packages: Install packages."
       delegate_to: "{{ pf_pkgng_delegate | d(omit) }}"
       community.general.pkgng:
-        name: "{{ pf_pkgng_name }}"
+        name: "{{ pf_packages_install }}"
         annotation: "{{ pf_pkgng_annotation | d(omit) }}"
         autoremove: "{{ pf_pkgng_autoremove | d(omit) | bool }}"
         cached: "{{ pf_pkgng_cached | d(omit) | bool }}"

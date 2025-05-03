@@ -17,6 +17,9 @@ Major Changes
 
 Minor Changes
 -------------
+* New template default2-pf.conf.j2
+* New variable pf_blocks lists block used in the template default2-pf.conf.j2
+* Variable pf_packages_install used for pkgng and posrtinstall.
 * Update handlers formatting.
 * Add all options to module pkgng in tasks/packages.yml
 * Update tasks fail2ban.yml, relayd.yml, and sshguard.yml. Put service

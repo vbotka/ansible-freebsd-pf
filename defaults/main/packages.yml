@@ -5,6 +5,10 @@ freebsd_use_packages: true
 freebsd_install_retries: 10
 freebsd_install_delay: 5
 
+# Module pkgng option
+pf_pkgng_use_globs: false
+
+# Packages
 pf_fail2ban_packages:
   - security/py-fail2ban
 pf_sshguard_packages:
@@ -12,6 +16,7 @@ pf_sshguard_packages:
 pf_relayd_packages:
   - net/relayd
 
+# Install packages
 pf_packages:
   - enable: "{{ pf_fail2ban_enable }}"
     packages: "{{ pf_fail2ban_packages }}"
@@ -19,8 +24,6 @@ pf_packages:
     packages: "{{ pf_relayd_packages }}"
   - enable: "{{ pf_sshguard_enable }}"
     packages: "{{ pf_sshguard_packages }}"
-
-pf_pkgng_name: "{{ pf_packages | selectattr('enable') | map(attribute='packages') | flatten | unique }}"
-pf_pkgng_use_globs: false
+pf_packages_install: "{{ pf_packages | selectattr('enable') | map(attribute='packages') | flatten | unique }}"
 
 # EOF

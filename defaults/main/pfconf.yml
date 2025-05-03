@@ -1,11 +1,14 @@
 ---
 pf_macros: {}
-pf_options: []
 pf_tables: []
+pf_options: []
 pf_normalization: []
 pf_queuing: []
 pf_translation: []
 pf_filtering: []
+pf_rules_custom: []
+pf_blocks: [pf_tables, pf_options, pf_normalization, pf_queuing, pf_translation, pf_filtering, pf_rules_custom]
+
 pf_anchors: |
   {% filter from_yaml %}
   [{% if pf_blacklistd_enable %}anchor "blacklistd/*" in on $ext_if,
@@ -19,7 +22,6 @@ pf_anchors: |
 pf_rules_nat: []
 pf_rules_rdr: []
 pf_rules_services: []
-pf_rules_custom: []
 # >>> EXAMPLES OF TEMPLATE VARIABLES - - - - - - - - - - - - - - - - - - - - - -
 
 # Interfaces

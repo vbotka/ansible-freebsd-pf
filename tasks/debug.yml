@@ -63,13 +63,13 @@
 
       pf_type: {{ pf_type }}
       pf_conf_template: {{ pf_conf_template }}
-
+      pf_blocks: {{ pf_blocks | to_yaml }}
       pf_macros:
         {{ pf_macros | to_yaml(indent=2) | indent(2) }}
-      pf_options:
-        {{ pf_options | to_nice_yaml(indent=2) | indent(2) }}
       pf_tables:
         {{ pf_tables | to_nice_yaml(indent=2) | indent(2) }}
+      pf_options:
+        {{ pf_options | to_nice_yaml(indent=2) | indent(2) }}
       pf_normalization:
         {{ pf_normalization | to_nice_yaml(indent=2) | indent(2) }}
       pf_queuing:
@@ -78,6 +78,8 @@
         {{ pf_translation | to_nice_yaml(indent=2) | indent(2) }}
       pf_filtering:
         {{ pf_filtering | to_nice_yaml(indent=2) | indent(2) }}
+      pf_rules_custom:
+        {{ pf_rules_custom | to_nice_yaml(indent=2) | indent(2) }}
       pf_anchors:
         {{ pf_anchors | to_nice_yaml(indent=2) | indent(2) }}
       pf_ext_if: {{ pf_ext_if }}
@@ -102,8 +104,6 @@
         {{ pf_rules_rdr | to_nice_yaml(indent=2) | indent(2) }}
       pf_rules_services:
         {{ pf_rules_services | to_nice_yaml(indent=2) | indent(2) }}
-      pf_rules_custom:
-        {{ pf_rules_custom | to_nice_yaml(indent=2) | indent(2) }}
       pf_ssh_whitelist:
         {{ pf_ssh_whitelist | to_nice_yaml(indent=2) | indent(2) }}
       * /etc/blacklistd.conf - - - - - - - - - - - - - - - - - - - - - - - - -

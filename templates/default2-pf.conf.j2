@@ -1,0 +1,30 @@
+#jinja2: lstrip_blocks: True
+# {{ ansible_managed }}
+# template: {{ template_path }}
+{% if pf_macros | length > 0 %}
+
+# MACROS
+{% for k, v in pf_macros.items() %}
+  {% if v is string %}
+    {% if v.0 == '$' %}
+{{ k }} = {{ v }}
+    {% else %}
+{{ k }} = "{{ v }}"
+    {% endif %}
+  {% else %}
+{{ k }} = "{ {{ v | join(', ') }} }"
+  {% endif %}
+{% endfor %}
+{% endif %}
+{% for b in pf_blocks %}
+{% set block = lookup('vars', b) %}
+{% if block | length > 0 %}
+
+# {{ b | split('_') | last | upper }}
+{% for i in block | flatten %}
+{{ i }}
+{% endfor %}
+{% endif -%}
+{% endfor %}
+
+# EOF
