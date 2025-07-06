@@ -10,6 +10,7 @@ vbotka.freebsd_pf 2.7 Release Notes
 
 Release Summary
 ---------------
+Update README.
 
 
 2.7.4

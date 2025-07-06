@@ -4,6 +4,8 @@
 [![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-pf.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-pf)
 [![GitHub tag](https://img.shields.io/github/v/tag/vbotka/ansible-freebsd-pf)](https://github.com/vbotka/ansible-freebsd-pf/tags)
 
+This role is included in the collection [vbotka.freebsd](https://galaxy.ansible.com/ui/repo/published/vbotka/freebsd/) as [vbotka.freebsd.pf](https://galaxy.ansible.com/ui/repo/published/vbotka/freebsd/content/role/pf)
+
 [Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_pf/) FreeBSD. Configure PF firewall.
 
 Feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-freebsd-pf/issues).
