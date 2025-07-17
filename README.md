@@ -271,7 +271,7 @@ fatal: [srv.example.com]: FAILED! => changed=false
   msg: Validation can be turned off if pf_conf_only=True. End of play.
 ```
 
-The role fails the same way in case ``-e pf_relayd_conf_only=false -e pf_relayd_conf_validate=false``
+The role fails the same way if ``-e pf_relayd_conf_only=false -e pf_relayd_conf_validate=false``
 
 
 ### Ansible lint
@@ -295,12 +295,16 @@ shell> ansible-lint -c .ansible-lint.local
 - [Quick setup of jail on ZFS using ezjail with PF NAT](https://forums.freebsd.org/threads/howto-quick-setup-of-jail-on-zfs-using-ezjail-with-pf-nat.30063/)
 - [FreeBSD and blacklistd](https://www.cryptomonkeys.com/2018/05/freebsd-blacklistd/)
 - [Blacklistd on FreeBSD](https://www.vultr.com/docs/how-to-install-blacklistd-on-freebsd-11-1)
-- [PF and sshguard](https://forums.freebsd.org/threads/how-to-get-pf-and-sshguard-to-stop-this-guy.64933/)
 - [Enforcing Fail2ban bans with PF](https://dbdemon.com/pf_and_fail2ban/)
 - [Fail2Ban with PF](http://www.purplehat.org/?page_id=566)
 - [Fail2Ban pf.conf: fix multiport syntax](https://github.com/fail2ban/fail2ban/pull/1925)
 - [DROP - Don't Route Or Peer Lists](https://www.spamhaus.org/blocklists/do-not-route-or-peer/)
 - [Script To Update Spamhaus Lasso Spam Database for PF Firewall](https://bash.cyberciti.biz/firewall/bsd-spamhaus-lasso-spam-database-update-pf-firewall/)
+- [PF and sshguard](https://forums.freebsd.org/threads/how-to-get-pf-and-sshguard-to-stop-this-guy.64933/)
+- [sshguard - man](https://man.freebsd.org/cgi/man.cgi?query=sshguard)
+- [sshguard-setup - man](https://man.freebsd.org/cgi/man.cgi?query=sshguard-setup)
+- [sshguard - ArchLinux Wiki](https://wiki.archlinux.org/title/Sshguard)
+- [sshguard - Gentoo Wiki](https://wiki.gentoo.org/wiki/Sshguard)
 
 
 ## License

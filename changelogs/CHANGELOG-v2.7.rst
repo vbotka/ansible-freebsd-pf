@@ -10,7 +10,22 @@ vbotka.freebsd_pf 2.7 Release Notes
 
 Release Summary
 ---------------
-Add sshguard configuration.
+Update sshguard configuration.
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+* Add configuration of /usr/local/etc/sshguard.conf
+* Update configuration of /usr/local/etc/sshguard.whitelist
+* Add variables: pf_sshguard_conf, pf_sshguard_whitelist_items,
+  pf_sshguard_whitelist_content
+* Update tasks/debug.yml and README.md
+
+Breaking Changes / Porting Guide
+--------------------------------
+* Variable pf_ssh_whitelist renamed to pf_sshguard_whitelist
 
 
 2.7.5

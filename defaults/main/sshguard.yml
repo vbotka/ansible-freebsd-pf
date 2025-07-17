@@ -6,6 +6,14 @@
 # Execute tasks sshguard.yml and rcconf-sshguard.yml. By default, skip them.
 pf_sshguard: false
 
-pf_ssh_whitelist: []
+# /usr/local/etc/sshguard.conf
+pf_sshguard_conf:
+  BACKEND: /usr/local/libexec/sshg-fw-pf
+  WHITELIST_FILE: /usr/local/etc/sshguard.whitelist
+
+# /usr/local/etc/sshguard.whitelist
+pf_sshguard_whitelist_content: false
+pf_sshguard_whitelist_items: true
+pf_sshguard_whitelist: []
 
 # EOF
