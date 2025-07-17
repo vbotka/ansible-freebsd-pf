@@ -21,6 +21,9 @@ Minor Changes
 * Update configuration of /usr/local/etc/sshguard.whitelist
 * Add variables: pf_sshguard_conf, pf_sshguard_whitelist_items,
   pf_sshguard_whitelist_content
+* Update defaults/main/sshguard.yml
+* Update templates/server*-pf.conf.j2
+* Update vars/pf_examples.yml.sample
 * Update tasks/debug.yml and README.md
 
 Breaking Changes / Porting Guide

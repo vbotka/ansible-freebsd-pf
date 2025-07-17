@@ -71,7 +71,7 @@ pf_logopt_blocked: log
 #  - pass quick on $ext_if proto tcp from $ext_if to $nfs_servers port $nfs_ports keep state flags S/SA
 #  - pass quick on $ext_if proto udp from $ext_if to $nfs_servers port $nfs_ports
 
-# pf_ssh_whitelist:
+# pf_sshguard_whitelist:
 #   - 192.168.1.0/24
 
 # pf_fail2ban_jail_local_template: default-jail.local.j2

@@ -61,7 +61,7 @@ block in from urpf-failed to any
 block in quick on $ext_if from any to 255.255.255.255
 
 ### ssh whitelist (no bruteforce protection)
-{% for item in pf_ssh_whitelist %}
+{% for item in pf_sshguard_whitelist %}
 pass in quick on $ext_if proto tcp from {{ item }} to any port ssh
 {% endfor %}
 
