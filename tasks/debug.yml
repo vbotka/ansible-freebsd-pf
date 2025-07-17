@@ -104,8 +104,13 @@
         {{ pf_rules_rdr | to_nice_yaml(indent=2) | indent(2) }}
       pf_rules_services:
         {{ pf_rules_services | to_nice_yaml(indent=2) | indent(2) }}
-      pf_ssh_whitelist:
-        {{ pf_ssh_whitelist | to_nice_yaml(indent=2) | indent(2) }}
+      * /usr/local/etc/sshguard.conf - - - - - - - - - - - - - - - - - - - - -
+      pf_sshguard_conf:
+        {{ pf_sshguard_conf | to_nice_yaml(indent=2) | indent(2) }}
+      pf_sshguard_whitelist_content: {{ pf_sshguard_whitelist_content }}
+      pf_sshguard_whitelist_items: {{ pf_sshguard_whitelist_items }}
+      pf_sshguard_whitelist:
+        {{ pf_sshguard_whitelist | to_nice_yaml(indent=2) | indent(2) }}
       * /etc/blacklistd.conf - - - - - - - - - - - - - - - - - - - - - - - - -
       pf_blacklistd_template: {{ pf_blacklistd_template }}
       pf_blacklistd_flags: {{ pf_blacklistd_flags }}

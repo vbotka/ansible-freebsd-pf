@@ -61,7 +61,7 @@ block {% if pf_log_all_blocked %}log {% endif %}all
 {{ srv2_drop_broadcast }}
 
 ### ssh whitelist (no bruteforce protection)
-{% for item in pf_ssh_whitelist %}
+{% for item in pf_sshguard_whitelist %}
 pass in quick on $ext_if proto tcp from {{ item }} to any port ssh
 {% endfor %}
 

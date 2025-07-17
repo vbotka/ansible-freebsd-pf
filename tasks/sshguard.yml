@@ -2,12 +2,41 @@
 - name: Fail if sshguard is enabled and no service exists.
   ansible.builtin.import_tasks: stat-sshguard.yml
 
-- name: "Sshguard: Configure pf whitelist sshguard"
+- name: Configure sshguard.conf
   notify: restart sshguard
-  ansible.builtin.lineinfile:
-    dest: /usr/local/etc/sshguard.whitelist
-    line: "{{ item }}"
-    backup: "{{ pf_backup_conf }}"
-  loop: "{{ pf_ssh_whitelist }}"
+  community.general.sysrc:
+    path: /usr/local/etc/sshguard.conf
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+  loop: "{{ pf_sshguard_conf | dict2items }}"
+
+- name: Configure sshguard.whitelist
+  notify: restart sshguard
+  block:
+
+    - name: "Sshguard: Configure sshguard.whitelist by items"
+      when: pf_sshguard_whitelist_items | bool
+      ansible.builtin.lineinfile:
+        dest: /usr/local/etc/sshguard.whitelist
+        create: true
+        owner: root
+        group: wheel
+        mode: "0644"
+        backup: "{{ pf_backup_conf }}"
+        line: "{{ item }}"
+      loop: "{{ pf_sshguard_whitelist }}"
+
+    - name: "Sshguard: Configure sshguard.whitelist content"
+      when: pf_sshguard_whitelist_content | bool
+      ansible.builtin.copy:
+        dest: /usr/local/etc/sshguard.whitelist
+        owner: root
+        group: wheel
+        mode: "0644"
+        backup: "{{ pf_backup_conf }}"
+        content: |
+          {% for i in pf_sshguard_whitelist %}
+          {{ i }}
+          {% endfor %}
 
 # EOF
