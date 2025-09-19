@@ -18,6 +18,7 @@ Major Changes
 Minor Changes
 -------------
 * Explicit bool conversion is not needed.
+* Explicit conversion of GroupTouple to lists.
 
 Breaking Changes / Porting Guide
 --------------------------------
