@@ -27,15 +27,15 @@
       community.general.pkgng:
         name: "{{ pf_packages_install }}"
         annotation: "{{ pf_pkgng_annotation | d(omit) }}"
-        autoremove: "{{ pf_pkgng_autoremove | d(omit) | bool }}"
-        cached: "{{ pf_pkgng_cached | d(omit) | bool }}"
+        autoremove: "{{ pf_pkgng_autoremove | d(omit) }}"
+        cached: "{{ pf_pkgng_cached | d(omit) }}"
         chroot: "{{ pf_pkgng_chroot | d(omit) }}"
-        ignore_osver: "{{ pf_pkgng_ignore_osver | d(omit) | bool }}"
+        ignore_osver: "{{ pf_pkgng_ignore_osver | d(omit) }}"
         jail: "{{ pf_pkgng_jail | d(omit) }}"
         pkgsite: "{{ pf_pkgng_pkgsite | d(omit) }}"
         rootdir: "{{ pf_pkgng_rootdir | d(omit) }}"
         state: "{{ pf_pkgng_state | d(omit) }}"
-        use_globs: "{{ pf_pkgng_use_globs | d(omit) | bool }}"
+        use_globs: "{{ pf_pkgng_use_globs | d(omit) }}"
       register: result
       until: result is succeeded
       retries: "{{ freebsd_install_retries }}"
