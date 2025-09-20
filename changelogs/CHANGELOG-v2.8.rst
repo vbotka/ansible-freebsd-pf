@@ -10,6 +10,7 @@ vbotka.freebsd_pf 2.8 Release Notes
 
 Release Summary
 ---------------
+Ansible 2.19 upgrade.
 
 Major Changes
 -------------
