@@ -5,6 +5,22 @@ vbotka.freebsd_pf 2.8 Release Notes
 .. contents:: Topics
 
 
+2.8.1
+=====
+
+Release Summary
+---------------
+Ansible 2.20 upgrade
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+* Supported versions: 13.5, 14.3, 15.0
+* Put ansible facts into the dictionary ansible_facts
+
+
 2.8.0
 =====
 

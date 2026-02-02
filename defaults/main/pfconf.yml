@@ -25,7 +25,7 @@ pf_rules_services: []
 # >>> EXAMPLES OF TEMPLATE VARIABLES - - - - - - - - - - - - - - - - - - - - - -
 
 # Interfaces
-# pf_ext_if: "{{ ansible_default_ipv4.device | default(ansible_interfaces.0) }}"
+# pf_ext_if: "{{ ansible_facts.default_ipv4.device | default(ansible_facts.interfaces.0) }}"
 pf_ext_if: ue0
 pf_int_if: re0
 pf_wifi_if: ath0
