@@ -15,9 +15,9 @@ Feel free to [share your feedback and report issues](https://github.com/vbotka/a
 
 Warning:
 
-As it manipulates the firewall, there is a risk of being locked out. It's necessary to read the handbook
-- https://www.freebsd.org/doc/en/books/handbook/firewalls-pf.html
-- https://www.openbsd.org/faq/pf/filter.html
+As it manipulates the firewall, there is a risk of being locked out. It's necessary to read the handbooks:
+* [FreeBSD Handbook PF](https://www.freebsd.org/doc/en/books/handbook/firewalls-pf.html)
+* [OpenBSD FAQ PF](https://www.openbsd.org/faq/pf/filter.html)
 
 When you experiment with pf on a remote host open a session and, as root, run the below command before you enable pf
 

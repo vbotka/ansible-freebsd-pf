@@ -17,6 +17,7 @@ Major Changes
 
 Minor Changes
 -------------
+* Update README
 
 
 2.8.1
