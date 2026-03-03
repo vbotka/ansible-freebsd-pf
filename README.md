@@ -141,7 +141,12 @@ shell> cat freebsd-pf.yml
     - vbotka.freebsd_pf
 ```
 
-5) Review handlers to see how start/restart/reload of pf is implemented.
+5) Review handlers to see how start/restart/reload of pf is implemented. Display
+   variables
+
+```bash
+shell> ansible-playbook -t pf_debug -e pf_debug=true freebsd-pf.yml
+```
 
 6) Install packages
 
