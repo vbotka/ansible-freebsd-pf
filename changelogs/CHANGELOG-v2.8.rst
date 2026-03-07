@@ -5,6 +5,21 @@ vbotka.freebsd_pf 2.8 Release Notes
 .. contents:: Topics
 
 
+2.8.2
+=====
+
+Release Summary
+---------------
+Maintenance udpate.
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+* Update README
+
+
 2.8.1
 =====
 
