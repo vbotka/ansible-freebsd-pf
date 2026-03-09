@@ -34,6 +34,10 @@
   when: pf_drop_lasso | bool
   tags: pf_drop_lasso
 
+- name: Import pfconf-includes.yml
+  ansible.builtin.import_tasks: pfconf-includes.yml
+  tags: pf_conf_includes
+
 - name: Import pfconf.yml
   ansible.builtin.import_tasks: pfconf.yml
   tags: pf_conf
