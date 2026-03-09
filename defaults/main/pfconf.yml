@@ -8,6 +8,8 @@ pf_translation: []
 pf_filtering: []
 pf_rules_custom: []
 pf_blocks: [pf_tables, pf_options, pf_normalization, pf_queuing, pf_translation, pf_filtering, pf_rules_custom]
+pf_includes_dir: /etc/pf
+pf_includes: {}
 
 pf_anchors: |
   {% filter from_yaml %}

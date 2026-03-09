@@ -1,0 +1,87 @@
+---
+pf_install: false
+
+pf_enable: true
+pf_blacklistd: true
+pf_fail2ban: true
+pf_relayd: false
+pf_sshguard: true
+
+pf_blacklistd_enable: true
+pf_fail2ban_enable: true
+pf_sshguard_enable: true
+
+pf_debug: false
+pf_backup_conf: true
+
+pfconf_only: false
+pfconf_validate: true
+
+# /etc/pf.conf
+pf_type: default3
+pf_log_enable: true
+pf_ext_if: wlan0
+pf_int_if: bridge0
+pf_log_all_blocked: log
+pf_pass_icmp_types: [echoreq, unreach]
+pf_pass_icmp6_types: [echoreq, unreach]
+pf_local_net: 10.10.1.0/24
+pf_jail_net: 10.1.0.0/24
+pf_tcp_services: [ssh]
+pf_rules_rdr: []
+
+# macros
+pf_macros:
+  ext_if: "{{ pf_ext_if }}"
+  int_if: "{{ pf_int_if }}"
+  localnet: "{{ pf_local_net }}"
+  jailnet: "{{ pf_jail_net }}"
+  logall: "{{ pf_log_all_blocked }}"
+  icmp_types: "{{ pf_pass_icmp_types }}"
+  icmp6_types: "{{ pf_pass_icmp6_types }}"
+  tcp_services: "{{ pf_tcp_services }}"
+
+# includes
+pf_includes:
+  pf_translation: pf-rdr-ssh.conf
+
+# pf blocks
+pf_options:
+  - set skip on lo0
+  - set block-policy return
+  - set loginterface $ext_if
+
+pf_tables:
+  - table <sshabuse> persist
+
+pf_normalization:
+  - scrub in on $ext_if all fragment reassemble
+
+pf_translation:
+  - "{{ pf_rules_rdr }}"
+  - nat on $ext_if from $localnet to any -> ($ext_if)
+  - nat on $ext_if from $jailnet to any -> ($ext_if)
+
+pf_filtering:
+  - antispoof for $ext_if
+  - "{{ pf_anchors }}"
+  - block $logall all
+  - pass in on $ext_if proto tcp to any port $tcp_services flags S/SA keep state
+  - pass inet proto icmp icmp-type $icmp_types
+  - pass inet6 proto icmp6 icmp6-type $icmp6_types
+  - pass from { self, $localnet, $jailnet } to any keep state
+
+# blacklistd
+pf_blacklistd_conf_remote: []
+pf_blacklistd_conf_local:
+  - {adr: ssh, type: stream, proto: '*', owner: '*', name: '*', nfail: '3', disable: 24h}
+  - {adr: ftp, type: stream, proto: '*', owner: '*', name: '*', nfail: '3', disable: 24h}
+  - {adr: smtp, type: stream, proto: '*', owner: '*', name: '*', nfail: '3', disable: 24h}
+  - {adr: smtps, type: stream, proto: '*', owner: '*', name: '*', nfail: '3', disable: 24h}
+  - {adr: submission, type: stream, proto: '*', owner: '*', name: '*', nfail: '3', disable: 24h}
+  - {adr: '*', type: '*', proto: '*', owner: '*', name: '*', nfail: '3', disable: '60'}
+pf_blacklistd_flags: '-r'
+pf_blacklistd_rcconf:
+  - {name: blacklistd_flags, value: "{{ pf_blacklistd_flags }}"}
+
+# EOF

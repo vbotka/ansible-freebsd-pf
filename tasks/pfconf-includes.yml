@@ -1,0 +1,27 @@
+---
+- name: "Pfconf-includes: Debug pf_debug={{ pf_debug }}"
+  when: pf_debug | bool
+  vars:
+    msg: |-
+      pf_includes_dir: {{ pf_includes_dir }}
+      pf_includes:
+        {{ pf_includes | to_nice_yaml(indent=2) | indent(2) }}
+  ansible.builtin.debug:
+    msg: "{{ '{}'.format(msg) }}"
+
+- name: "Create directory {{ pf_includes_dir }}"
+  ansible.builtin.file:
+    state: directory
+    path: "{{ pf_includes_dir }}"
+    mode: "0750"
+    owner: root
+    group: wheel
+
+- name: "Copy includes files to {{ pf_includes_dir }}"
+  ansible.builtin.copy:
+    dest: "{{ pf_includes_dir }}"
+    src: "{{ item.value }}"
+    mode: "0640"
+  loop: "{{ pf_includes | dict2items }}"
+
+# EOF
