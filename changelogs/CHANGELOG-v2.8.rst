@@ -17,6 +17,8 @@ Major Changes
 
 Minor Changes
 -------------
+* Fix lint complains about file premissions in contrib/freebsd-pf-setup.yml
+* Fix CHANGELOG.md
 
 
 2.8.3
