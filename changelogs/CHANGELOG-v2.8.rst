@@ -5,6 +5,22 @@ vbotka.freebsd_pf 2.8 Release Notes
 .. contents:: Topics
 
 
+2.8.4
+=====
+
+Release Summary
+---------------
+Maintenance udpate.
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+* Fix lint complains about file premissions in contrib/freebsd-pf-setup.yml
+* Fix CHANGELOG.md
+
+
 2.8.3
 =====
 

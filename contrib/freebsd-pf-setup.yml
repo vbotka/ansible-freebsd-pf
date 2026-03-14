@@ -16,6 +16,7 @@
       tags: pf-rdr-ssh
       ansible.builtin.copy:
         dest: "{{ playbook_dir }}/files/pf-rdr-ssh.conf"
+        mode: "0640"
         content: |
           {% for i in range(0, stop) %}
           rdr pass on $ext_if proto tcp from $localnet to $jailnet port {{ ssh_fwd_start + i }} -> {{ dhcp_subnet }}.{{ dhcp_ip_start + i }} port 22
