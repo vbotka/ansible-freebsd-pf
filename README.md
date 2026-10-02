@@ -4,13 +4,9 @@
 [![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-pf.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-pf)
 [![GitHub tag](https://img.shields.io/github/v/tag/vbotka/ansible-freebsd-pf)](https://github.com/vbotka/ansible-freebsd-pf/tags)
 
-This role is included in the collection [vbotka.freebsd](https://galaxy.ansible.com/ui/repo/published/vbotka/freebsd/) as [vbotka.freebsd.pf](https://galaxy.ansible.com/ui/repo/published/vbotka/freebsd/content/role/pf)
+This role is included in the collection [vbotka.freebsd](https://galaxy.ansible.com/ui/repo/published/vbotka/freebsd/) as [vbotka.freebsd.pf](https://galaxy.ansible.com/ui/repo/published/vbotka/freebsd/content/role/pf/)
 
 [Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_pf/) FreeBSD. Configure PF firewall.
-
-Feel free to [share your feedback and report issues](https://github.com/vbotka/ansible-freebsd-pf/issues).
-
-[Contributions are welcome](https://github.com/firstcontributions/first-contributions).
 
 
 Warning:
@@ -277,18 +273,6 @@ fatal: [srv.example.com]: FAILED! => changed=false
 ```
 
 The role fails the same way if ``-e pf_relayd_conf_only=false -e pf_relayd_conf_validate=false``
-
-
-### Ansible lint
-
-When you extend this role run *ansible-lint* and validate the syntax. Use the
-configuration file *.ansible-lint.local* when running *ansible-lint*. Some rules
-might be disabled and some warnings might be ignored. See the notes in the
-configuration file.
-
-```bash
-shell> ansible-lint -c .ansible-lint.local
-```
 
 
 ## References
