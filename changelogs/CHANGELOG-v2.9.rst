@@ -5,6 +5,20 @@ vbotka.freebsd_pf 2.9 Release Notes
 .. contents:: Topics
 
 
+2.9.3
+=====
+
+Release Summary
+---------------
+
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
+
+
 2.9.2
 =====
 
