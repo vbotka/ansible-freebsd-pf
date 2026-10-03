@@ -1,8 +1,22 @@
 ===================================
-vbotka.freebsd_pf 2.9 Release Notes
+11;rgb:0707/3636/4242vbotka.freebsd_pf 2.9 Release Notes
 ===================================
 
 .. contents:: Topics
+
+
+2.9.2
+=====
+
+Release Summary
+---------------
+Enable lists in pf_includes.
+
+Major Changes
+-------------
+
+Minor Changes
+-------------
 
 
 2.9.1

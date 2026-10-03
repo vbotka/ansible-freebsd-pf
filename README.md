@@ -1,6 +1,5 @@
 # freebsd_pf
 
-[![quality](https://img.shields.io/ansible/quality/27910)](https://galaxy.ansible.com/vbotka/freebsd_pf)
 [![Build Status](https://app.travis-ci.com/vbotka/ansible-freebsd-pf.svg?branch=master)](https://app.travis-ci.com/vbotka/ansible-freebsd-pf)
 [![GitHub tag](https://img.shields.io/github/v/tag/vbotka/ansible-freebsd-pf)](https://github.com/vbotka/ansible-freebsd-pf/tags)
 
