@@ -1,5 +1,4 @@
 ---
-
 pf_install: true
 pf_enable: true
 pf_debug: false
@@ -73,6 +72,3 @@ pf_filtering:
   - pass inet6 proto icmp6 all icmp6-type $icmp6_types
   - pass in on $ext_if proto tcp to $jails_net port $ext_tcp_ports $syn_state $sto_ext_ports
   - pass from { self, $jails_net } to any keep state
-
-# EOF
-...

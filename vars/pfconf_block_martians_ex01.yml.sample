@@ -1,3 +1,4 @@
+---
 pf_macros:
   martians:
     - 127.0.0.0/8

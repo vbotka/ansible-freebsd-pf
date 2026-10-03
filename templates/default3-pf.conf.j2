@@ -26,7 +26,10 @@
 {% endfor %}
 {% endif -%}
 {% if pf_includes[b] | d('') | length > 0 %}
-include "{{ pf_includes_dir }}/{{ pf_includes[b] }}"
+{% set includes = [pf_includes[b]] if pf_includes[b] is string else pf_includes[b] | d([], true) %}
+{% for inc in includes if inc %}
+include "{{ pf_includes_dir }}/{{ inc }}"
+{% endfor -%}
 {% endif -%}
 {% endfor %}
 

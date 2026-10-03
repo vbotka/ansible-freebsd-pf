@@ -20,22 +20,35 @@ pfconf_validate: true
 # /etc/pf.conf
 pf_type: default3
 pf_log_enable: true
-pf_ext_if: wlan0
 pf_int_if: bridge0
+pf_wg_if: wg0
+pf_ext_if: wlan0
+pf_vpn_if: wlan1
+pf_vpn_from: '172.16.97.1'
+pf_vpn_to: '172.16.97.3'
+pf_vpn_port: '51820'
+pf_vpn_net: '172.16.97.0/24'
+pf_wg_net: '172.16.98.0/24'
+pf_jailnet: '172.16.99.0/24'
+pf_localnet: '172.16.0.0/22'
 pf_log_all_blocked: log
 pf_pass_icmp_types: [echoreq, unreach]
 pf_pass_icmp6_types: [echoreq, unreach]
-pf_local_net: 10.10.1.0/24
-pf_jail_net: 10.1.0.0/24
-pf_tcp_services: [ssh]
-pf_rules_rdr: []
+pf_tcp_services: [http, https, ssh]
 
 # macros
 pf_macros:
-  ext_if: "{{ pf_ext_if }}"
   int_if: "{{ pf_int_if }}"
-  localnet: "{{ pf_local_net }}"
-  jailnet: "{{ pf_jail_net }}"
+  wg_if: "{{ pf_wg_if }}"
+  ext_if: "{{ pf_ext_if }}"
+  vpn_if: "{{ pf_vpn_if }}"
+  vpn_from: "{{ pf_vpn_from }}"
+  vpn_to: "{{ pf_vpn_to }}"
+  vpn_port: "{{ pf_vpn_port }}"
+  vpn_net: "{{ pf_vpn_net }}"
+  wg_net: "{{ pf_wg_net }}"
+  jailnet: "{{ pf_jailnet }}"
+  localnet: "{{ pf_localnet }}"
   logall: "{{ pf_log_all_blocked }}"
   icmp_types: "{{ pf_pass_icmp_types }}"
   icmp6_types: "{{ pf_pass_icmp6_types }}"
@@ -43,33 +56,41 @@ pf_macros:
 
 # includes
 pf_includes:
-  pf_translation: pf-rdr-ssh.conf
+  pf_translation:
+    - pf-rdr-ssh-vpnnet.conf
+    - pf-rdr-ssh-localnet.conf
 
 # pf blocks
+pf_tables: []
+
 pf_options:
   - set skip on lo0
   - set block-policy return
   - set loginterface $ext_if
-
-pf_tables:
-  - table <sshabuse> persist
+  - set limit frags 10000
 
 pf_normalization:
-  - scrub in on $ext_if all fragment reassemble
+  - scrub in on $ext_if all fragment reassemble no-df
+  - scrub out on $ext_if all max-mss 1440
 
 pf_translation:
-  - "{{ pf_rules_rdr }}"
-  - nat on $ext_if from $localnet to any -> ($ext_if)
-  - nat on $ext_if from $jailnet to any -> ($ext_if)
+  - nat on $ext_if from { $localnet, $jailnet } to any -> ($ext_if)
+  - nat on $int_if from $jailnet to any -> ($int_if)
 
 pf_filtering:
   - antispoof for $ext_if
   - "{{ pf_anchors }}"
   - block $logall all
-  - pass in on $ext_if proto tcp to any port $tcp_services flags S/SA keep state
   - pass inet proto icmp icmp-type $icmp_types
   - pass inet6 proto icmp6 icmp6-type $icmp6_types
-  - pass from { self, $localnet, $jailnet } to any keep state
+  - pass in quick on $vpn_if proto udp from $vpn_from to $vpn_to port $vpn_port keep state
+  - pass in on { $ext_if, $vpn_if, $wg_if } proto tcp from { $localnet, $vpn_net, $wg_net } to self port $tcp_services flags S/SA keep state
+  - pass in on $ext_if proto tcp from $localnet to $jailnet port ssh flags S/SA keep state
+  - pass in on $wg_if proto tcp from $wg_net to $jailnet port ssh flags S/SA keep state
+  - pass in on $int_if from $jailnet to any keep state
+  - pass out on $int_if from any to $jailnet keep state
+  - pass out quick on $wg_if keep state
+  - pass out on $ext_if from { self, $jailnet } to any keep state
 
 # blacklistd
 pf_blacklistd_conf_remote: []

@@ -1,5 +1,4 @@
 ---
-
 pf_macros:
   ext_if: ue0
   int_if: re0
@@ -10,5 +9,3 @@ pf_macros:
   logopt: log
   icmp_types: [echoreq, unreach]
   icmp6_types: [echoreq, unreach]
-
-# EOF

@@ -13,15 +13,15 @@
   ansible.builtin.file:
     state: directory
     path: "{{ pf_includes_dir }}"
-    mode: "0750"
+    mode: '0750'
     owner: root
     group: wheel
 
 - name: "Copy includes files to {{ pf_includes_dir }}"
   ansible.builtin.copy:
-    dest: "{{ pf_includes_dir }}"
-    src: "{{ item.value }}"
-    mode: "0640"
-  loop: "{{ pf_includes | dict2items }}"
+    dest: "{{ pf_includes_dir }}/"
+    src: "{{ item }}"
+    mode: '0640'
+  loop: "{{ [pf_includes.values()] | flatten | unique }}"
 
 # EOF

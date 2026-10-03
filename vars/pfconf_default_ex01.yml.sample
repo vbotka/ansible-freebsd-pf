@@ -1,5 +1,4 @@
 ---
-
 pf_install: true
 pf_enable: true
 pf_debug: false
@@ -49,6 +48,3 @@ pf_filtering:
   - pass inet proto icmp all icmp-type $icmp_types
   - pass inet6 proto icmp6 all icmp6-type $icmp6_types
   - pass from { self, $localnet } to any keep state
-
-# EOF
-...
