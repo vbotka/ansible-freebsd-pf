@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+{% set if = item.value.if %}
+{% set net = item.value.net %}
+{% set ssh_fwd_start = item.value.ssh_fwd_start %}
+{% set subnet = item.value.subnet %}
+{% set start = item.value.start %}
+{% set stop = item.value.stop %}
+{% for i in range(0, stop - start + 1) %}
+rdr on ${{ if }} proto tcp from ${{ net }} to (${{ if }}) port {{ ssh_fwd_start + i }} -> {{ subnet }}.{{ start + i }} port 22
+{% endfor %}

@@ -1,26 +1,34 @@
 ---
-
-- name: FreeBSD pf role setup.
+- name: Create files for pf.
   hosts: localhost
+  gather_facts: false
 
   vars:
 
-    ssh_fwd_start: 2200
-    dhcp_subnet: 10.1.0
-    dhcp_ip_start: 100
-    stop: 100
+    files:
+      pf-rdr-ssh-localnet.conf:
+        template: default.conf.j2
+        net: localnet
+        if: ext_if
+        subnet: 172.16.99
+        start: 100
+        stop: 199
+        ssh_fwd_start: 2200
+      pf-rdr-ssh-vpnnet.conf:
+        template: default.conf.j2
+        net: wg_net
+        if: wg_if
+        subnet: 172.16.99
+        start: 100
+        stop: 199
+        ssh_fwd_start: 2200
 
   tasks:
 
-    - name: Create pf-rdr-ssh.conf
-      tags: pf-rdr-ssh
-      ansible.builtin.copy:
-        dest: "{{ playbook_dir }}/files/pf-rdr-ssh.conf"
-        mode: "0640"
-        content: |
-          {% for i in range(0, stop) %}
-          rdr pass on $ext_if proto tcp from $localnet to $jailnet port {{ ssh_fwd_start + i }} -> {{ dhcp_subnet }}.{{ dhcp_ip_start + i }} port 22
-          {% endfor %}
-
-# EOF
-...
+    - name: Create files.
+      ansible.builtin.template:
+        src: "{{ item.value.template }}"
+        dest: "{{ playbook_dir }}/files/{{ item.key }}"
+      loop: "{{ files | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"

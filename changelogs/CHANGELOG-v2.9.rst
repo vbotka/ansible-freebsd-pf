@@ -1,5 +1,5 @@
 ===================================
-11;rgb:0707/3636/4242vbotka.freebsd_pf 2.9 Release Notes
+vbotka.freebsd_pf 2.9 Release Notes
 ===================================
 
 .. contents:: Topics
@@ -10,13 +10,14 @@
 
 Release Summary
 ---------------
-Enable lists in pf_includes.
+Update contrib/freebsd-pf-setup.yml
 
 Major Changes
 -------------
 
 Minor Changes
 -------------
+* Add contrib/templates/default.conf.j2
 
 
 2.9.1
