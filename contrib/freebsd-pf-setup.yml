@@ -29,6 +29,7 @@
       ansible.builtin.template:
         src: "{{ item.value.template }}"
         dest: "{{ playbook_dir }}/files/{{ item.key }}"
+        mode: '0644'
       loop: "{{ files | dict2items }}"
       loop_control:
         label: "{{ item.key }}"
