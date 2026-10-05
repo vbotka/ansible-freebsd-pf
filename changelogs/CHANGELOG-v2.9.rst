@@ -17,7 +17,8 @@ Major Changes
 
 Minor Changes
 -------------
-Fix missing mode in the template task in contrib/freebsd-pf-setup.yml
+* Update simplified sample vars/pfconf_default3_ex01.yml.sample
+* Fix missing mode in the template task in contrib/freebsd-pf-setup.yml
 
 
 2.9.2
