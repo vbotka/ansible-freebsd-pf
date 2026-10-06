@@ -76,7 +76,7 @@ pf_normalization:
 
 pf_translation:
   - nat on $ext_if from { $localnet, $jailnet } to any -> ($ext_if)
-  - nat on $int_if from $jailnet to any -> ($int_if)
+  - nat on $vpn_if from { $localnet, $jailnet } to any -> ($vpn_if)
 
 pf_filtering:
   - antispoof for $ext_if
@@ -85,8 +85,7 @@ pf_filtering:
   - pass inet proto icmp icmp-type $icmp_types
   - pass inet6 proto icmp6 icmp6-type $icmp6_types
   - pass in quick on $vpn_if proto udp from $vpn_from to $vpn_to port $vpn_port keep state
-  - pass in quick on $wg_if proto tcp from $wg_net to ($wg_if) port $tcp_services keep state
-  - pass in quick on $wg_if proto tcp from $wg_net to $jailnet port $tcp_services keep state
+  - pass in quick on $wg_if proto tcp from $wg_net to ($wg_if) port $tcp_services flags S/SA keep state
   - pass in on { $ext_if, $vpn_if, $wg_if } proto tcp from { $localnet, $vpn_net, $wg_net } to { self, $jailnet } port $tcp_services flags S/SA keep state
   - pass in on $int_if from $jailnet to any keep state
   - pass out on { $int_if, $vpn_if, $wg_if } keep state
