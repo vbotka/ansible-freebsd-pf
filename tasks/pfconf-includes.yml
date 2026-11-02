@@ -18,6 +18,7 @@
     group: wheel
 
 - name: "Copy includes files to {{ pf_includes_dir }}"
+  notify: reload pf
   ansible.builtin.copy:
     dest: "{{ pf_includes_dir }}/"
     src: "{{ item }}"
