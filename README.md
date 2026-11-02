@@ -7,14 +7,13 @@ This role is included in the collection [vbotka.freebsd](https://galaxy.ansible.
 
 [Ansible role.](https://galaxy.ansible.com/vbotka/freebsd_pf/) FreeBSD. Configure PF firewall.
 
-
 Warning:
 
 As it manipulates the firewall, there is a risk of being locked out. It's necessary to read the handbooks:
 * [FreeBSD Handbook PF](https://www.freebsd.org/doc/en/books/handbook/firewalls-pf.html)
 * [OpenBSD FAQ PF](https://www.openbsd.org/faq/pf/filter.html)
 
-When you experiment with pf on a remote host open a session and, as root, run the below command before you enable pf
+When you experiment with pf on a remote host open a session and, as root, run the below command before you enable pf:
 
 ```bash
 shell> sleep 120; pfctl -d

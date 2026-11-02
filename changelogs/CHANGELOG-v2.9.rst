@@ -10,13 +10,15 @@ vbotka.freebsd_pf 2.9 Release Notes
 
 Release Summary
 ---------------
-
+Maintenance update.
 
 Major Changes
 -------------
 
 Minor Changes
 -------------
+* Update handlers. Do not reload or restart a service if already started.
+* Update tasks pfconf-includes. Reload pf if includes changed.
 * Update simplified sample vars/pfconf_default3_ex01.yml.sample
 * Fix missing mode in the template task in contrib/freebsd-pf-setup.yml
 
