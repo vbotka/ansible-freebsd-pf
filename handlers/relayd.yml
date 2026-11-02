@@ -3,6 +3,7 @@
 
 - name: Start relayd
   listen: start relayd
+  register: pf_relayd_started
   when: not pf_relayd_conf_only | bool
   ansible.builtin.service:
     name: relayd
@@ -19,6 +20,7 @@
   when:
     - pf_relayd_enable | bool
     - not pf_relayd_conf_only | bool
+    - not (pf_relayd_started.changed | d(false))
   ansible.builtin.service:
     name: relayd
     state: restarted
@@ -28,6 +30,7 @@
   when:
     - pf_relayd_enable | bool
     - not pf_relayd_conf_only | bool
+    - not (pf_relayd_started.changed | d(false))
   ansible.builtin.service:
     name: relayd
     state: reloaded

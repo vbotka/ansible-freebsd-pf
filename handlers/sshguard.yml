@@ -3,6 +3,7 @@
 
 - name: Start sshguard
   listen: start sshguard
+  register: pf_sshguard_started
   ansible.builtin.service:
     name: sshguard
     state: started
@@ -15,7 +16,9 @@
 
 - name: Restart sshguard
   listen: restart sshguard
-  when: pf_sshguard_enable | bool
+  when:
+    - pf_sshguard_enable | bool
+    - not (pf_sshguard_started.changed | d(false))
   ansible.builtin.service:
     name: sshguard
     state: restarted

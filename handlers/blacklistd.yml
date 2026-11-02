@@ -1,8 +1,9 @@
 ---
-# handlers for freebsd_pf
+# handlers for blacklistd
 
 - name: Start blacklistd
   listen: start blacklistd
+  register: pf_blacklistd_started
   ansible.builtin.service:
     name: blacklistd
     state: started
@@ -15,7 +16,9 @@
 
 - name: Restart blacklistd
   listen: restart blacklistd
-  when: pf_blacklistd_enable | bool
+  when:
+    - pf_blacklistd_enable | bool
+    - not (pf_blacklistd_started.changed | d(false))
   ansible.builtin.service:
     name: blacklistd
     state: restarted

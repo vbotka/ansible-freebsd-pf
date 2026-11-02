@@ -8,6 +8,7 @@
 
 - name: Start pf
   listen: start pf
+  register: pf_started
   when:
     - pf_enable | bool
     - not ansible_check_mode
@@ -33,6 +34,7 @@
     - pf_enable | bool
     - not ansible_check_mode
     - not pf_conf_only | bool
+    - not (pf_started.changed | d(false))
   changed_when: pf_enable | bool
   async: "{{ pf_async_timeout }}"
   poll: 0
@@ -47,6 +49,7 @@
     - pf_enable | bool
     - not ansible_check_mode
     - not pf_conf_only | bool
+    - not (pf_started.changed | d(false))
   changed_when: pf_enable | bool
   async: "{{ pf_async_timeout }}"
   poll: 0
